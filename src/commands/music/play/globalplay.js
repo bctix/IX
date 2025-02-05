@@ -1,4 +1,4 @@
-const { MessageFlags } = require("discord.js");
+const { MessageFlags, EmbedBuilder, Colors } = require("discord.js");
 const { commandToLavaData, getPlayer } = require("../../../utils/lavalink");
 
 async function playSong(command, source) {
@@ -34,9 +34,20 @@ async function playSong(command, source) {
 
         if (!player.playing) 
             await player.play();
+        else {
+            const embed = new EmbedBuilder()
+            .setTitle(`Added ${res.loadType === "playlist" ? "playlist" : "song"} to queue!`)
+            .setDescription(`${res.loadType === "playlist" ? `[${res.playlist.name}](${query})` : `[${res.tracks[0].info.title}](${res.tracks[0].info.uri})`}`);
+            if(res.loadType !== "playlist")
+            {
+                embed.setThumbnail(res.tracks[0].info.artworkUrl);
+            }
+            embed.setColor(Colors.Green);
+            command.data.reply({embeds:[embed]});
+        }
 
     } catch(e) {
-        console.log(e.message);
+        console.log(e);
     }
 }
 

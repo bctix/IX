@@ -131,10 +131,18 @@ async function deployCommands(client) {
                 command.options.forEach(commandOption => {
                     switch(commandOption.type) {
                         case "string":
-                            slashCommand.addStringOption((option) =>
-                            option.setName(commandOption.name)
-                            .setDescription(commandOption.description)
-                            .setRequired(commandOption.required ? commandOption.required : false))
+                            slashCommand.addStringOption((option) => {
+                                option.setName(commandOption.name);
+                                option.setDescription(commandOption.description);
+                                if(commandOption.choices)
+                                    option.addChoices(commandOption.choices)
+                                
+                                return option;
+                            }
+                        );
+
+                            
+                            
                             break;
                     }
                 });
