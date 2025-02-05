@@ -12,7 +12,7 @@ module.exports = {
         }
     ],
     category: "Music",
-    aliases: ["sp"],
+    aliases: ["sc"],
 
     execute: async function(command) {
         await playSong(command, "spsearch");
