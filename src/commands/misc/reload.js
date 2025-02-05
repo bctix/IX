@@ -4,7 +4,7 @@ module.exports = {
     name: "reload",
     description: "Reloads all commands",
     category: "Misc",
-
+    noSlash: true,
     execute: async function(command) {
         if(command.data.member.user.id != "205580500125876224") return command.data.reply("You do not have permission to run this command!");
         command.client.commands.clear();

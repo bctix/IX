@@ -122,6 +122,7 @@ async function deployCommands(client) {
         var builtCommands = [];
 
         client.commands.forEach(command => {
+            if(command.noSlash) return;
             var slashCommand = new SlashCommandBuilder()
             .setName(command.name)
             .setDescription(command.description);
