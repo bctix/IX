@@ -4,6 +4,7 @@
 
 const { LavalinkManager } = require("lavalink-client");
 const { registerAlternateEvents } = require("./registry");
+const { log } = require("./utils");
 
 async function initLavalink(client) {
     client.lavalink = new LavalinkManager({
@@ -30,6 +31,9 @@ async function initLavalink(client) {
     await registerAlternateEvents(client.lavalink, client, '../events/lavalink');
 
     await client.lavalink.init({id: client.user.id, username: client.user.username});
+
+    if(client.lavalink.usable)
+        log("SUCCESS", "src/utils/lavalink.js", "Lavalink created, and connected to node.");
 }
 
 function commandToLavaData(command) {
