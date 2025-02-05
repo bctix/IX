@@ -16,6 +16,7 @@ async function registerCommands(client, ...dirs) {
                 if(!file.endsWith(".js")) continue;
                 try {
                     let cmdModule = require(path.join(__dirname, dir, file));
+                    if(cmdModule.isNotCommand) continue;
                     let { name, description, options, aliases, category, execute, hideCommand } = cmdModule;
     
                     if (!name) {

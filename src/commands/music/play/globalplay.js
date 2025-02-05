@@ -41,5 +41,6 @@ async function playSong(command, source) {
 }
 
 module.exports = {
-    playSong
+    playSong,
+    isNotCommand: true
 }
