@@ -1,3 +1,6 @@
+const { MessageFlags } = require("discord.js");
+const { commandToLavaData, getPlayer } = require("../../../utils/lavalink");
+
 async function playSong(command, source) {
     const query = command.isMessage ? command.args.join(" ") : command.data.options.getString("query", true);
 
