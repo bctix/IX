@@ -15,9 +15,11 @@ module.exports = {
             if(player.voiceChannelId !== vcId) return command.data.reply("You need to be in my vc!");
                 
             console.log(command.data.member);
-            if(player.playing) player.destroy(`${command.data.member.user.username} stopped the music.`);
+            if(player.playing) player.destroy(`stopRequest`);
 
-            // No need to reply, lavalink events
+            // Only reply if its a interaction to prevent the error message
+            if(!command.isMessage)
+                command.data.reply("Stopped playing your song!");
 
         } catch(e) {
             console.log(e.message);

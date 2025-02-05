@@ -44,7 +44,9 @@ module.exports = {
             if (!player.playing) 
                 await player.play();
 
-            // No need to reply. events take care of that
+            // Only reply if its a interaction to prevent the error message
+            if(!command.isMessage)
+                command.data.reply(player.playing ? "Added your song to the queue!" : "Now playing your song!", true);
         } catch(e) {
             console.log(e.message);
         }

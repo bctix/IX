@@ -9,9 +9,16 @@ module.exports = {
 
         var embed = new EmbedBuilder();
 
-        embed.setTitle("Player Destroyed");
-        embed.setDescription(`Reason: ${reason || "Unknown"}`);
-        embed.setColor(Colors.Red);
+        switch(reason) {
+            case "stopRequest":
+                embed.setTitle("Leaving VC");
+                embed.setDescription(`See-ya!`);
+                embed.setColor(Colors.Red);
+            default:
+                embed.setTitle("Leaving VC");
+                embed.setDescription("Something happened to make me leave vc!");
+                embed.setColor(Colors.Red);
+        }
         
         channel.send({embeds: [embed]});
     },
