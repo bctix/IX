@@ -1,8 +1,8 @@
 const { playSong } = require("./globalplay");
 
 module.exports = {
-    name: "play",
-    description: "Play some tunes!",
+    name: "soundcloud",
+    description: "Play something from spotify",
     options: [
         {
             type: "string",
@@ -12,9 +12,9 @@ module.exports = {
         }
     ],
     category: "Music",
-    aliases: ["p"],
+    aliases: ["sp"],
 
     execute: async function(command) {
-        await playSong(command, "ytmsearch");
+        await playSong(command, "spsearch");
     }
 }

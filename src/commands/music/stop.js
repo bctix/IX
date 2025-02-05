@@ -1,10 +1,11 @@
+const { MessageFlags } = require("discord.js");
 const { commandToLavaData, getPlayer } = require("../../utils/lavalink");
 
 module.exports = {
     name: "stop",
     description: "Stop the tunes!",
     category: "Music",
-    aliases: ["s"],
+    aliases: ["st"],
 
     execute: async function(command) {
         try {
@@ -19,7 +20,7 @@ module.exports = {
 
             // Only reply if its a interaction to prevent the error message
             if(!command.isMessage)
-                command.data.reply("Stopped playing your song!");
+                command.data.reply({content: "Stopped playing!", flags: MessageFlags.Ephemeral});
 
         } catch(e) {
             console.log(e.message);
