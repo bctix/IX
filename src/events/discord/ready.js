@@ -1,5 +1,5 @@
 const { Events } = require("discord.js");
-const { log } = require("../../utils/utils");
+const { log, parseBool } = require("../../utils/utils");
 const { deployCommands } = require("../../utils/registry");
 const { initLavalink } = require("../../utils/lavalink");
 
@@ -10,6 +10,8 @@ module.exports = {
       log("SUCCESS", "src/ready.js", "Successfully loaded and logged in!");
 
       await deployCommands(client);
-      await initLavalink(client);
+
+      if(parseBool(process.env.USE_LAVALINK))
+        await initLavalink(client);
     },
   };
