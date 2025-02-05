@@ -3,7 +3,6 @@ dotenv.config();
 const { Client, GatewayIntentBits, Collection } = require('discord.js');
 const { registerEvents, registerCommands } = require("./utils/registry.js");
 const package = require("../package.json");
-const { LavalinkManager } = require('lavalink-client');
 
 const client = new Client({ intents:  [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildVoiceStates, GatewayIntentBits.MessageContent]});
 

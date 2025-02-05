@@ -17,7 +17,7 @@ module.exports = {
             console.log(command.data.member);
             if(player.playing) player.destroy(`${command.data.member.user.username} stopped the music.`);
 
-            await command.data.reply("Stopped the music");
+            // No need to reply, lavalink events
 
         } catch(e) {
             console.log(e.message);

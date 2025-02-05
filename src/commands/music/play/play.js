@@ -43,10 +43,8 @@ module.exports = {
 
             if (!player.playing) 
                 await player.play();
-            
 
-            await command.data.reply(`Now playing ${player.queue.current.info.title}`);
-            
+            // No need to reply. events take care of that
         } catch(e) {
             console.log(e.message);
         }

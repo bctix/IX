@@ -7,7 +7,6 @@ module.exports = {
     async execute(client, player, track) {
         var channel = client.channels.cache.get(player.textChannelId);
         var guild = client.guilds.cache.get(player.guildId)
-        var member = guild.members.cache.get(track.requester.id)
 
         var embed = new EmbedBuilder();
 
