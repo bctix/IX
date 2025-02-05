@@ -4,10 +4,10 @@ const { commandToLavaData, getPlayer } = require("../../../utils/lavalink");
 async function playSong(command, source) {
     const query = command.isMessage ? command.args.join(" ") : command.data.options.getString("query", true);
 
-        if(!query) {
-            command.data.reply("You need to search for a song!");
-            return;
-        }
+    if(!query) {
+        command.data.reply("You need to search for a song!");
+        return;
+    }
 
         try {
             const player = await getPlayer(commandToLavaData(command));
