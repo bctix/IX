@@ -25,7 +25,8 @@ module.exports = {
             command.execute({
                 client: client,
                 data: message,
-                args: msgargs
+                args: msgargs,
+                isMessage: true
             })
 
         if (!prefixRegex.test(message.content)) return;

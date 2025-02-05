@@ -92,6 +92,26 @@ async function registerEvents(client, ...dirs) {
     }
 }
 
+async function registerAlternateEvents(eventClient, otherClient, ...dirs) {
+    for (const dir of dirs) {
+        let files = await fs.readdir(path.join(__dirname, dir));
+        // Loop through each file.
+        for(let file of files) {
+            let stat = await fs.lstat(path.join(__dirname, dir, file));
+            if(stat.isDirectory()) // If file is a directory, recursive call recurDir
+                await registerEvents(eventClient, otherClient, path.join(dir, file));
+            else {
+                if(!file.endsWith(".js")) continue;
+                let eventModule = require(path.join(__dirname, dir, file));
+                if (eventModule.once) 
+                    eventClient.once(eventModule.name, (...args) => eventModule.execute(otherClient, ...args));
+                else 
+                eventClient.on(eventModule.name, (...args) => eventModule.execute(otherClient, ...args));
+            }
+        }
+    }
+}
+
 async function deployCommands(client) {
     const rest = new REST().setToken(client.token);
 
@@ -102,6 +122,20 @@ async function deployCommands(client) {
             var slashCommand = new SlashCommandBuilder()
             .setName(command.name)
             .setDescription(command.description);
+
+            if(command.options) {
+                command.options.forEach(commandOption => {
+                    switch(commandOption.type) {
+                        case "string":
+                            slashCommand.addStringOption((option) =>
+                            option.setName(commandOption.name)
+                            .setDescription(commandOption.description)
+                            .setRequired(commandOption.required ? commandOption.required : false))
+                            break;
+                    }
+                });
+            }
+            
             builtCommands.push(slashCommand.toJSON());
         });
 
@@ -119,5 +153,5 @@ async function deployCommands(client) {
 }
 
 module.exports = {
-    registerEvents, registerCommands, deployCommands
+    registerEvents, registerCommands, deployCommands, registerAlternateEvents
 }
