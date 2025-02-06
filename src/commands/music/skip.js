@@ -27,7 +27,7 @@ module.exports = {
 
             await player.skip(position);
 
-            await command.data.reply({content: "Skipped song!", flags: MessageFlags.Ephemeral});
+            await command.data.reply({content: "Skipped song!"});
 
         } catch(e) {
             console.log(e.message);
