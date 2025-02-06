@@ -36,7 +36,12 @@ async function playSong(command, source) {
             .setDescription(`${res.loadType === "playlist" ? `[${res.playlist.name}](${query})` : `[${res.tracks[0].info.title}](${res.tracks[0].info.uri})`}`);
             if(res.loadType !== "playlist")
             {
-                embed.setThumbnail(res.tracks[0].info.artworkUrl);
+                var track = res.tracks[0];
+                embed.setThumbnail(track.info.artworkUrl);
+                embed.addFields({name: "Artist", value: track.info.author, inline: true});
+                if(track.info.sourceName)
+                    embed.addFields({name: "Source", value: `${track.info.sourceName} ${await command.client.emoji.getEmoji(track.info.sourceName)}`, inline: true});
+                
             }
             embed.setColor(Colors.Green);
             await command.data.reply({embeds:[embed]});
