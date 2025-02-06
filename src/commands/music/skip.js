@@ -4,11 +4,20 @@ const { commandToLavaData, getPlayer } = require("../../utils/lavalink");
 module.exports = {
     name: "skip",
     description: "Don't like this one?",
+    options: [
+        {
+            type: "number",
+            name: "position",
+            description: "Song in queue you want to skip to",
+            required: false
+        }
+    ],
     category: "Music",
     aliases: ["s"],
 
     execute: async function(command) {
         try {
+            const position = command.isMessage ? parseInt(command.args.join(" ")) : command.data.options.getNumber("position", false);
             const player = await getPlayer(commandToLavaData(command));
             const vcId = command.data.member.voice.channelId;
 
@@ -16,7 +25,7 @@ module.exports = {
             if(player.voiceChannelId !== vcId) return command.data.reply("You need to be in my vc!");
             if(!player.playing) return command.data.reply("I'm not playing anything!");
 
-            await player.skip();
+            await player.skip(position);
 
             command.data.reply({content: "Skipped song!", flags: MessageFlags.Ephemeral});
 
