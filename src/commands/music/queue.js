@@ -66,7 +66,7 @@ module.exports = {
                 .setFooter({text: "Loop: "+player.repeatMode})
                 .setColor(Colors.Purple);
 
-            command.data.reply({embeds:[queueEmbed], flags: MessageFlags.Ephemeral});
+            await command.data.reply({embeds:[queueEmbed], flags: MessageFlags.Ephemeral});
 
         } catch(e) {
             console.log(e.message);

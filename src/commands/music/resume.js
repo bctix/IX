@@ -18,7 +18,7 @@ module.exports = {
             if(player.paused) await player.resume();
             else return command.data.reply("I'm already playing!");
 
-            command.data.reply("Resumed song!");
+            await command.data.reply("Resumed song!");
 
         } catch(e) {
             console.log(e.message);

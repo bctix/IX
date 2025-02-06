@@ -18,7 +18,7 @@ module.exports = {
 
             await player.queue.shuffle();
 
-            command.data.reply("Shuffled queue!");
+            await command.data.reply("Shuffled queue!");
 
         } catch(e) {
             console.log(e.message);

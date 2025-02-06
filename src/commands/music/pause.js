@@ -19,7 +19,7 @@ module.exports = {
             if(!player.paused) await player.pause();
             else return command.data.reply("I'm already paused!");
 
-            command.data.reply("Paused song!");
+            await command.data.reply("Paused song!");
 
         } catch(e) {
             console.log(e.message);

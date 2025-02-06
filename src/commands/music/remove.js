@@ -37,7 +37,7 @@ module.exports = {
             if(removedTrack.info.artworkUrl)
                 embed.setThumbnail(removedTrack.info.artworkUrl);
 
-            command.data.reply({embeds:[embed]});
+            await command.data.reply({embeds:[embed]});
 
         } catch(e) {
             console.log(e.message);

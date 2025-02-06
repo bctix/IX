@@ -19,7 +19,7 @@ module.exports = {
 
             // Only reply if its a interaction to prevent the error message
             if(!command.isMessage)
-                command.data.reply({content: "Stopped playing!", flags: MessageFlags.Ephemeral});
+                await command.data.reply({content: "Stopped playing!", flags: MessageFlags.Ephemeral});
 
         } catch(e) {
             console.log(e.message);

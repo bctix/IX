@@ -39,7 +39,7 @@ module.exports = {
             .setTitle("Set loop to "+player.repeatMode)
             .setColor(Colors.Blurple);
 
-            command.data.reply({embeds: [embed], flags: MessageFlags.Ephemeral});
+            await command.data.reply({embeds: [embed], flags: MessageFlags.Ephemeral});
 
         } catch(e) {
             console.log(e.message);
