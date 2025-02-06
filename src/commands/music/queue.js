@@ -13,7 +13,7 @@ module.exports = {
         }
     ],
     category: "Music",
-    aliases: ["l"],
+    aliases: ["q"],
 
     execute: async function(command) {
         try {
