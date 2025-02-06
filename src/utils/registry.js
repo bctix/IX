@@ -134,15 +134,14 @@ async function deployCommands(client) {
                             slashCommand.addStringOption((option) => {
                                 option.setName(commandOption.name);
                                 option.setDescription(commandOption.description);
+                                if(commandOption.required)
+                                    option.setRequired(commandOption.required);
                                 if(commandOption.choices)
                                     option.addChoices(commandOption.choices)
                                 
                                 return option;
                             }
                         );
-
-                            
-                            
                             break;
                     }
                 });
