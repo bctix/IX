@@ -21,6 +21,7 @@ module.exports = {
             if(!page || isNaN(page)) page = 1;
             page -= 1;
 
+
             const player = await getPlayer(commandToLavaData(command));
             const vcId = command.data.member.voice.channelId;
 
@@ -33,19 +34,18 @@ module.exports = {
             var queuestring = "";
 
             var pageCount = Math.ceil((tracks.length - 1) / 10);
+            page = Math.min(page, pageCount - 1);
 
             var pagedQueue = [];
     
             for (let page = 0; page < pageCount; page++) {
                 var pageList = [];
                 for (let i = 0; i < 10; i++) {
-                    
                     if (tracks[i + page * 10] == null) break;
                     var track = tracks[i + page * 10];
                     
                     pageList.push(track);
                 }
-
                 pagedQueue.push(pageList);
             }
 
@@ -69,7 +69,7 @@ module.exports = {
             await command.data.reply({embeds:[queueEmbed], flags: MessageFlags.Ephemeral});
 
         } catch(e) {
-            console.log(e.message);
+            console.log(e);
         }
     }
 }
