@@ -1,7 +1,5 @@
 # IX
 
-IX doesn't have any of the music functionality yet, still working on that.
-
 IX is a classic music bot using [lavalink-client](https://github.com/tomato6966/lavalink-client)
 
 IX is not built with large-scaleability in mind. It was (and still is) built for a few friends that want music in their server.
