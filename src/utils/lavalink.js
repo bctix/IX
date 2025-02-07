@@ -21,6 +21,7 @@ async function initLavalink(client) {
             id: client.user.id,
             username: client.user.username,
         },
+        emitNewSongsOnly: true, // don't emit "looping songs"
         playerOptions: {
             onEmptyQueue: {
                 destroyAfterMs: 30_000, 
