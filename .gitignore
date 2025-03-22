@@ -1,0 +1,3 @@
+/node_modules
+*.sh
+./configs/config.json
