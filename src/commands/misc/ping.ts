@@ -9,7 +9,7 @@ const textcommand: ChatCommand = new ChatCommand(
             return [str];
         },
         async execute(execute: ChatCommandExecute) {
-           execute.data.reply("Pong!");
+           execute.data.reply("Pong! from IX!");
         },
     } as ChatCommandOptions
 );
