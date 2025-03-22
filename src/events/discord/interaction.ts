@@ -1,12 +1,20 @@
-import { BaseInteraction, ChatInputCommandInteraction, Events } from "discord.js";
+import { BaseInteraction, ChatInputCommandInteraction, ContextMenuCommandInteraction, Events } from "discord.js";
 import { CustomClient, ChatCommandExecute } from "../../types/bot_types.d";
 
 export default {
 	name: Events.InteractionCreate,
 	async execute(Client: CustomClient, baseInteraction: BaseInteraction) {
-		if (baseInteraction.isMessageContextMenuCommand()) {
-			baseInteraction.reply("Message context menu commands are not supported yet.");
-			return;
+		if (baseInteraction.isContextMenuCommand()) {
+			const interaction = baseInteraction as ContextMenuCommandInteraction;
+			const command = Client.contextmenucommands.get(interaction.commandName);
+			if (!command) return;
+
+			try {
+				command.execute(Client, interaction);
+			}
+			catch (e) {
+				console.error(e);
+			}
 		}
 		if (baseInteraction.isChatInputCommand()) {
 			const interaction = baseInteraction as ChatInputCommandInteraction;

@@ -1,6 +1,6 @@
 import { Events } from "discord.js";
 import { CustomClient } from "../../types/bot_types";
-import { deploySlashCommands } from "../../utils/registry";
+import { deployApplicationCommands } from "../../utils/registry";
 
 export default {
 	name: Events.ClientReady,
@@ -11,7 +11,7 @@ export default {
 		console.log("Deploying slash commands...");
 
 		try {
-			await deploySlashCommands(Client);
+			await deployApplicationCommands(Client);
 		}
 		catch (e) {
 			console.error(e);

@@ -1,5 +1,5 @@
 import { Client, Collection, GatewayIntentBits } from "discord.js";
-import { CustomClient } from "./types/bot_types";
+import { CustomClient } from "./types/bot_types.d";
 import { registerEvents, registerTextCommands } from "./utils/registry";
 import config from "../configs/config.json";
 
@@ -9,6 +9,7 @@ const client = new Client(
 
 (async () => {
 	client.chatcommands = new Collection();
+	client.contextmenucommands = new Collection();
 	client.categories = new Collection();
 
 	await registerEvents(client, client, "../events/discord");

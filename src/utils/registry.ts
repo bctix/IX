@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fs from "fs";
 import path from "path";
-import { ChatCommand, CustomClient } from "../types/bot_types";
+import { ChatCommand, ContextCommand, CustomClient } from "../types/bot_types.d";
 import { fileURLToPath, pathToFileURL } from "url";
 import { dirname } from "path";
-import { ApplicationCommandOptionType, REST, RESTPostAPIChatInputApplicationCommandsJSONBody, Routes, SlashCommandBuilder } from "discord.js";
+import { ApplicationCommandOptionType, ContextMenuCommandBuilder, REST, Routes, SlashCommandBuilder } from "discord.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -20,45 +20,78 @@ export async function registerTextCommands(client:CustomClient, ...dirs: string[
 			else {
 				if (!file.endsWith(".ts")) continue;
 				const fileName = file.substring(0, file.indexOf(".ts"));
-				const cmdModule = (await import(pathToFileURL(path.join(__dirname, dir, fileName)).toString())).default as ChatCommand;
-
-				if (cmdModule.ignore) {
+				const cmdModule = (await import(pathToFileURL(path.join(__dirname, dir, fileName)).toString())).default;
+				if (cmdModule instanceof ChatCommand) {
+					await registerTextCommand(client, cmdModule);
 					continue;
 				}
-
-				if (!cmdModule.name) {
-					console.warn(`The command '${path.join(__dirname, dir, file)}' doesn't have a name`);
+				if (cmdModule instanceof ContextCommand) {
+					await registerContextCommand(client, cmdModule);
 					continue;
-				}
-
-				if (!cmdModule.execute) {
-					console.warn(`The command '${cmdModule.name}' doesn't have an execute function`,
-					);
-					continue;
-				}
-
-				if (client.chatcommands.has(cmdModule.name)) {
-					console.warn(`The command name '${cmdModule.name}' has already been added.`);
-					continue;
-				}
-
-				client.chatcommands.set(cmdModule.name, cmdModule);
-
-				if (cmdModule.aliases && cmdModule.aliases.length !== 0) {
-					cmdModule.aliases.forEach((alias: string) => {
-						if (client.chatcommands.has(alias)) {
-							console.warn("WARNING", "src/registry.ts", `The command alias '${alias}' has already been added.`);
-						}
-						else {
-							const cmdClone = Object.assign({}, cmdModule);
-							cmdClone.isAlias = true;
-							client.chatcommands.set(alias, cmdClone);
-						}
-					});
 				}
 			}
 		}
 	});
+}
+
+export async function registerContextCommand(client:CustomClient, cmdModule: ContextCommand) {
+	if (cmdModule.ignore) {
+		return;
+	}
+
+	if (!cmdModule.name) {
+		console.warn(`The command '${cmdModule.name}' doesn't have a name`);
+		return;
+	}
+
+	if (!cmdModule.execute) {
+		console.warn(`The command '${cmdModule.name}' doesn't have an execute function`);
+		return;
+	}
+
+	if (client.contextmenucommands.has(cmdModule.name)) {
+		console.warn(`The command name '${cmdModule.name}' has already been added.`);
+		return;
+	}
+
+	client.contextmenucommands.set(cmdModule.name, cmdModule);
+}
+
+export async function registerTextCommand(client:CustomClient, cmdModule: ChatCommand) {
+	if (cmdModule.ignore) {
+		return;
+	}
+
+	if (!cmdModule.name) {
+		console.warn(`The command '${cmdModule.name}' doesn't have a name`);
+		return;
+	}
+
+	if (!cmdModule.execute) {
+		console.warn(`The command '${cmdModule.name}' doesn't have an execute function`,
+		);
+		return;
+	}
+
+	if (client.chatcommands.has(cmdModule.name)) {
+		console.warn(`The command name '${cmdModule.name}' has already been added.`);
+		return;
+	}
+
+	client.chatcommands.set(cmdModule.name, cmdModule);
+
+	if (cmdModule.aliases && cmdModule.aliases.length !== 0) {
+		cmdModule.aliases.forEach((alias: string) => {
+			if (client.chatcommands.has(alias)) {
+				console.warn("WARNING", "src/registry.ts", `The command alias '${alias}' has already been added.`);
+			}
+			else {
+				const cmdClone = Object.assign({}, cmdModule);
+				cmdClone.isAlias = true;
+				client.chatcommands.set(alias, cmdClone);
+			}
+		});
+	}
 }
 
 export async function registerEvents(EventClient: any, ExecuteClient: CustomClient, ...dirs: string[]) {
@@ -99,7 +132,7 @@ export async function removeSlashCommands(client:CustomClient) {
 	}
 }
 
-export async function deploySlashCommands(client:CustomClient) {
+export async function deployApplicationCommands(client:CustomClient) {
 	if (!client.token || !client.user) {
 		console.warn("Failed to get client data! Unable to deploy slash commands!");
 		return;
@@ -108,7 +141,7 @@ export async function deploySlashCommands(client:CustomClient) {
 	const rest = new REST().setToken(client.token);
 
 	try {
-		const builtCommands: RESTPostAPIChatInputApplicationCommandsJSONBody[] = [];
+		const builtCommands: any[] = [];
 
 		client.chatcommands.forEach(command => {
 			if (command.noSlash) return;
@@ -177,6 +210,17 @@ export async function deploySlashCommands(client:CustomClient) {
 			}
 
 			builtCommands.push(slashCommand.toJSON());
+		});
+
+		client.contextmenucommands.forEach(command => {
+			if (command.ignore) return;
+
+			const appcommand = new ContextMenuCommandBuilder();
+
+			appcommand.setName(command.name);
+			appcommand.setType(command.type);
+
+			builtCommands.push(appcommand.toJSON());
 		});
 
 		await rest.put(

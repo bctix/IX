@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ApplicationCommandOptionType, ChatInputCommandInteraction, Client, Collection, Message } from "discord.js";
-import { LavalinkManager } from "lavalink-client/dist/types";
+import { ApplicationCommandOptionType, ChatInputCommandInteraction, Client, Collection, ContextMenuCommandType, Message } from "discord.js";
 
 export declare class CustomClient extends Client {
 	/**
@@ -8,14 +7,13 @@ export declare class CustomClient extends Client {
 	 */
 	public chatcommands: Collection<string, ChatCommand>;
 	/**
+	 * All the context menu commands loaded in the bot.
+	 */
+	public contextmenucommands: Collection<string, ContextCommand>;
+	/**
 	 * The categories of the commands.
 	 */
 	public categories: Collection<string, string[]>;
-
-	/**
-	 * The lavalink manager.
-	 */
-	public lavalink: LavalinkManager;
 
 	/**
 	 * the `Date.now()` of when the bot started.
@@ -256,4 +254,25 @@ export interface ChatCommandOption {
     default:any;
     type:ApplicationCommandOptionType
     choices?:APIApplicationCommandOptionChoice<string>[]|APIApplicationCommandOptionChoice<number>[];
+}
+
+export class ContextCommand {
+	/**
+	 * The name of the command
+	 */
+	name:string;
+
+	/**
+	 * Descriptions for command
+	 */
+	description:string;
+
+	/**
+	 * The type of context menu command
+	 */
+	type:ContextMenuCommandType;
+
+	ignore?:boolean;
+
+	execute(client: CustomClient, interaction: ContextMenuCommandInteraction): any;
 }
