@@ -1,5 +1,5 @@
 import { BaseInteraction, ChatInputCommandInteraction, ContextMenuCommandInteraction, Events } from "discord.js";
-import { CustomClient, ChatCommandExecute } from "../../types/bot_types.d";
+import { CustomClient, ChatCommandExecute } from "../../types/bot_classes";
 
 export default {
 	name: Events.InteractionCreate,

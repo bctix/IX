@@ -1,12 +1,12 @@
 import { Events } from "discord.js";
-import { CustomClient } from "../../types/bot_types";
+import { CustomClient } from "../../types/bot_classes";
 import { deployApplicationCommands } from "../../utils/registry";
 
 export default {
 	name: Events.ClientReady,
 	async execute(Client: CustomClient) {
 		console.log("Bot started!");
-		console.clear();
+		// console.clear();
 
 		console.log("Deploying slash commands...");
 
@@ -18,7 +18,7 @@ export default {
 		}
 
 		console.log("Success!");
-		console.clear();
+		// console.clear();
 
 		console.log("Bot is ready!");
 	},

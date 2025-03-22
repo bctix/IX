@@ -1,40 +1,37 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import fs from "fs";
 import path from "path";
-import { ChatCommand, ContextCommand, CustomClient } from "../types/bot_types.d";
+import { ChatCommand, ContextCommand, CustomClient } from "../types/bot_classes";
 import { fileURLToPath, pathToFileURL } from "url";
-import { dirname } from "path";
-import { ApplicationCommandOptionType, ContextMenuCommandBuilder, REST, Routes, SlashCommandBuilder } from "discord.js";
+import { APIApplicationCommandOptionChoice, ApplicationCommandOptionType, ContextMenuCommandBuilder, REST, Routes, SlashCommandBuilder } from "discord.js";
+import { URL } from "url";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+export async function registerTextCommands(client: CustomClient, ...dirs: string[]) {
+    dirs.forEach(async (dir) => {
+        const files = await fs.promises.readdir(path.join(__dirname, dir));
 
-export async function registerTextCommands(client:CustomClient, ...dirs: string[]) {
-	dirs.forEach(async (dir) => {
-		const files = await fs.promises.readdir(path.join(__dirname, dir));
-
-		for (const idx in files) {
-			const file = files[idx];
-			const stat = await fs.promises.lstat(path.join(__dirname, dir, file));
-			if (stat.isDirectory()) {registerTextCommands(client, path.join(dir, file));}
-			else {
-				if (!file.endsWith(".ts")) continue;
-				const fileName = file.substring(0, file.indexOf(".ts"));
-				const cmdModule = (await import(pathToFileURL(path.join(__dirname, dir, fileName)).toString())).default;
-				if (cmdModule instanceof ChatCommand) {
-					await registerTextCommand(client, cmdModule);
-					continue;
-				}
-				if (cmdModule instanceof ContextCommand) {
-					await registerContextCommand(client, cmdModule);
-					continue;
-				}
-			}
-		}
-	});
+        for (const idx in files) {
+            const file = files[idx];
+            const stat = await fs.promises.lstat(path.join(__dirname, dir, file));
+            if (stat.isDirectory()) {
+                registerTextCommands(client, path.join(dir, file));
+            } else {
+                if (!file.endsWith(".js")) continue;
+                const cmdModule = (await import(path.resolve(__dirname, dir, file))).default;
+                if (cmdModule instanceof ChatCommand) {
+                    await registerTextCommand(client, cmdModule);
+                    continue;
+                }
+                if (cmdModule instanceof ContextCommand) {
+                    await registerContextCommand(client, cmdModule);
+                    continue;
+                }
+            }
+        }
+    });
 }
 
-export async function registerContextCommand(client:CustomClient, cmdModule: ContextCommand) {
+async function registerContextCommand(client:CustomClient, cmdModule: ContextCommand) {
 	if (cmdModule.ignore) {
 		return;
 	}
@@ -57,7 +54,7 @@ export async function registerContextCommand(client:CustomClient, cmdModule: Con
 	client.contextmenucommands.set(cmdModule.name, cmdModule);
 }
 
-export async function registerTextCommand(client:CustomClient, cmdModule: ChatCommand) {
+async function registerTextCommand(client:CustomClient, cmdModule: ChatCommand) {
 	if (cmdModule.ignore) {
 		return;
 	}
@@ -68,8 +65,7 @@ export async function registerTextCommand(client:CustomClient, cmdModule: ChatCo
 	}
 
 	if (!cmdModule.execute) {
-		console.warn(`The command '${cmdModule.name}' doesn't have an execute function`,
-		);
+		console.warn(`The command '${cmdModule.name}' doesn't have an execute function`);
 		return;
 	}
 
@@ -83,7 +79,7 @@ export async function registerTextCommand(client:CustomClient, cmdModule: ChatCo
 	if (cmdModule.aliases && cmdModule.aliases.length !== 0) {
 		cmdModule.aliases.forEach((alias: string) => {
 			if (client.chatcommands.has(alias)) {
-				console.warn("WARNING", "src/registry.ts", `The command alias '${alias}' has already been added.`);
+				console.warn(`The command alias '${alias}' has already been added.`);
 			}
 			else {
 				const cmdClone = Object.assign({}, cmdModule);
@@ -95,22 +91,23 @@ export async function registerTextCommand(client:CustomClient, cmdModule: ChatCo
 }
 
 export async function registerEvents(EventClient: any, ExecuteClient: CustomClient, ...dirs: string[]) {
-	dirs.forEach(async (dir) => {
-		const files = await fs.promises.readdir(path.join(__dirname, dir));
+    for (const dir of dirs) {
+        const files = await fs.promises.readdir(path.resolve(__dirname, dir));
 
-		for (const idx in files) {
-			const file = files[idx];
-			const stat = await fs.promises.lstat(path.join(__dirname, dir, file));
-			if (stat.isDirectory()) { await registerEvents(EventClient, ExecuteClient, ...dirs); }
-			else {
-				if (!file.endsWith(".ts")) continue;
-				const fileName = file.substring(0, file.indexOf(".ts"));
-				const eventModule = (await import(pathToFileURL(path.join(__dirname, dir, fileName)).toString())).default;
-				if (eventModule.once) { EventClient.once(eventModule.name, (...args: any) => eventModule.execute(ExecuteClient, ...args));};
-				EventClient.on(eventModule.name, (...args: any) => eventModule.execute(ExecuteClient, ...args));
-			}
-		}
-	});
+        for (const file of files) {
+            const stat = await fs.promises.lstat(path.resolve(__dirname, dir, file));
+            if (stat.isDirectory()) {
+                await registerEvents(EventClient, ExecuteClient, path.join(dir, file));
+            } else {
+                if (!file.endsWith(".js")) continue;
+                const eventModule = (await import(path.resolve(__dirname, dir, file))).default;
+                if (eventModule.once) {
+                    EventClient.once(eventModule.name, (...args: any) => eventModule.execute(ExecuteClient, ...args));
+                }
+                EventClient.on(eventModule.name, (...args: any) => eventModule.execute(ExecuteClient, ...args));
+            }
+        }
+    }
 }
 
 export async function removeSlashCommands(client:CustomClient) {
@@ -143,6 +140,8 @@ export async function deployApplicationCommands(client:CustomClient) {
 	try {
 		const builtCommands: any[] = [];
 
+		console.log(client.chatcommands);
+
 		client.chatcommands.forEach(command => {
 			if (command.noSlash) return;
 			if (command.isAlias) return;
@@ -159,7 +158,7 @@ export async function deployApplicationCommands(client:CustomClient) {
 							option.setName(commandOption.name);
 							option.setDescription(commandOption.description);
 							if (commandOption.required) {option.setRequired(commandOption.required);}
-							if (commandOption.choices) {option.addChoices(commandOption.choices);}
+							if (commandOption.choices) {option.addChoices(commandOption.choices as APIApplicationCommandOptionChoice<string>[]);}
 
 							return option;
 						});
@@ -180,6 +179,7 @@ export async function deployApplicationCommands(client:CustomClient) {
 							option.setName(commandOption.name);
 							option.setDescription(commandOption.description);
 							if (commandOption.required) {option.setRequired(commandOption.required);}
+							if (commandOption.choices) {option.addChoices(commandOption.choices as APIApplicationCommandOptionChoice<number>[]);}
 
 							return option;
 						});

@@ -1,17 +1,14 @@
 import { Events, Message } from "discord.js";
-import config from "../../../configs/config.json";
-
-// for some reason, this file only wants the ".d" and idk why
-import { CustomClient, ChatCommandExecute } from "../../types/bot_types.d";
+import { ChatCommandExecute, CustomClient } from "../../types/bot_classes";
+import { devs } from "../../utils/constants";
 
 export default {
-	name: Events.MessageCreate,
-	once: false,
-	async execute(client: CustomClient, message: Message) {
-		if (!client.user) return;
+    name: Events.MessageCreate,
+    async execute(client: CustomClient, message: Message) {
+        if (!client.user) return;
 		if (message.author.bot) return;
 
-		const prefixRegex = new RegExp(`^(<@${client.user.id}>|${config.prefix})`);
+		const prefixRegex = new RegExp(`^(<@${client.user.id}>|${process.env.PREFIX})`);
 		if (!prefixRegex.test(message.content)) return;
 
 		const match = message.content.match(prefixRegex);
@@ -25,7 +22,7 @@ export default {
 
 		if (!command) return;
 		if (!message.member) { message.reply("Something went wrong!"); return; }
-		if (command.devOnly && !config.devs.includes(message.member.user.id)) return;
+		if (command.devOnly && devs.includes(message.member.user.id)) return;
 
 		let args: string[] = [];
 
@@ -38,5 +35,5 @@ export default {
 		execute.args = args;
 
 		command.execute(execute);
-	},
+    },
 };

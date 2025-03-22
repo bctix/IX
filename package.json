@@ -1,22 +1,23 @@
 {
   "name": "ixframework",
   "version": "1.0.0",
-  "description": "A discord bot framework created for IX.",
-  "main": "./src/main.ts",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "tsx ./src/main.ts"
+    "build": "tsc",
+    "start:dev": "cross-env NODE_ENV=development node ./dist/index.js",
+    "start:prod": "cross-env NODE_ENV=production node ./dist/index.js",
+    "dev": "npm run build && npm run start:dev"
+  },
+  "author": "bctix",
+  "license": "ISC",
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
   },
   "dependencies": {
-    "discord.js": "^14.14.1",
-    "dotenv": "^16.4.7",
-    "undici": "^7.3.0",
-    "tsx": "^4.19.3"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.22.0",
-    "eslint": "^9.22.0",
-    "globals": "^16.0.0",
-    "typescript": "^5.8.2",
-    "typescript-eslint": "^8.26.1"
+    "discord.js": "^14.18.0",
+    "dotenv": "^16.4.7"
   }
 }
