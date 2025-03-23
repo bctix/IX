@@ -1,6 +1,7 @@
 import { Events } from "discord.js";
 import { CustomClient } from "../../types/bot_classes";
-import { deployApplicationCommands } from "../../utils/registry";
+import { deployApplicationCommands, registerEvents } from "../../utils/registry";
+import { initLavalink } from "../../utils/lavalink";
 
 export default {
 	name: Events.ClientReady,
@@ -11,6 +12,11 @@ export default {
 
 		try {
 			await deployApplicationCommands(Client);
+
+			if (Client.user)
+			{
+				await initLavalink(Client);
+			}
 		}
 		catch (e) {
 			console.error(e);

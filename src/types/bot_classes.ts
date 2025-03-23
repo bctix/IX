@@ -1,10 +1,12 @@
 import { APIApplicationCommandOptionChoice, ApplicationCommandOptionType, ChatInputCommandInteraction, Client, Collection, ContextMenuCommandInteraction, ContextMenuCommandType, Message } from "discord.js";
+import { LavalinkManager } from "lavalink-client";
 
 export class CustomClient extends Client {
     public chatcommands: Collection<string, ChatCommand>;
     public contextmenucommands: Collection<string, ContextCommand>;
     public categories: Collection<string, string[]>;
     public startDate: number;
+    public lavalink!: LavalinkManager;
 
     constructor(options: any) {
         super(options);
