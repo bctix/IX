@@ -9,12 +9,8 @@ const client = new CustomClient(
 );
 
 async function main() {
-  console.log("Hello world!")
-
   await registerEvents(client, client, "../events/discord")
   await registerTextCommands(client, "../commands");
-  
-  console.log("Events registered");
 
   await client.login(process.env.DISCORD_TOKEN);
 }
