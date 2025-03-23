@@ -140,8 +140,6 @@ export async function deployApplicationCommands(client:CustomClient) {
 	try {
 		const builtCommands: any[] = [];
 
-		console.log(client.chatcommands);
-
 		client.chatcommands.forEach(command => {
 			if (command.noSlash) return;
 			if (command.isAlias) return;
