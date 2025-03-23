@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 import { ChatCommand, ContextCommand, CustomClient } from "../types/bot_classes";
 import { fileURLToPath, pathToFileURL } from "url";
-import { APIApplicationCommandOptionChoice, ApplicationCommandOptionType, ContextMenuCommandBuilder, REST, Routes, SlashCommandBuilder } from "discord.js";
+import { APIApplicationCommandOptionChoice, ApplicationCommandOptionType, ContextMenuCommandBuilder, InteractionContextType, REST, Routes, SlashCommandBuilder } from "discord.js";
 import { URL } from "url";
 
 export async function registerTextCommands(client: CustomClient, ...dirs: string[]) {
@@ -147,6 +147,7 @@ export async function deployApplicationCommands(client:CustomClient) {
 			const slashCommand = new SlashCommandBuilder();
 			slashCommand.setName(command.name);
 			slashCommand.setDescription(command.description);
+			if (command.contexts) slashCommand.setContexts(command.contexts);
 
 			if (command.options && command.options.length > 0) {
 				command.options.forEach(commandOption => {

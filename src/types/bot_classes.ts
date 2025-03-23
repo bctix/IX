@@ -1,4 +1,4 @@
-import { APIApplicationCommandOptionChoice, ApplicationCommandOptionType, ChatInputCommandInteraction, Client, Collection, ContextMenuCommandInteraction, ContextMenuCommandType, Message } from "discord.js";
+import { APIApplicationCommandOptionChoice, ApplicationCommandOptionType, ChatInputCommandInteraction, Client, Collection, ContextMenuCommandInteraction, ContextMenuCommandType, InteractionContextType, Message } from "discord.js";
 import { LavalinkManager } from "lavalink-client";
 
 export class CustomClient extends Client {
@@ -109,6 +109,7 @@ export interface ChatCommandOptions {
     name: string;
     description: string;
     options?: ChatCommandArgOption[];
+    contexts?: InteractionContextType[];
     aliases?: string[];
     usage?: string;
     noSlash?: boolean;
@@ -123,6 +124,7 @@ export class ChatCommand {
     public name: string;
     public description: string;
     public options?: ChatCommandArgOption[];
+    public contexts?: InteractionContextType[];
     public aliases?: string[];
     public usage?: string;
     public noSlash?: boolean;
@@ -136,6 +138,10 @@ export class ChatCommand {
         this.name = options.name;
         this.description = options.description;
         this.options = options.options;
+        if (options.contexts === undefined)
+            this.contexts = [InteractionContextType.Guild];
+        else
+            this.contexts = options.contexts;
         this.aliases = options.aliases;
         this.usage = options.usage;
         this.noSlash = options.noSlash;
