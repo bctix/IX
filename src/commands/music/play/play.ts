@@ -6,6 +6,7 @@ const textcommand: ChatCommand = new ChatCommand(
     {
         name: "play",
         description: "Play some tunes!",
+        aliases: ["p"],
         options: [
             {
                 name: "query",
@@ -18,8 +19,8 @@ const textcommand: ChatCommand = new ChatCommand(
         argParser(str: string, message: Message) {
             return [str];
         },
-        async execute(execute: ChatCommandExecute) {
-           globalplay.playSong(execute, "ytmsearch");
+        async execute(command: ChatCommandExecute) {
+           globalplay.playSong(command, "ytmsearch");
         },
     } as ChatCommandOptions
 );
