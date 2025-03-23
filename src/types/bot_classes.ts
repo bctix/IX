@@ -12,7 +12,6 @@ export class CustomClient extends Client {
         this.contextmenucommands = new Collection();
         this.categories = new Collection();
         this.startDate = Date.now();
-        console.log(this.chatcommands);
     }
 }
 
