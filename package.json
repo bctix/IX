@@ -1,7 +1,7 @@
 {
-  "name": "ixframework",
-  "version": "1.0.0",
-  "description": "",
+  "name": "ix",
+  "version": "2.9.0",
+  "description": "A discord bot with a focus on music.",
   "main": "index.js",
   "scripts": {
     "build": "tsc",
@@ -11,7 +11,6 @@
   "author": "bctix",
   "license": "ISC",
   "devDependencies": {
-    "cross-env": "^7.0.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
   },
