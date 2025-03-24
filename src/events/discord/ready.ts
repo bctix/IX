@@ -11,7 +11,6 @@ export default {
 		console.log("Deploying slash commands...");
 
 		try {
-			await removeApplicationCommands(Client);
 			await deployApplicationCommands(Client);
 			if (Client.user)
 			{
