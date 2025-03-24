@@ -129,6 +129,20 @@ export async function removeSlashCommands(client:CustomClient) {
 	}
 }
 
+export async function removeApplicationCommands(client:CustomClient) {
+	if (!client.token || !client.user) {
+		console.warn("Failed to get client data! Unable to deploy slash commands!");
+		return;
+	}
+
+	const rest = new REST().setToken(client.token);
+
+	await rest.put(
+		Routes.applicationCommands(client.user.id),
+		{ body: [] },
+	);
+}
+
 export async function deployApplicationCommands(client:CustomClient) {
 	if (!client.token || !client.user) {
 		console.warn("Failed to get client data! Unable to deploy slash commands!");

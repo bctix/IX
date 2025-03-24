@@ -1,6 +1,6 @@
 import { Events } from "discord.js";
 import { CustomClient } from "../../types/bot_classes";
-import { deployApplicationCommands, registerEvents } from "../../utils/registry";
+import { deployApplicationCommands, registerEvents, removeApplicationCommands } from "../../utils/registry";
 import { initLavalink } from "../../utils/lavalink";
 
 export default {
@@ -11,8 +11,8 @@ export default {
 		console.log("Deploying slash commands...");
 
 		try {
+			await removeApplicationCommands(Client);
 			await deployApplicationCommands(Client);
-
 			if (Client.user)
 			{
 				await initLavalink(Client);
