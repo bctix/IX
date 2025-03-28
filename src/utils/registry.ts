@@ -162,6 +162,7 @@ export async function deployApplicationCommands(client:CustomClient) {
 			slashCommand.setName(command.name);
 			slashCommand.setDescription(command.description);
 			if (command.contexts) slashCommand.setContexts(command.contexts);
+			if (command.integrations) slashCommand.setIntegrationTypes(command.integrations);
 
 			if (command.options && command.options.length > 0) {
 				command.options.forEach(commandOption => {

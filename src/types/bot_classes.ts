@@ -1,4 +1,4 @@
-import { APIApplicationCommandOptionChoice, ApplicationCommandOptionType, ChatInputCommandInteraction, Client, Collection, ContextMenuCommandInteraction, ContextMenuCommandType, InteractionContextType, Message } from "discord.js";
+import { APIApplicationCommandOptionChoice, ApplicationCommandOptionType, ApplicationIntegrationType, ChatInputCommandInteraction, Client, Collection, ContextMenuCommandInteraction, ContextMenuCommandType, InteractionContextType, Message } from "discord.js";
 import { LavalinkManager } from "lavalink-client";
 
 export class CustomClient extends Client {
@@ -110,6 +110,7 @@ export interface ChatCommandOptions {
     description: string;
     options?: ChatCommandArgOption[];
     contexts?: InteractionContextType[];
+    integrations?: ApplicationIntegrationType[];
     aliases?: string[];
     usage?: string;
     noSlash?: boolean;
@@ -125,6 +126,7 @@ export class ChatCommand {
     public description: string;
     public options?: ChatCommandArgOption[];
     public contexts?: InteractionContextType[];
+    public integrations?: ApplicationIntegrationType[];
     public aliases?: string[];
     public usage?: string;
     public noSlash?: boolean;

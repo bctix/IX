@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, ChatInputCommandInteraction, InteractionContextType } from 'discord.js';
+import { ApplicationCommandOptionType, ApplicationIntegrationType, ChatInputCommandInteraction, InteractionContextType } from 'discord.js';
 import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../types/bot_classes';
 import { create, all, ConfigOptions } from 'mathjs';
 
@@ -16,6 +16,7 @@ const textcommand: ChatCommand = new ChatCommand(
             },
         ],
         contexts: [InteractionContextType.PrivateChannel, InteractionContextType.Guild, InteractionContextType.BotDM],
+        integrations: [ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall],
         argParser(str, message) {
             return [str];
         },
