@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, ChatInputCommandInteraction, Message } from 'discord.js';
+import { ApplicationCommandOptionType } from 'discord.js';
 import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../../types/bot_classes';
 import globalplay from './globalplay';
 
@@ -17,7 +17,7 @@ const textcommand: ChatCommand = new ChatCommand(
             }
         ],
         category: "music",
-        argParser(str: string, message: Message) {
+        argParser(str: string ) {
             return [str];
         },
         async execute(command: ChatCommandExecute) {

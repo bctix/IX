@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { APIApplicationCommandOptionChoice, ApplicationCommandOptionType, ApplicationIntegrationType, ChatInputCommandInteraction, Client, Collection, ContextMenuCommandInteraction, ContextMenuCommandType, InteractionContextType, Message } from "discord.js";
 import { LavalinkManager } from "lavalink-client";
 
@@ -172,7 +173,7 @@ export interface ContextCommandOptions {
     description:string,
     type:ContextMenuCommandType,
     ignore?:boolean,
-    execute: (client: CustomClient, interaction: ContextMenuCommandInteraction) => any,
+    execute: (client: CustomClient, interaction: ContextMenuCommandInteraction) => void,
 }
 
 export class ContextCommand {
@@ -180,7 +181,7 @@ export class ContextCommand {
 	public description:string;
 	public type:ContextMenuCommandType;
 	public ignore?:boolean;
-	public execute: (client: CustomClient, interaction: ContextMenuCommandInteraction) => any;
+	public execute: (client: CustomClient, interaction: ContextMenuCommandInteraction) => void;
 
     public constructor(Options: ContextCommandOptions) {
         this.name = Options.name;

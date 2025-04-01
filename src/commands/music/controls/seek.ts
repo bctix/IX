@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, ChatInputCommandInteraction, GuildMember, Message, MessageFlags } from 'discord.js';
+import { ApplicationCommandOptionType, GuildMember } from 'discord.js';
 import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../../types/bot_classes';
 import { getLavalinkPlayer, commandToLavaData } from '../../../utils/lavalink';
 
@@ -17,7 +17,7 @@ const textcommand: ChatCommand = new ChatCommand(
             },
         ],
         category: "music",
-        argParser(str, message) {
+        argParser(str) {
             return [str];
         },
         async execute(command: ChatCommandExecute) {

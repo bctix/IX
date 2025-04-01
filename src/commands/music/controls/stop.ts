@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, GuildMember, Message, MessageFlags } from 'discord.js';
+import { ChatInputCommandInteraction, GuildMember, MessageFlags } from 'discord.js';
 import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../../types/bot_classes';
 import { getLavalinkPlayer, commandToLavaData } from '../../../utils/lavalink';
 

@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, Colors, EmbedBuilder, GuildMember, Message } from 'discord.js';
+import { ApplicationCommandOptionType, Colors, EmbedBuilder, GuildMember } from 'discord.js';
 import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../../types/bot_classes';
 import { getLavalinkPlayer, commandToLavaData } from '../../../utils/lavalink';
 
@@ -17,7 +17,7 @@ const textcommand: ChatCommand = new ChatCommand(
             }
         ],
         category: "music",
-        argParser(str: string, message: Message) {
+        argParser(str: string) {
             const page = Math.round(parseInt(str));
 		    return [isNaN(page) ? 1 : page];
         },

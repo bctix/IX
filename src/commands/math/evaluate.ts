@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, ApplicationIntegrationType, ChatInputCommandInteraction, InteractionContextType } from 'discord.js';
+import { ApplicationCommandOptionType, ApplicationIntegrationType, InteractionContextType } from 'discord.js';
 import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../types/bot_classes';
 import { create, all, ConfigOptions } from 'mathjs';
 
@@ -18,7 +18,7 @@ const textcommand: ChatCommand = new ChatCommand(
         category: "math",
         contexts: [InteractionContextType.PrivateChannel, InteractionContextType.Guild, InteractionContextType.BotDM],
         integrations: [ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall],
-        argParser(str, message) {
+        argParser(str) {
             return [str];
         },
         async execute(command: ChatCommandExecute) {

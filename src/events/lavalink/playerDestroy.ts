@@ -1,7 +1,6 @@
-import { Colors, EmbedBuilder, SendableChannels, User } from "discord.js";
+import { Colors, EmbedBuilder } from "discord.js";
 import { CustomClient } from "../../types/bot_classes";
-import { Player, Track } from "lavalink-client";
-import { getVibrantColorToDiscord } from "../../utils/utils";
+import { Player } from "lavalink-client";
 
 export default {
     name: "playerDestroy",

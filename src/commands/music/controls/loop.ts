@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, ChatInputCommandInteraction, Colors, EmbedBuilder, GuildMember, Message, MessageFlags } from 'discord.js';
+import { ApplicationCommandOptionType, Colors, EmbedBuilder, GuildMember } from 'discord.js';
 import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../../types/bot_classes';
 import { getLavalinkPlayer, commandToLavaData } from '../../../utils/lavalink';
 
@@ -22,7 +22,7 @@ const textcommand: ChatCommand = new ChatCommand(
             },
         ],
         category: "music",
-        argParser(str, message) {
+        argParser(str) {
             let type = str;
             if (["", "none", "0", "n", "off"].includes(type.toLowerCase())) type = "off";
             if (["s", "track", "1", "single"].includes(type.toLowerCase())) type = "track";

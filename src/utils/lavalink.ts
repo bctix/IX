@@ -24,7 +24,7 @@ export async function initLavalink(client: CustomClient) {
                 requestSignalTimeoutMS: 10_000
 			},
 		],
-		sendToShard: (guildId: any, payload: any) =>
+		sendToShard: (guildId: string, payload: unknown) =>
 			client.guilds.cache.get(guildId)?.shard?.send(payload),
 		client: {
 			id: client.user.id,

@@ -1,4 +1,3 @@
-import { ChatInputCommandInteraction } from 'discord.js';
 import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../types/bot_classes';
 
 const textcommand: ChatCommand = new ChatCommand(
@@ -6,7 +5,7 @@ const textcommand: ChatCommand = new ChatCommand(
         name: "ping",
         description: "Ping pong!",
         category: "misc",
-        argParser(str, message) {
+        argParser(str) {
             return [str];
         },
         async execute(execute: ChatCommandExecute) {

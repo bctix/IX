@@ -1,4 +1,4 @@
-import { Client, Collection, GatewayIntentBits } from "discord.js";
+import { GatewayIntentBits } from "discord.js";
 import { CustomClient } from "./types/bot_classes";
 import dotenv from "dotenv";
 import { registerEvents, registerTextCommands } from "./utils/registry";

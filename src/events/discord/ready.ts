@@ -1,6 +1,6 @@
 import { Events } from "discord.js";
 import { CustomClient } from "../../types/bot_classes";
-import { deployApplicationCommands, registerEvents, removeApplicationCommands } from "../../utils/registry";
+import { deployApplicationCommands } from "../../utils/registry";
 import { initLavalink } from "../../utils/lavalink";
 
 export default {
