@@ -15,6 +15,7 @@ const textcommand: ChatCommand = new ChatCommand(
                 type: ApplicationCommandOptionType.String,
             },
         ],
+        category: "math",
         contexts: [InteractionContextType.PrivateChannel, InteractionContextType.Guild, InteractionContextType.BotDM],
         integrations: [ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall],
         argParser(str, message) {

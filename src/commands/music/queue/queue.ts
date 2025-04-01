@@ -16,6 +16,7 @@ const textcommand: ChatCommand = new ChatCommand(
                 required: false
             }
         ],
+        category: "music",
         argParser(str: string, message: Message) {
             const page = Math.round(parseInt(str));
 		    return [isNaN(page) ? 1 : page];

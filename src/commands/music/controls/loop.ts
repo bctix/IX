@@ -21,6 +21,7 @@ const textcommand: ChatCommand = new ChatCommand(
                 type: ApplicationCommandOptionType.String,
             },
         ],
+        category: "music",
         argParser(str, message) {
             let type = str;
             if (["", "none", "0", "n", "off"].includes(type.toLowerCase())) type = "off";

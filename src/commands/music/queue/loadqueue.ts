@@ -15,6 +15,7 @@ const textcommand: ChatCommand = new ChatCommand({
 			default: "",
 		},
 	],
+	category: "music",
 	aliases: ["lq"],
 	argParser(str, message) {
 		return [message.attachments.first()];

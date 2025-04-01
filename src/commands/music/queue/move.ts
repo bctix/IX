@@ -21,6 +21,7 @@ const textcommand: ChatCommand = new ChatCommand({
 			type: ApplicationCommandOptionType.Integer,
 		},
 	],
+	category: "music",
 	aliases: ["mv"],
 	argParser(str) {
 		const args = str.split(" ");

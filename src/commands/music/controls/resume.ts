@@ -6,6 +6,7 @@ const textcommand: ChatCommand = {
 	name: "resume",
 	description: "Press play!",
 	aliases: ["rs"],
+	category: "music",
 	execute: async function(command: ChatCommandExecute) {
 		try {
 			const player = getLavalinkPlayer(commandToLavaData(command));

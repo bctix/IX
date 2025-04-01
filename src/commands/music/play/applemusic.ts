@@ -16,6 +16,7 @@ const textcommand: ChatCommand = new ChatCommand(
                 required: true
             }
         ],
+        category: "music",
         argParser(str: string, message: Message) {
             return [str];
         },

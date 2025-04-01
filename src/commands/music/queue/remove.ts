@@ -14,6 +14,7 @@ const textcommand: ChatCommand = new ChatCommand({
 			type: ApplicationCommandOptionType.Integer,
 		},
 	],
+	category: "music",
 	aliases: ["rm"],
 	argParser(str) {
 		let val = Math.round(parseInt(str));

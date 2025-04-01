@@ -16,6 +16,7 @@ const textcommand: ChatCommand = new ChatCommand(
                 type: ApplicationCommandOptionType.String,
             },
         ],
+        category: "music",
         argParser(str, message) {
             return [str];
         },
