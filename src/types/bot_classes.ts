@@ -8,6 +8,7 @@ export class CustomClient extends Client {
     public categories: Collection<string, string[]>;
     public startDate: number;
     public lavalink!: LavalinkManager;
+    public isShuttingdown: boolean;
 
     constructor(options: any) {
         super(options);
@@ -15,6 +16,7 @@ export class CustomClient extends Client {
         this.contextmenucommands = new Collection();
         this.categories = new Collection();
         this.startDate = Date.now();
+        this.isShuttingdown = false;
     }
 }
 

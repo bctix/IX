@@ -26,6 +26,8 @@ export default {
 			embed.setDescription("I was disconnected from the vc!");
 			embed.setColor(Colors.Red);
 			break;
+		case "sigint":
+			break;
 		default:
 			embed.setTitle("Leaving VC");
 			embed.setDescription("Something happened to make me leave vc!");
