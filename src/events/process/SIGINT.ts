@@ -13,7 +13,7 @@ export default {
                 if(channel?.isSendable()) {
                     const embed = new EmbedBuilder();
                     embed.setTitle("Leaving VC!");
-                    embed.setDescription("Either something went really wrong, IX is updating!");
+                    embed.setDescription("Either something went really wrong, or IX is updating!");
 
                     await (channel as SendableChannels).send({embeds: [embed]});
                 }
