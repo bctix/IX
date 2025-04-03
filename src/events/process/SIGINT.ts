@@ -1,4 +1,4 @@
-import { EmbedBuilder, SendableChannels } from "discord.js";
+import { Colors, EmbedBuilder, SendableChannels } from "discord.js";
 import { CustomClient } from "../../types/bot_classes";
 
 export default {
@@ -14,6 +14,7 @@ export default {
                     const embed = new EmbedBuilder();
                     embed.setTitle("Leaving VC!");
                     embed.setDescription("Either something went really wrong, or IX is updating!");
+                    embed.setColor(Colors.Red);
 
                     await (channel as SendableChannels).send({embeds: [embed]});
                 }
