@@ -1,4 +1,4 @@
-import { Events } from "discord.js";
+import { ActivityType, Events } from "discord.js";
 import { CustomClient } from "../../types/bot_classes";
 import { deployApplicationCommands } from "../../utils/registry";
 import { initLavalink } from "../../utils/lavalink";
@@ -22,6 +22,18 @@ export default {
 		}
 
 		console.log("Success!");
+
+		Client.user?.setPresence({
+			status: "online",
+			activities: [
+				{
+					name: "awesome music",
+					state: ":)",
+					type: ActivityType.Streaming,
+					url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+				}
+			]
+		})
 
 		console.log("Bot is ready!");
 	},
