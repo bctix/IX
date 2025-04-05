@@ -7,8 +7,9 @@ const textcommand: ChatCommand = new ChatCommand(
     {
         name: "nowplaying",
         description: "whar?",
-        category: "music",
+        category: "music (info)",
         aliases: ["np"],
+        usage: "Display extra info about the current song.",
         async execute(command: ChatCommandExecute) {
             try {
                 const player = getLavalinkPlayer(commandToLavaData(command));

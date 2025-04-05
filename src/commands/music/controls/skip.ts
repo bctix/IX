@@ -16,7 +16,8 @@ const textcommand: ChatCommand = new ChatCommand(
                 type: ApplicationCommandOptionType.Integer,
             },
         ],
-        category: "music",
+        category: "music (controls)",
+        usage: "Skip the current song. If a position is given, skip to that song in the queue.",
         argParser(str) {
             return [parseInt(str)];
         },

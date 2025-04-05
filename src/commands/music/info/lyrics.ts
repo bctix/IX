@@ -7,8 +7,9 @@ const textcommand: ChatCommand = new ChatCommand(
     {
         name: "lyrics",
         description: "Say that again?",
-        category: "music",
+        category: "music (info)",
         aliases: ["ly"],
+        usage: "Display the lyrics of the current song, if available.",
         argParser(str) {
             return [str];
         },

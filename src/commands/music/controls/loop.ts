@@ -9,7 +9,7 @@ const textcommand: ChatCommand = new ChatCommand(
         aliases: ["l"],
         options: [
             {
-                name: "position",
+                name: "type",
                 description: "What song to skip.",
                 required: true,
                 default: 0,
@@ -21,7 +21,8 @@ const textcommand: ChatCommand = new ChatCommand(
                 type: ApplicationCommandOptionType.String,
             },
         ],
-        category: "music",
+        category: "music (controls)",
+        usage: "Sets the loop mode for the server.",
         argParser(str) {
             let type = str;
             if (["", "none", "0", "n", "off"].includes(type.toLowerCase())) type = "off";

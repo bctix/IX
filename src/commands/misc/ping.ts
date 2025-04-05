@@ -5,6 +5,7 @@ const textcommand: ChatCommand = new ChatCommand(
         name: "ping",
         description: "Ping pong!",
         category: "misc",
+        usage: "Sends back pong.",
         argParser(str) {
             return [str];
         },

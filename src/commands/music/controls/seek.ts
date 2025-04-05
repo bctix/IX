@@ -16,7 +16,8 @@ const textcommand: ChatCommand = new ChatCommand(
                 type: ApplicationCommandOptionType.String,
             },
         ],
-        category: "music",
+        category: "music (controls)",
+        usage: "Move to a specific time in the current song.",
         argParser(str) {
             return [str];
         },

@@ -21,8 +21,9 @@ const textcommand: ChatCommand = new ChatCommand({
 			type: ApplicationCommandOptionType.Integer,
 		},
 	],
-	category: "music",
+	category: "music (queue)",
 	aliases: ["mv"],
+	usage: "Moves a song to a new position in the queue.",
 	argParser(str) {
 		const args = str.split(" ");
 		if (args[0] == null || args[1] == null) return [null];

@@ -17,6 +17,7 @@ const textcommand: ChatCommand = new ChatCommand(
         ],
         aliases: ["eval"],
         category: "math",
+        usage: "Solves the mathematical expression given.",
         contexts: [InteractionContextType.PrivateChannel, InteractionContextType.Guild, InteractionContextType.BotDM],
         integrations: [ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall],
         argParser(str) {

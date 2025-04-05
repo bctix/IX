@@ -15,8 +15,9 @@ const textcommand: ChatCommand = new ChatCommand({
 			default: "",
 		},
 	],
-	category: "music",
+	category: "music (queue)",
 	aliases: ["lq"],
+	usage: "Loads a queue from a saved .ixqueue file.",
 	argParser(str, message) {
 		return [message.attachments.first()];
 	},

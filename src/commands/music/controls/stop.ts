@@ -7,7 +7,8 @@ const textcommand: ChatCommand = new ChatCommand(
         name: "stop",
         description: "All done?",
         aliases: ["st"],
-        category: "music",
+        category: "music (controls)",
+        usage: "Stops the song, clears the queue and leaves the vc.",
         async execute(command: ChatCommandExecute) {
             try {
                 const player = getLavalinkPlayer(commandToLavaData(command));

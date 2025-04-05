@@ -7,6 +7,7 @@ const textcommand: ChatCommand = new ChatCommand(
         name: "applemusic",
         description: "Play some tunes!",
         aliases: ["am"],
+        usage: "Identical to `play` but searches Apple Music.",
         options: [
             {
                 name: "query",
@@ -16,7 +17,7 @@ const textcommand: ChatCommand = new ChatCommand(
                 required: true
             }
         ],
-        category: "music",
+        category: "music (play)",
         argParser(str: string) {
             return [str];
         },

@@ -7,6 +7,7 @@ const textcommand: ChatCommand = new ChatCommand(
         name: "youtube",
         description: "Play some tunes!",
         aliases: ["yt"],
+        usage: "Identical to `play` but searches normal YouTube.",
         options: [
             {
                 name: "query",
@@ -16,7 +17,7 @@ const textcommand: ChatCommand = new ChatCommand(
                 required: true
             }
         ],
-        category: "music",
+        category: "music (play)",
         argParser(str: string) {
             return [str];
         },

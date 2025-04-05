@@ -6,7 +6,8 @@ const textcommand: ChatCommand = {
 	name: "pause",
 	description: "Don't pause!",
 	aliases: ["pa"],
-	category: "music",
+	category: "music (controls)",
+	usage: "Pauses the current song.",
 	execute: async function(command: ChatCommandExecute) {
 		try {
 			const player = getLavalinkPlayer(commandToLavaData(command));

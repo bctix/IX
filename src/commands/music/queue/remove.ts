@@ -14,8 +14,9 @@ const textcommand: ChatCommand = new ChatCommand({
 			type: ApplicationCommandOptionType.Integer,
 		},
 	],
-	category: "music",
+	category: "music (queue)",
 	aliases: ["rm"],
+	usage: "Removes the selected song from the queue.",
 	argParser(str) {
 		let val = Math.round(parseInt(str));
 		if (isNaN(val)) val = 0;

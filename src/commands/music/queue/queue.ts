@@ -16,7 +16,8 @@ const textcommand: ChatCommand = new ChatCommand(
                 required: false
             }
         ],
-        category: "music",
+        category: "music (queue)",
+        usage: "Displays the current queue for the server.",
         argParser(str: string) {
             const page = Math.round(parseInt(str));
 		    return [isNaN(page) ? 1 : page];
