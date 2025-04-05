@@ -69,22 +69,22 @@ export function commandToLavaData(command: ChatCommandExecute) : LavaData {
 	};
 }
 
-export function getLavalinkPlayer(lavadata: LavaData) : Player {
+export function getLavalinkPlayer(lavadata: LavaData, createPlayer = true) : Player | undefined {
 	const vc = lavadata.voiceChannel.channel;
 	if (!vc) throw new Error("You need to be in a VC! (or i dont have access to it!)");
 	if (!vc.joinable) throw new Error("I cannot join your vc!");
 
-	const player =
-    lavadata.client.lavalink.getPlayer(vc.guildId) || (
-    	lavadata.client.lavalink.createPlayer({
-    		guildId: vc.guildId,
-    		voiceChannelId: (lavadata.voiceChannel.channelId as string),
-    		textChannelId: lavadata.textChannelId,
-    		selfDeaf: true,
-    		selfMute: false,
-    		volume: 50,
-    	})
-    );
+	const player = lavadata.client.lavalink.getPlayer(vc.guildId);
+	if (!player && createPlayer) {
+		return lavadata.client.lavalink.createPlayer({
+			guildId: vc.guildId,
+			voiceChannelId: (lavadata.voiceChannel.channelId as string),
+			textChannelId: lavadata.textChannelId,
+			selfDeaf: true,
+			selfMute: false,
+			volume: 50,
+		});
+	}
 
 	return player;
 }

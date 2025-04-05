@@ -28,6 +28,11 @@ export default {
 			break;
 		case "sigint":
 			break;
+		case "EmptyVc":
+			embed.setTitle("Leaving VC");
+			embed.setDescription("I was left alone in the vc!");
+			embed.setColor(Colors.Red);
+			break;
 		default:
 			embed.setTitle("Leaving VC");
 			embed.setDescription("Something happened to make me leave vc!");
