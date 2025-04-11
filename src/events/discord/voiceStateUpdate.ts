@@ -4,7 +4,7 @@ import { getLavalinkPlayer } from "../../utils/lavalink";
 
 export default {
 	name: Events.VoiceStateUpdate,
-	async execute(Client: CustomClient, oldState: VoiceState, newState: VoiceState) {
+	async execute(Client: CustomClient, oldState: VoiceState) {
 
 		if (!Client.lavalink || !oldState.channel) return;
 
@@ -17,7 +17,7 @@ export default {
 		if (!player.voiceChannelId) return;
 		if (player.voiceChannelId !== oldState.channelId) return;
 
-		if (checkEmptyVc(oldState, newState)) {
+		if (checkEmptyVc(oldState)) {
 			if (oldState.channel.members.size <= 1) {
 				player.destroy("EmptyVc");
 				return;
@@ -26,13 +26,12 @@ export default {
 	},
 };
 
-function checkEmptyVc(oldState: VoiceState, newState: VoiceState) {
+function checkEmptyVc(oldState: VoiceState) {
 	const oldChannel = oldState.channel as VoiceChannel;
-	const newChannel = newState.channel as VoiceChannel;
 
 	// Get channel count WITHOUT bots
 	let oldChannelCount = 0;
-	for (const [key, value] of oldChannel.members) {
+	for (const [, value] of oldChannel.members) {
 		if (!value.user.bot) {
 			oldChannelCount++;
 		}
