@@ -9,7 +9,7 @@
     "dev": "npm run build && npm run start"
   },
   "author": "bctix",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "ts-node": "^10.9.2",
     "typescript": "^5.8.2"
