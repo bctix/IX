@@ -2,7 +2,7 @@ import { GuildMember } from "discord.js";
 import { ChatCommand, ChatCommandExecute } from "../../../types/bot_classes";
 import { getLavalinkPlayer, commandToLavaData } from "../../../utils/lavalink";
 
-const textcommand: ChatCommand = {
+const textcommand: ChatCommand = new ChatCommand({
 	name: "pause",
 	description: "Don't pause!",
 	aliases: ["pa"],
@@ -26,6 +26,6 @@ const textcommand: ChatCommand = {
 			console.error(e);
 		}
 	},
-};
+});
 
 export default textcommand;

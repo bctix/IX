@@ -22,6 +22,7 @@ const textcommand: ChatCommand = new ChatCommand(
                     const command = execute.client.chatcommands.get(commandName);
                     if (!command) return;
                     if (command.devOnly) return;
+                    if (command.isAlias) return;
 
                     let optionsStr = "";
                     command.options?.forEach((option) => {
