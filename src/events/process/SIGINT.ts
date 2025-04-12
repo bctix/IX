@@ -1,11 +1,13 @@
 import { Colors, EmbedBuilder, SendableChannels } from "discord.js";
 import { CustomClient } from "../../types/bot_classes";
+import { printLine } from "../../utils/utils";
 
 export default {
     name: "SIGINT",
     async execute(Client: CustomClient) {
         if(!Client.isShuttingdown) Client.isShuttingdown = true;
         else return;
+        printLine(`<r>sigint received running shut down stuff.`);
         for(const player of Client.lavalink.players.values()) {
             if(player.textChannelId !== null)
             {
@@ -22,6 +24,7 @@ export default {
             await player.destroy("sigint", true);
         }
         
+        printLine(`<r>Completed, shutting down.\n`);
         
         process.exit(0);
     },
