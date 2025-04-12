@@ -1,6 +1,59 @@
 import { resolveColor, ColorResolvable } from "discord.js";
 import Vibrant from "node-vibrant/node";
+import chalk, { Chalk } from "chalk";
 
+// ------- Logging Functions -------- //
+
+const styles: Record<string, keyof typeof chalk> = {
+	b: "blue",
+	i: "italic",
+	y: "yellow",
+	r: "red",
+	g: "green",
+	bold: "bold",
+	u: "underline"
+  };
+
+function colorizeStringSingleTag(inputString: string) {
+	let outputString = "";
+	let currentStyle = chalk.reset;
+  
+	for (let i = 0; i < inputString.length; i++) {
+	  if (inputString.startsWith("<", i) && inputString.includes(">", i)) {
+		const closingTagIndex = inputString.indexOf(">", i);
+		const tag = inputString.substring(i + 1, closingTagIndex);
+  
+		if (Object.prototype.hasOwnProperty.call(styles, tag)) {
+		  const style = chalk[styles[tag] as keyof typeof chalk];
+		  currentStyle = typeof style === "function" ? (style as Chalk) : chalk.reset; 
+		  i = closingTagIndex;
+		} else if (tag === "r") {
+		  currentStyle = chalk.reset;
+		  i = closingTagIndex;
+		} else {
+		  // Treat unknown tags as plain text
+		  outputString += inputString[i];
+		}
+	  } else {
+		outputString += currentStyle(inputString[i]);
+	  }
+	}
+  
+	return outputString;
+}
+
+export function print(message?: string) {
+	if(message) process.stdout.write(colorizeStringSingleTag(message));
+}
+
+export function printLine(message?: string) {
+	if (!message) process.stdout.write("\n");
+	else process.stdout.write("\n"+colorizeStringSingleTag(message));
+}
+
+export function clearLine() {
+	process.stdout.write("\r\x1b[K");
+}
 
 // --------- Math functions --------- //
 

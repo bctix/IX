@@ -50,8 +50,6 @@ export async function initLavalink(client: CustomClient) {
 	});
 
 	client.lavalink = lavalink;
-
-	console.log("Started lavalink!");
 }
 
 export function commandToLavaData(command: ChatCommandExecute) : LavaData {
