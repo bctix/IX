@@ -1,6 +1,7 @@
 import { ApplicationCommandOptionType, Colors, EmbedBuilder, GuildMember } from 'discord.js';
 import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../../types/bot_classes';
 import { getLavalinkPlayer, commandToLavaData } from '../../../utils/lavalink';
+import { msToTime } from '../../../utils/utils';
 
 const textcommand: ChatCommand = new ChatCommand(
     {
@@ -36,6 +37,7 @@ const textcommand: ChatCommand = new ChatCommand(
                 const tracks = player.queue.tracks;
     
                 let queuestring = "";
+                let queueTime = 0;
     
                 const pageCount = Math.ceil((tracks.length + 1) / 10);
                 if (desiredPage > pageCount) desiredPage = pageCount;
@@ -45,18 +47,20 @@ const textcommand: ChatCommand = new ChatCommand(
     
                 for (let pageIdx = 0; pageIdx < pageCount; pageIdx++) {
                     const pagelist = [];
-                    for (let i = 0; i < 9; i++) {
+                    for (let i = 0; i < 10; i++) {
                         if (tracks[i + pageIdx * 10] == null) break;
                         const track = tracks[i + pageIdx * 10];
-    
+                        queueTime += track.info.duration ? track.info.duration : 0;
                         pagelist.push(track);
                     }
                     pagedQueue.push(pagelist);
                 }
+
+                queuestring += `Queue runtime:\n${msToTime(queueTime)}\n\n`
     
                 for (let i = 0; i < pagedQueue[desiredPage].length; i++) {
                     let songNumber = i + desiredPage * 10;
-                    if (desiredPage >= 1) songNumber++;
+                    if (desiredPage >= 1) songNumber++; 
                     const songTrack = pagedQueue[desiredPage][i];
                     queuestring += `${songNumber}. [${songTrack.info.title}](${songTrack.info.uri})\n`;
                 }
@@ -67,7 +71,7 @@ const textcommand: ChatCommand = new ChatCommand(
                     .setDescription(
                         `\`Page ${desiredPage + 1} / ${pagedQueue.length}\` (${tracks.length} songs...)\n\n${queuestring}`,
                     )
-                    .setFooter({ text: "Loop: " + player.repeatMode })
+                    .setFooter({ text: `Loop: ${player.repeatMode} | Queue history: ${player.queue.previous.length}` })
                     .setColor(Colors.Purple);
     
                 await command.data.reply({ embeds:[queueEmbed] });

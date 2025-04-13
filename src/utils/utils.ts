@@ -71,8 +71,8 @@ export function msToTime(s: number) {
 	const mins = s % 60;
 	const hrs = (s - mins) / 60;
 	let str = "";
-	if (hrs !== 0) {str += hrs + ":";}
-	str += mins + ":";
+	if (hrs !== 0) {str += (hrs < 10 ? "0" + hrs + ":" : hrs + ":");}
+	str += (mins < 10 ? "0" + mins + ":" : mins + ":");;
 	if (secs < 10) str += "0";
 	str += secs;
 	return str;
