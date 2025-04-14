@@ -7,17 +7,18 @@ import { printLine, print } from "../../utils/utils";
 export default {
 	name: Events.ClientReady,
 	async execute(Client: CustomClient) {
-		print("<g>logged in as <b>"+Client.user?.username+"<g> with prefix: <b>"+process.env.PREFIX);
+		// print("{green logged in as} {bold.blue "+Client.user?.username+"} {green with prefix:} {bold.blue "+process.env.PREFIX+"}");
+		print(` {green Logged in as} {bold.blue ${Client.user?.username}} {green with prefix:} {bold.blue ${process.env.PREFIX}}`)
 
-		printLine("<y>Deploying application commands... ")
+		printLine("{yellow Deploying application commands...} ")
 		try {
 			await deployApplicationCommands(Client);
-			print(`<g>Complete! <b>${Client.chatcommands.filter(cmd => !cmd.isAlias).size} <g>commands registered.`);
+			print(`{green Complete!} {bold.blue ${Client.chatcommands.filter(cmd => !cmd.isAlias).size}} {green commands registered.}`);
 			if (Client.user)
 			{
-				printLine("<y>Starting lavalink... ");
+				printLine("{yellow Starting lavalink...} ");
 				await initLavalink(Client);
-				print(`<g>Complete <b>${Client.lavalink.nodeManager.nodes.size} <g>nodes connected.`);
+				print(`{green Complete} {blue.bold ${Client.lavalink.nodeManager.nodes.size}} {green nodes connected.}`);
 			}
 		}
 		catch (e) {
@@ -36,6 +37,6 @@ export default {
 			]
 		})
 
-		printLine("<g>Bot is ready!");
+		printLine("{underline.bold.green Bot is ready!}");
 	},
 };

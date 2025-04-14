@@ -7,7 +7,7 @@ export default {
     async execute(Client: CustomClient) {
         if(!Client.isShuttingdown) Client.isShuttingdown = true;
         else return;
-        printLine(`<r>sigint received running shut down stuff.`);
+        printLine(`{red sigint received running shut down stuff.}`);
         for(const player of Client.lavalink.players.values()) {
             if(player.textChannelId !== null)
             {
@@ -24,7 +24,7 @@ export default {
             await player.destroy("sigint", true);
         }
         
-        printLine(`<r>Completed, shutting down.\n`);
+        printLine(`{bold.red Completed, shutting down.}\n`);
         
         process.exit(0);
     },

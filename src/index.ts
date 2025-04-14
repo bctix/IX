@@ -14,7 +14,7 @@ async function main() {
   await registerEvents(process, client, "../events/process");
   await registerTextCommands(client, "../commands");
 
-  printLine("<y>Starting bot... ")
+  printLine("{yellow Starting bot...}")
   await client.login(process.env.DISCORD_TOKEN);
 }
 

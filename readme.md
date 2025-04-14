@@ -7,3 +7,5 @@ APIs/Packages:
 - [mathjs](https://github.com/josdejong/mathjs): For math commands
 - [cataas](https://cataas.com/): For cat command
 - [boccher](https://boccher.pixelboom.dev/): For random bocchi frame
+- [chalk-template](https://github.com/chalk/chalk-template/blob/main/index.js)
+- [chalk](https://github.com/chalk/chalk)   
