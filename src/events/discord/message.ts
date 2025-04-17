@@ -22,7 +22,7 @@ export default {
 
 		if (!command) return;
 		if (!message.member) { message.reply("Something went wrong!"); return; }
-		if (command.devOnly && devs.includes(message.member.user.id)) return;
+		if (command.devOnly && !devs.includes(message.member.user.id)) return;
 
 		let args: string[] = [];
 
