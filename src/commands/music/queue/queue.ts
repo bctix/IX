@@ -55,14 +55,12 @@ const textcommand: ChatCommand = new ChatCommand(
                     }
                     pagedQueue.push(pagelist);
                 }
-
-                queuestring += `Queue runtime:\n${msToTime(queueTime)}\n\n`
     
                 for (let i = 0; i < pagedQueue[desiredPage].length; i++) {
                     let songNumber = i + desiredPage * 10;
                     if (desiredPage >= 1) songNumber++; 
                     const songTrack = pagedQueue[desiredPage][i];
-                    queuestring += `${songNumber}. [${songTrack.info.title}](${songTrack.info.uri})\n`;
+                    queuestring += `${songNumber}. [${songTrack.info.title}${songTrack.info.author ? ` - ${songTrack.info.author}` : "Unknown"}](${songTrack.info.uri})\n`;
                 }
     
                 if (queuestring.length == 0) queuestring = "None!";
@@ -71,7 +69,7 @@ const textcommand: ChatCommand = new ChatCommand(
                     .setDescription(
                         `\`Page ${desiredPage + 1} / ${pagedQueue.length}\` (${tracks.length} songs...)\n\n${queuestring}`,
                     )
-                    .setFooter({ text: `Loop: ${player.repeatMode} | Queue history: ${player.queue.previous.length}` })
+                    .setFooter({ text: `Loop: ${player.repeatMode} | Queue history: ${player.queue.previous.length} | Queue length: ${msToTime(queueTime)}`})
                     .setColor(Colors.Purple);
     
                 await command.data.reply({ embeds:[queueEmbed] });
