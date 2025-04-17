@@ -4,7 +4,7 @@ import path from "path";
 import { ChatCommand, ContextCommand, CustomClient } from "../types/bot_classes";
 import { APIApplicationCommandOptionChoice, ApplicationCommandOptionType, ContextMenuCommandBuilder, REST, Routes, SlashCommandBuilder } from "discord.js";
 
-export async function registerTextCommands(client: CustomClient, ...dirs: string[]) {
+export async function registerCommands(client: CustomClient, ...dirs: string[]) {
     dirs.forEach(async (dir) => {
         const files = await fs.promises.readdir(path.join(__dirname, dir));
 
@@ -12,7 +12,7 @@ export async function registerTextCommands(client: CustomClient, ...dirs: string
             const file = files[idx];
             const stat = await fs.promises.lstat(path.join(__dirname, dir, file));
             if (stat.isDirectory()) {
-                registerTextCommands(client, path.join(dir, file));
+                registerCommands(client, path.join(dir, file));
             } else {
                 if (!file.endsWith(".js")) continue;
                 const cmdModule = (await import(path.resolve(__dirname, dir, file))).default;
@@ -165,8 +165,7 @@ export async function deployApplicationCommands(client:CustomClient) {
 		const builtCommands: any[] = [];
 
 		client.chatcommands.forEach(command => {
-			if (command.noSlash) return;
-			if (command.isAlias) return;
+			if (command.noSlash || command.devOnly || command.isAlias) return;
 
 			const slashCommand = new SlashCommandBuilder();
 			slashCommand.setName(command.name);
