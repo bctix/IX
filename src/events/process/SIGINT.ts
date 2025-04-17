@@ -8,21 +8,25 @@ export default {
         if(!Client.isShuttingdown) Client.isShuttingdown = true;
         else return;
         printLine(`{red sigint received running shut down stuff.}`);
-        for(const player of Client.lavalink.players.values()) {
-            if(player.textChannelId !== null)
-            {
-                const channel = Client.channels.cache.get(player.textChannelId);
-                if(channel?.isSendable()) {
-                    const embed = new EmbedBuilder();
-                    embed.setTitle("Leaving VC!");
-                    embed.setDescription("Either something went really wrong, or IX is updating!");
-                    embed.setColor(Colors.Red);
 
-                    await (channel as SendableChannels).send({embeds: [embed]});
+        if (Client.lavalink) {
+            for(const player of Client.lavalink.players.values()) {
+                if(player.textChannelId !== null)
+                {
+                    const channel = Client.channels.cache.get(player.textChannelId);
+                    if(channel?.isSendable()) {
+                        const embed = new EmbedBuilder();
+                        embed.setTitle("Leaving VC!");
+                        embed.setDescription("Either something went really wrong, or IX is updating!");
+                        embed.setColor(Colors.Red);
+    
+                        await (channel as SendableChannels).send({embeds: [embed]});
+                    }
                 }
+                await player.destroy("sigint", true);
             }
-            await player.destroy("sigint", true);
         }
+        
         
         printLine(`{bold.red Completed, shutting down.}\n`);
         

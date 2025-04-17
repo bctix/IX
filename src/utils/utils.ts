@@ -41,7 +41,8 @@ export function msToTime(s: number) {
 
 // --------- Misc functions --------- //
 
-export function parseBool(str: string): boolean {
+export function parseBool(str: string | undefined): boolean {
+	if (!str) return false;
 	if (str.toLowerCase() === "true") { return true; }
 	else if (str.toLowerCase() === "false") { return false; }
 	else { throw new Error("Invalid boolean string"); }
