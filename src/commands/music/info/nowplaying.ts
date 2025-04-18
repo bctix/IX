@@ -1,7 +1,7 @@
-import { Colors, EmbedBuilder, GuildMember, hyperlink, User } from 'discord.js';
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../../types/bot_classes';
-import { commandToLavaData, getLavalinkPlayer } from '../../../utils/lavalink';
-import { generateProgressBar, getVibrantColorToDiscord, msToTime } from '../../../utils/utils';
+import { Colors, EmbedBuilder, GuildMember, hyperlink, User } from "discord.js";
+import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../../types/bot_classes";
+import { commandToLavaData, getLavalinkPlayer } from "../../../utils/lavalink";
+import { generateProgressBar, getVibrantColorToDiscord, msToTime } from "../../../utils/utils";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
@@ -33,15 +33,14 @@ const textcommand: ChatCommand = new ChatCommand(
                     { name: "\t", value: "\t", inline: false },
                     { name: "Requestor", value: `<@${(track.requester as User).id}>`, inline: true },
                     { name: "Progress", value: `\`${msToTime(player.position)}\` - ${generateProgressBar(player.position / track.info.duration)} - \`${msToTime(track.info.duration)}\``, inline: false },
-                )
+                );
 
                 if (track.info.artworkUrl) {
                     embed.setThumbnail(track.info.artworkUrl);
     
                     try {
                         embed.setColor(await getVibrantColorToDiscord(track.info.artworkUrl));
-                    }
-                    catch {
+                    } catch {
                         embed.setColor(Colors.Green);
                     }
                 }

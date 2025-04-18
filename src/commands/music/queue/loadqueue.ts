@@ -56,8 +56,7 @@ const textcommand: ChatCommand = new ChatCommand({
 			if (!player.playing) await player.play();
 
 			await command.data.reply("Added local queue!");
-		}
-		catch (e) {
+		} catch (e) {
 			console.error(e);
 		}
 	},

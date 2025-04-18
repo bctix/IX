@@ -1,7 +1,7 @@
-import { fetch } from 'undici';
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../types/bot_classes';
-import { Colors, EmbedBuilder } from 'discord.js';
-import { msToTime } from '../../utils/utils';
+import { fetch } from "undici";
+import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../types/bot_classes";
+import { Colors, EmbedBuilder } from "discord.js";
+import { msToTime } from "../../utils/utils";
 
 const textcommand: ChatCommand = new ChatCommand(
     {

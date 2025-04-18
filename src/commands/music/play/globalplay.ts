@@ -60,10 +60,8 @@ export default {
 				}
 
 				await command.data.reply({ embeds: [embed] });
-			}
-			else if (!command.isMessage) {await (command.data as ChatInputCommandInteraction).reply({ content: "Playing your song", flags: MessageFlags.Ephemeral });}
-		}
-		catch (e) {
+			} else if (!command.isMessage) {await (command.data as ChatInputCommandInteraction).reply({ content: "Playing your song", flags: MessageFlags.Ephemeral });}
+		} catch (e) {
 			console.error(e);
 		}
 	},

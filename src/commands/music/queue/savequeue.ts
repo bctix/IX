@@ -33,8 +33,7 @@ const textcommand: ChatCommand = new ChatCommand({
 			const compressedstring = compressToUint8Array(queuestring);
 			const buffer = Buffer.from(compressedstring);
 			await command.data.reply({ content: "Heres your queue!", files: [new AttachmentBuilder(buffer, { name: "queue.ixqueue" })] });
-		}
-		catch (e) {
+		} catch (e) {
 			console.error(e);
 		}
 	},

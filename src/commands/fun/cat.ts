@@ -1,6 +1,6 @@
-import { fetch } from 'undici';
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../types/bot_classes';
-import { Colors, EmbedBuilder } from 'discord.js';
+import { fetch } from "undici";
+import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../types/bot_classes";
+import { Colors, EmbedBuilder } from "discord.js";
 
 const textcommand: ChatCommand = new ChatCommand(
     {

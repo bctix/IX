@@ -1,6 +1,6 @@
-import { ApplicationCommandOptionType } from 'discord.js';
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../types/bot_classes';
-import { randomInt } from 'mathjs';
+import { ApplicationCommandOptionType } from "discord.js";
+import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../types/bot_classes";
+import { randomInt } from "mathjs";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
@@ -29,7 +29,7 @@ const textcommand: ChatCommand = new ChatCommand(
             const minNumber = parseInt(split[0]);
             const maxNumber = parseInt(split[1]);
 
-            if (!maxNumber) return [1, isNaN(minNumber) ? 6 : minNumber]
+            if (!maxNumber) return [1, isNaN(minNumber) ? 6 : minNumber];
             else return [isNaN(minNumber) ? 1 : minNumber, isNaN(maxNumber) ? 6 : maxNumber];
         },
         async execute(command: ChatCommandExecute) {

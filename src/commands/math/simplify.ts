@@ -1,6 +1,6 @@
-import { ApplicationCommandOptionType, ApplicationIntegrationType, InteractionContextType } from 'discord.js';
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../types/bot_classes';
-import { create, all, ConfigOptions } from 'mathjs';
+import { ApplicationCommandOptionType, ApplicationIntegrationType, InteractionContextType } from "discord.js";
+import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../types/bot_classes";
+import { create, all, ConfigOptions } from "mathjs";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
@@ -41,8 +41,7 @@ const textcommand: ChatCommand = new ChatCommand(
                 const final = math.simplify(expre);
     
                 await command.data.reply(final.toString());
-            }
-            catch {
+            } catch {
                 await command.data.reply("Something went wrong trying to solve your problem. Did you type it right?");
             }
         },

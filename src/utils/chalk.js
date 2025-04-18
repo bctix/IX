@@ -1,4 +1,4 @@
-// eslint-disable-next-line unicorn/import-style
+/* eslint-disable */
 
 /* https://github.com/chalk/chalk-template/blob/main/index.js */
 
@@ -59,11 +59,8 @@ function parseArguments(name, arguments_) {
 function parseHex(hex) {
 	const n = Number.parseInt(hex, 16);
 	return [
-		// eslint-disable-next-line no-bitwise
 		(n >> 16) & 0xFF,
-		// eslint-disable-next-line no-bitwise
 		(n >> 8) & 0xFF,
-		// eslint-disable-next-line no-bitwise
 		n & 0xFF,
 	];
 }
@@ -126,7 +123,6 @@ export function makeTemplate(chalk) {
 		const chunks = [];
 		let chunk = [];
 
-		// eslint-disable-next-line max-params
 		string.replace(TEMPLATE_REGEX, (_, escapeCharacter, inverse, style, close, character) => {
 			if (escapeCharacter) {
 				chunk.push(unescape(escapeCharacter));

@@ -23,8 +23,7 @@ const textcommand: ChatCommand = new ChatCommand({
 			await player.play({ clientTrack: previous });
 
 			await command.data.reply({ content: "Playing previous song!" });
-		}
-		catch (e) {
+		} catch (e) {
 			console.error(e);
 		}
 	},

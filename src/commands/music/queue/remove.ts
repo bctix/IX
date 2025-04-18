@@ -45,8 +45,7 @@ const textcommand: ChatCommand = new ChatCommand({
 			if (removedTrack.info.artworkUrl) {embed.setThumbnail(removedTrack.info.artworkUrl);}
 
 			await command.data.reply({ embeds:[embed] });
-		}
-		catch (e) {
+		} catch (e) {
 			console.error(e);
 		}
 	},

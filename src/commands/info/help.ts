@@ -1,5 +1,5 @@
-import { EmbedBuilder } from 'discord.js';
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../types/bot_classes';
+import { EmbedBuilder } from "discord.js";
+import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../types/bot_classes";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
@@ -30,11 +30,11 @@ const textcommand: ChatCommand = new ChatCommand(
                     });
 
                     valueStr += `\\- \`${command.name}\` ${command.aliases ? `[\`${command.aliases.join("`")}\`]` : ""} ${optionsStr !== "" ? `(${optionsStr})` : ""} - ${command.usage}\n`;
-                })
+                });
 
                 embed.addFields({ name: `>> ${category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()} <<`, value: valueStr });
                 
-            })
+            });
 
             execute.data.reply({embeds: [embed]});
         },

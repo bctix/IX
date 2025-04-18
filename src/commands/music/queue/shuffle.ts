@@ -20,8 +20,7 @@ const textcommand: ChatCommand = new ChatCommand({
 			await player.queue.shuffle();
 
 			await command.data.reply("Shuffled queue!");
-		}
-		catch (e) {
+		} catch (e) {
 			console.error(e);
 		}
 	},

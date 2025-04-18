@@ -1,6 +1,6 @@
-import { ApplicationCommandOptionType, GuildMember } from 'discord.js';
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../../types/bot_classes';
-import { getLavalinkPlayer, commandToLavaData } from '../../../utils/lavalink';
+import { ApplicationCommandOptionType, GuildMember } from "discord.js";
+import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../../types/bot_classes";
+import { getLavalinkPlayer, commandToLavaData } from "../../../utils/lavalink";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
@@ -46,8 +46,7 @@ const textcommand: ChatCommand = new ChatCommand(
                 await player.seek(posSeconds * 1000);
 
                 await command.data.reply("Moved to " + position);
-            }
-            catch (e) {
+            } catch (e) {
                 console.error(e);
             }
         },

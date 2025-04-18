@@ -17,12 +17,10 @@ const textcommand: ChatCommand = new ChatCommand({
 			if (!player) {command.data.reply("I couldn't get what vc you're in!"); return;}
 			if (player.voiceChannelId !== vcId) {command.data.reply("You need to be in my vc!"); return;}
 
-			if (!player.paused) { await player.pause(); }
-			else { command.data.reply("I'm already paused!"); return; }
+			if (!player.paused) { await player.pause(); } else { command.data.reply("I'm already paused!"); return; }
 
 			await command.data.reply("Paused song!");
-		}
-		catch (e) {
+		} catch (e) {
 			console.error(e);
 		}
 	},

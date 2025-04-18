@@ -78,8 +78,7 @@ async function registerTextCommand(client:CustomClient, cmdModule: ChatCommand) 
 		cmdModule.aliases.forEach((alias: string) => {
 			if (client.chatcommands.has(alias)) {
 				console.warn(`The command alias '${alias}' has already been added.`);
-			}
-			else {
+			} else {
 				const cmdClone = Object.assign({}, cmdModule);
 				cmdClone.isAlias = true;
 				client.chatcommands.set(alias, cmdClone);
@@ -133,8 +132,7 @@ export async function removeSlashCommands(client:CustomClient) {
 			Routes.applicationCommands(client.user.id),
 			{ body: [] },
 		);
-	}
-	catch (error) {
+	} catch (error) {
 		console.error(error);
 	}
 }
@@ -250,8 +248,7 @@ export async function deployApplicationCommands(client:CustomClient) {
 			Routes.applicationCommands(client.user.id),
 			{ body: builtCommands },
 		);
-	}
-	catch (error) {
+	} catch (error) {
 		// And of course, make sure you catch and log any errors!
 		console.error(error);
 	}

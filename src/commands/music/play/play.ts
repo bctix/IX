@@ -1,6 +1,6 @@
-import { ApplicationCommandOptionType } from 'discord.js';
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../../types/bot_classes';
-import globalplay from './globalplay';
+import { ApplicationCommandOptionType } from "discord.js";
+import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../../types/bot_classes";
+import globalplay from "./globalplay";
 
 const textcommand: ChatCommand = new ChatCommand(
     {

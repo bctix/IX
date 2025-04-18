@@ -11,8 +11,7 @@ export default {
 
 			try {
 				command.execute(Client, interaction);
-			}
-			catch (e) {
+			} catch (e) {
 				console.error(e);
 			}
 		}
@@ -25,8 +24,7 @@ export default {
 
 			try {
 				command.execute(new ChatCommandExecute(Client, command, interaction));
-			}
-			catch (e) {
+			} catch (e) {
 				console.error(e);
 			}
 		}

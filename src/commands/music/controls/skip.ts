@@ -1,6 +1,6 @@
-import { ApplicationCommandOptionType,GuildMember } from 'discord.js';
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../../types/bot_classes';
-import { getLavalinkPlayer, commandToLavaData } from '../../../utils/lavalink';
+import { ApplicationCommandOptionType,GuildMember } from "discord.js";
+import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../../types/bot_classes";
+import { getLavalinkPlayer, commandToLavaData } from "../../../utils/lavalink";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
@@ -35,8 +35,7 @@ const textcommand: ChatCommand = new ChatCommand(
                 await player.skip(position);
 
                 await command.data.reply("Skipped song!");
-            }
-            catch (e) {
+            } catch (e) {
                 console.error(e);
             }
         },

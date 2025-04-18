@@ -10,11 +10,11 @@ const client = new CustomClient(
 );
 
 async function main() {
-  await registerEvents(client, client, "../events/discord")
+  await registerEvents(client, client, "../events/discord");
   await registerEvents(process, client, "../events/process");
   await registerCommands(client, "../commands");
 
-  printLine("{yellow Starting bot...}")
+  printLine("{yellow Starting bot...}");
   await client.login(process.env.DISCORD_TOKEN);
 }
 

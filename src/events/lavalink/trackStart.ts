@@ -29,8 +29,7 @@ export default {
 			embed.setThumbnail(track.info.artworkUrl);
 			try {
 				embed.setColor(await getVibrantColorToDiscord(track.info.artworkUrl));
-			}
-			catch (error) {
+			} catch (error) {
 				console.error("Error fetching vibrant color:", error);
 			}
 		}

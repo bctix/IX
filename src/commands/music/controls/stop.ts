@@ -1,6 +1,6 @@
-import { ChatInputCommandInteraction, GuildMember, MessageFlags } from 'discord.js';
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../../types/bot_classes';
-import { getLavalinkPlayer, commandToLavaData } from '../../../utils/lavalink';
+import { ChatInputCommandInteraction, GuildMember, MessageFlags } from "discord.js";
+import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../../types/bot_classes";
+import { getLavalinkPlayer, commandToLavaData } from "../../../utils/lavalink";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
@@ -22,8 +22,7 @@ const textcommand: ChatCommand = new ChatCommand(
     
                 // Only reply if its a interaction to prevent the error message
                 if (!command.isMessage) {await (command.data as ChatInputCommandInteraction).reply({ content: "Stopped playing!", flags: MessageFlags.Ephemeral });}
-            }
-            catch (e) {
+            } catch (e) {
                 console.error(e);
             }
         },

@@ -1,4 +1,4 @@
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../types/bot_classes';
+import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../types/bot_classes";
 
 const textcommand: ChatCommand = new ChatCommand(
     {

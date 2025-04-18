@@ -1,7 +1,7 @@
-import { ApplicationCommandOptionType, Colors, EmbedBuilder, GuildMember } from 'discord.js';
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../../types/bot_classes';
-import { getLavalinkPlayer, commandToLavaData } from '../../../utils/lavalink';
-import { msToTime } from '../../../utils/utils';
+import { ApplicationCommandOptionType, Colors, EmbedBuilder, GuildMember } from "discord.js";
+import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../../types/bot_classes";
+import { getLavalinkPlayer, commandToLavaData } from "../../../utils/lavalink";
+import { msToTime } from "../../../utils/utils";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
@@ -73,8 +73,7 @@ const textcommand: ChatCommand = new ChatCommand(
                     .setColor(Colors.Purple);
     
                 await command.data.reply({ embeds:[queueEmbed] });
-            }
-            catch (e) {
+            } catch (e) {
                 console.error(e);
             }
         },

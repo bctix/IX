@@ -7,12 +7,11 @@ export default {
     async execute(Client: CustomClient) {
         if(!Client.isShuttingdown) Client.isShuttingdown = true;
         else return;
-        printLine(`{red sigint received running shut down stuff.}`);
+        printLine("{red sigint received running shut down stuff.}");
 
         if (Client.lavalink) {
             for(const player of Client.lavalink.players.values()) {
-                if(player.textChannelId !== null)
-                {
+                if(player.textChannelId !== null) {
                     const channel = Client.channels.cache.get(player.textChannelId);
                     if(channel?.isSendable()) {
                         const embed = new EmbedBuilder();
@@ -28,7 +27,7 @@ export default {
         }
         
         
-        printLine(`{bold.red Completed, shutting down.}\n`);
+        printLine("{bold.red Completed, shutting down.}\n");
         
         process.exit(0);
     },

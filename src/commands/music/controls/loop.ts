@@ -1,6 +1,6 @@
-import { ApplicationCommandOptionType, Colors, EmbedBuilder, GuildMember } from 'discord.js';
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../../types/bot_classes';
-import { getLavalinkPlayer, commandToLavaData } from '../../../utils/lavalink';
+import { ApplicationCommandOptionType, Colors, EmbedBuilder, GuildMember } from "discord.js";
+import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../../types/bot_classes";
+import { getLavalinkPlayer, commandToLavaData } from "../../../utils/lavalink";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
@@ -48,8 +48,7 @@ const textcommand: ChatCommand = new ChatCommand(
                     .setColor(Colors.Blurple);
 
 			await command.data.reply({ embeds: [embed] });
-            }
-            catch (e) {
+            } catch (e) {
                 console.error(e);
             }
         },

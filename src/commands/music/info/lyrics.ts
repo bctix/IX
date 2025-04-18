@@ -1,7 +1,7 @@
-import { EmbedBuilder, GuildMember } from 'discord.js';
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from '../../../types/bot_classes';
-import { getLavalinkPlayer, commandToLavaData } from '../../../utils/lavalink';
-import { getVibrantColorToDiscord } from '../../../utils/utils';
+import { EmbedBuilder, GuildMember } from "discord.js";
+import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../../types/bot_classes";
+import { getLavalinkPlayer, commandToLavaData } from "../../../utils/lavalink";
+import { getVibrantColorToDiscord } from "../../../utils/utils";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
@@ -53,7 +53,7 @@ const textcommand: ChatCommand = new ChatCommand(
 			await command.data.reply({ embeds: [embed] });
            } catch (e) {
             command.data.reply("Something went wrong.");
-            console.error(e)
+            console.error(e);
            }
         },
     } as ChatCommandOptions

@@ -31,8 +31,7 @@ const textcommand: ChatCommand = new ChatCommand({
 			
 
 			await command.data.reply({ embeds:[embed] });
-		}
-		catch (e) {
+		} catch (e) {
 			console.error(e);
 		}
 	},

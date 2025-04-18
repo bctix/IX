@@ -8,20 +8,18 @@ export default {
 	name: Events.ClientReady,
 	async execute(Client: CustomClient) {
 		// print("{green logged in as} {bold.blue "+Client.user?.username+"} {green with prefix:} {bold.blue "+process.env.PREFIX+"}");
-		print(` {green Logged in as} {bold.blue ${Client.user?.username}} {green with prefix:} {bold.blue ${process.env.PREFIX}}`)
+		print(` {green Logged in as} {bold.blue ${Client.user?.username}} {green with prefix:} {bold.blue ${process.env.PREFIX}}`);
 
-		printLine("{yellow Deploying application commands...} ")
+		printLine("{yellow Deploying application commands...} ");
 		try {
 			await deployApplicationCommands(Client);
 			print(`{green Complete!} {bold.blue ${Client.chatcommands.filter(cmd => !cmd.isAlias).size}} {green commands registered.}`);
-			if (Client.user && !parseBool(process.env.DISABLE_LAVALINK))
-			{
+			if (Client.user && !parseBool(process.env.DISABLE_LAVALINK)) {
 				printLine("{yellow Starting lavalink...} ");
 				await initLavalink(Client);
 				print(`{green Complete} {blue.bold ${Client.lavalink.nodeManager.nodes.size}} {green nodes connected.}`);
 			}
-		}
-		catch (e) {
+		} catch (e) {
 			console.error(e);
 		}
 
@@ -35,7 +33,7 @@ export default {
 					url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
 				}
 			]
-		})
+		});
 
 		printLine("{underline.bold.green Bot is ready!}");
 	},

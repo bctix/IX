@@ -1,4 +1,4 @@
-import { template } from "./chalk"
+import { template } from "./chalk";
 import { resolveColor, ColorResolvable } from "discord.js";
 import Vibrant from "node-vibrant/node";
 
@@ -43,9 +43,7 @@ export function msToTime(s: number) {
 
 export function parseBool(str: string | undefined): boolean {
 	if (!str) return false;
-	if (str.toLowerCase() === "true") { return true; }
-	else if (str.toLowerCase() === "false") { return false; }
-	else { throw new Error("Invalid boolean string"); }
+	if (str.toLowerCase() === "true") { return true; } else if (str.toLowerCase() === "false") { return false; } else { throw new Error("Invalid boolean string"); }
 }
 
 /**
@@ -63,8 +61,7 @@ export async function getVibrantColorToDiscord(imagePath: string): Promise<numbe
 
 	if (palette.Vibrant?.population > palette.LightVibrant?.population) {
 		color = palette.Vibrant.hex;
-	}
-	else {
+	} else {
 		color = palette.LightVibrant.hex;
 	}
 
