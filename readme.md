@@ -8,4 +8,5 @@ APIs/Packages:
 - [cataas](https://cataas.com/): For cat command
 - [boccher](https://boccher.pixelboom.dev/): For random bocchi frame
 - [chalk-template](https://github.com/chalk/chalk-template/blob/main/index.js)
-- [chalk](https://github.com/chalk/chalk)   
+- [chalk](https://github.com/chalk/chalk)
+- [jokeAPI](https://v2.jokeapi.dev)
