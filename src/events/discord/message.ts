@@ -1,6 +1,7 @@
 import { Events, Message } from "discord.js";
 import { ChatCommandExecute, CustomClient } from "../../types/bot_classes";
 import { devs } from "../../utils/constants";
+import { printLine } from "../../utils/utils";
 
 export default {
     name: Events.MessageCreate,
@@ -34,6 +35,10 @@ export default {
 
 		execute.args = args;
 
-		command.execute(execute);
+		try {
+			await command.execute(execute);
+		} catch (e) {
+			printLine(`{red bold There was an error executing the command ${command.name}:} ${e}`);
+		}
     },
 };
