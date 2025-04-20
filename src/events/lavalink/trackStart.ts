@@ -1,7 +1,7 @@
 import { Colors, EmbedBuilder, SendableChannels, User } from "discord.js";
 import { CustomClient } from "../../types/bot_classes";
 import { Player, Track } from "lavalink-client";
-import { getVibrantColorToDiscord } from "../../utils/utils";
+import { getEmojiFromName, getVibrantColorToDiscord } from "../../utils/utils";
 
 export default {
     name: "trackStart",
@@ -20,7 +20,7 @@ export default {
 				name: "Artist", value: `${track.info.author}`, inline: true,
 			},
 			{
-				name: "Source", value: `${track.info.sourceName}`, inline: true,
+				name: "Source", value: `${getEmojiFromName(Client, track.info.sourceName)} ${track.info.sourceName}`, inline: true,
 			},
 		);
 

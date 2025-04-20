@@ -2,6 +2,7 @@ import { SearchPlatform } from "lavalink-client/dist/types";
 import { ChatCommandExecute } from "../../../types/bot_classes";
 import { commandToLavaData, getLavalinkPlayer } from "../../../utils/lavalink";
 import { ChatInputCommandInteraction, EmbedBuilder, MessageFlags } from "discord.js";
+import { getEmojiFromName } from "../../../utils/utils";
 
 export default {
 	ignore: true,
@@ -54,7 +55,7 @@ export default {
 
 					if (track.info.sourceName) {
 						embed.addFields(
-							{ name: "Source", value: `${track.info.sourceName}`, inline: true },
+							{ name: "Source", value: `${getEmojiFromName(command.client, track.info.sourceName)} ${track.info.sourceName}`, inline: true },
 						);
 					}
 				}

@@ -1,6 +1,7 @@
 import { template } from "./chalk";
 import { resolveColor, ColorResolvable } from "discord.js";
 import Vibrant from "node-vibrant/node";
+import { CustomClient } from "../types/bot_classes";
 
 // ------- Logging Functions -------- //
 export function print(message?: string) {
@@ -72,4 +73,10 @@ export function generateProgressBar(percentage: number, size = 10, emptyText = "
 	const filledCount = Math.floor(percentage * size);
 	const emptyCount = size - filledCount;
 	return filledText.repeat(filledCount) + emptyText.repeat(emptyCount);
+}
+
+export function getEmojiFromName(client: CustomClient, name: string): string {
+	const emoji = client.emojis.cache.find((emoj) => emoj.name === name);
+	if (!emoji) return "";
+	return emoji.toString();
 }

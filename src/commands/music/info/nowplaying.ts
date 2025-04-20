@@ -1,7 +1,7 @@
 import { Colors, EmbedBuilder, GuildMember, hyperlink, User } from "discord.js";
 import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../../types/bot_classes";
 import { commandToLavaData, getLavalinkPlayer } from "../../../utils/lavalink";
-import { generateProgressBar, getVibrantColorToDiscord, msToTime } from "../../../utils/utils";
+import { generateProgressBar, getEmojiFromName, getVibrantColorToDiscord, msToTime } from "../../../utils/utils";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
@@ -25,11 +25,11 @@ const textcommand: ChatCommand = new ChatCommand(
 
                 const embed = new EmbedBuilder();
                 embed.setTitle("Now playing:");
-                embed.setDescription(hyperlink(track.info.title, track.info.uri));
+                embed.setDescription(`${hyperlink(track.info.title, track.info.uri)}`);
 
                 embed.addFields(
                     { name: "Artist", value: track.info.author, inline: true },
-                    { name: "Source", value: track.info.sourceName, inline: true },
+                    { name: "Source", value: `${getEmojiFromName(command.client, track.info.sourceName)} ${track.info.sourceName}`, inline: true },
                     { name: "\t", value: "\t", inline: false },
                     { name: "Requestor", value: `<@${(track.requester as User).id}>`, inline: true },
                     { name: "Progress", value: `\`${msToTime(player.position)}\` - ${generateProgressBar(player.position / track.info.duration)} - \`${msToTime(track.info.duration)}\``, inline: false },
