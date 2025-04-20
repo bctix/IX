@@ -1,6 +1,7 @@
-import { ApplicationCommandOptionType, GuildMember } from "discord.js";
+import { ApplicationCommandOptionType, EmbedBuilder, GuildMember } from "discord.js";
 import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../../types/bot_classes";
 import { getLavalinkPlayer, commandToLavaData } from "../../../utils/lavalink";
+import { generateProgressBar, msToTime } from "../../../utils/utils";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
@@ -38,14 +39,21 @@ const textcommand: ChatCommand = new ChatCommand(
 
                 if (!player) {command.data.reply("I couldn't get what vc you're in!"); return;}
                 if (player.voiceChannelId !== vcId) {command.data.reply("You need to be in my vc!"); return;}
-                if (!player.playing) {command.data.reply("I'm not playing anything!"); return;}
+                if (!player.playing || !player.queue.current) {command.data.reply("I'm not playing anything!"); return;}
 
                 // https://stackoverflow.com/a/45292588
                 const posSeconds = position.split(":").reduce((acc: number, time: string) => (60 * acc) + +time, 0);
 
                 await player.seek(posSeconds * 1000);
 
-                await command.data.reply("Moved to " + position);
+                const bar = generateProgressBar(player.position / player.queue.current.info.duration);
+                
+                const embed = new EmbedBuilder()
+                    .setTitle("New position:")
+                    .setDescription(`\`${msToTime(player.position)}\` - ${bar} - \`${msToTime(player.queue.current.info.duration)}\``)
+                    .setColor("Green");
+
+                await command.data.reply({ embeds: [embed] });
             } catch (e) {
                 console.error(e);
             }
