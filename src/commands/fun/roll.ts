@@ -36,7 +36,7 @@ const textcommand: ChatCommand = new ChatCommand(
             const minNumber = command.args[0];
             const maxNumber = command.args[1];
 
-            const number = randomInt(minNumber, maxNumber);
+            const number = randomInt(minNumber, maxNumber + 1);
 
             await command.data.reply(`${number}\n-# Rolled between ${minNumber} - ${maxNumber}`);
         },
