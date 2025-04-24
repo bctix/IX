@@ -34,7 +34,6 @@ const textcommand: ChatCommand = new ChatCommand(
                 if (!player) {command.data.reply("I couldn't get what vc you're in!"); return;}
                 if (player.voiceChannelId !== vcId) {command.data.reply("You need to be in my vc!"); return;}
 
-                console.log(`Skipping to: ${position}. Queue length: ${player.queue.tracks.length}`);
                 if (position >= player.queue.tracks.length) {
                     command.data.reply("There is no song at that position!");
                     return;
