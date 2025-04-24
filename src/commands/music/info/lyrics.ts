@@ -3,6 +3,14 @@ import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../../ty
 import { getLavalinkPlayer, commandToLavaData } from "../../../utils/lavalink";
 import { getVibrantColorToDiscord } from "../../../utils/utils";
 
+type LyricsResponse = {
+    id: number,
+    name: string,
+    trackName: string,
+    artistName: string,
+    plainLyrics: string
+};
+
 const textcommand: ChatCommand = new ChatCommand(
     {
         name: "lyrics",
@@ -34,10 +42,15 @@ const textcommand: ChatCommand = new ChatCommand(
 
             if (!response.ok) { command.data.reply("Something went wrong getting the lyrics!"); return; }
 
-            const resJson = await response.json();
+            const resJson = await response.json() as LyricsResponse[];
             if (!resJson) { command.data.reply("Couldn't find any lyrics for the song!"); return; }
 
-            const lyricsData = resJson[0];
+            let lyricsData: LyricsResponse | undefined = resJson.find((data: LyricsResponse) => { return data.trackName === track.info.title; });
+            
+            // if there is no exact match, use first result. may be incorrect.
+            // this is a fallback in case the song does have lyrics but the title is different.
+            if (!lyricsData) lyricsData = resJson[0];
+
 			if (!lyricsData) { command.data.reply("Couldn't find any lyrics for your song!"); return; }
 
             const lyrics = lyricsData.plainLyrics;
