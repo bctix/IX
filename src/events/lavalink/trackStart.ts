@@ -1,43 +1,109 @@
-import { Colors, EmbedBuilder, SendableChannels, User } from "discord.js";
+import { ButtonBuilder, ButtonStyle, Colors, ContainerBuilder, GuildMember, hyperlink, MessageFlags, SectionBuilder, SendableChannels, SeparatorSpacingSize, TextDisplayBuilder, ThumbnailBuilder, User, userMention } from "discord.js";
 import { CustomClient } from "../../types/bot_classes";
 import { Player, Track } from "lavalink-client";
-import { getEmojiFromName, getVibrantColorToDiscord } from "../../utils/utils";
+import { getVibrantColorToDiscord, msToTime } from "../../utils/utils";
 
 export default {
     name: "trackStart",
     async execute(Client: CustomClient, player: Player, track: Track) {
         if (!player.textChannelId) return;
 		const channel = Client.channels.cache.get(player.textChannelId);
-		const guild = Client.guilds.cache.get(player.guildId);
-		const member = guild?.members.cache.get((track.requester as User).id);
 
-		const embed = new EmbedBuilder();
-
-		embed.setTitle("Now playing song:");
-		embed.setDescription(`[${track.info.title}](${track.info.uri})`);
-		embed.addFields(
-			{
-				name: "Artist", value: `${track.info.author}`, inline: true,
-			},
-			{
-				name: "Source", value: `${getEmojiFromName(Client, track.info.sourceName)} ${track.info.sourceName}`, inline: true,
-			},
+		const container = new ContainerBuilder();
+		
+		const topSection = new SectionBuilder();
+		const topTitle = new TextDisplayBuilder().setContent(
+			[
+				"### Now playing song",
+				`### ${hyperlink(`${track.info.title}`, track.info.uri)}`,
+				`${hyperlink(`- ${track.info.author}`, track.info.uri)}`,
+			].join("\n")
 		);
 
-		embed.setColor(Colors.Green);
+		topSection.addTextDisplayComponents(topTitle);
+
 		if (track.info.artworkUrl) {
-			embed.setThumbnail(track.info.artworkUrl);
-			try {
-				embed.setColor(await getVibrantColorToDiscord(track.info.artworkUrl));
-			} catch (error) {
-				console.error("Error fetching vibrant color:", error);
-			}
+			const col = await getVibrantColorToDiscord(track.info.artworkUrl);
+			if (col)
+				container.setAccentColor(col);
+
+			const thumbnail = new ThumbnailBuilder().setURL(track.info.artworkUrl);
+			topSection.setThumbnailAccessory(thumbnail);
+		} else {
+			container.setAccentColor(Colors.Green);
 		}
 
-		if (member) {embed.setFooter({ iconURL: member?.displayAvatarURL({}), text: `Requested by ${member.nickname ?? member.user.displayName ?? member.user.username ?? "Unknown user"}` });}
+		container.addSectionComponents(topSection);
+
+		container.addSeparatorComponents(separator => separator.setSpacing(SeparatorSpacingSize.Large));
+
+		const middleText = new TextDisplayBuilder().setContent(
+			[
+				`**Duration**:\n${track.info.isStream ? "Live" : msToTime(track.info.duration)}\n`,
+				`-# Requested by: ${userMention((track.requester as User).id)}`,
+			].join("\n")
+		);
+
+		container.addTextDisplayComponents(middleText);
+		container.addSeparatorComponents(separator => separator.setSpacing(SeparatorSpacingSize.Large));
+
+		const skipButton = new ButtonBuilder()
+			.setLabel("Skip")
+			.setStyle(ButtonStyle.Primary)
+			.setCustomId("skip")
+			.setEmoji("⏭️");
+
+		const toggleLoop = new ButtonBuilder()
+			.setLabel("Toggle loop")
+			.setStyle(ButtonStyle.Secondary)
+			.setCustomId("toggleLoop");
+		
+		if (player.queue.tracks.length === 0)
+			skipButton.setDisabled(true); 
+
+		container.addActionRowComponents(row => row.addComponents(skipButton, toggleLoop));
 
 		if (channel && channel.isSendable()) {
-			(channel as SendableChannels).send({ embeds: [embed] });
+			const res = await (channel as SendableChannels).send({ 
+				components: [container],
+				flags: MessageFlags.IsComponentsV2,
+			});
+
+			const collector = res.createMessageComponentCollector({ filter: i => i.user.id === (track.requester as User).id, time: track.info.duration });
+
+			collector.on("collect", async (i) => {
+
+				if ((i.member as GuildMember).voice.channelId !== player.voiceChannelId) {
+					await i.update({ components: [container] });
+					return;
+				}
+
+				if (i.customId === "skip") {
+					await player.skip();
+					collector.stop();
+					skipButton.setDisabled(true);
+					toggleLoop.setDisabled(true);
+				}
+
+				if (i.customId === "toggleLoop") {
+					switch (player.repeatMode) {
+						case "off":
+							await player.setRepeatMode("track");
+							toggleLoop.setLabel("Looping track").setStyle(ButtonStyle.Success);
+							break;
+						case "track":
+							await player.setRepeatMode("queue");
+							toggleLoop.setLabel("Looping queue").setStyle(ButtonStyle.Success);
+							break;
+						case "queue":
+							await player.setRepeatMode("off");
+							toggleLoop.setLabel("Looping off").setStyle(ButtonStyle.Secondary);
+							break;
+					}
+				}
+				
+				await i.update({ components: [container] });
+			});
 		}
     },
 };
