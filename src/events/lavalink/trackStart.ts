@@ -69,7 +69,7 @@ export default {
 				flags: MessageFlags.IsComponentsV2,
 			});
 
-			const collector = res.createMessageComponentCollector({ filter: i => i.user.id === (track.requester as User).id, time: track.info.duration });
+			const collector = res.createMessageComponentCollector({ filter: i => i.user.id === (track.requester as User).id, time: 60_000 });
 
 			collector.on("collect", async (i) => {
 
@@ -81,8 +81,8 @@ export default {
 				if (i.customId === "skip") {
 					await player.skip();
 					collector.stop();
-					skipButton.setDisabled(true);
-					toggleLoop.setDisabled(true);
+					await res.delete();
+					return;
 				}
 
 				if (i.customId === "toggleLoop") {
