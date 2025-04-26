@@ -4,7 +4,7 @@
   "description": "A discord bot with a focus on music.",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --skipLibCheck",
     "start": "node ./dist/index.js",
     "dev": "npm run build && npm run start"
   },
