@@ -120,7 +120,7 @@ const textcommand: ChatCommand = new ChatCommand(
                             break;
                         }
                         case "forward": {
-                            await player.skip();
+                            if (player.queue.tracks.length > 0) await player.skip();
                             break;
                         }
                         case "toggleLoop": {

@@ -86,7 +86,7 @@ export default {
 				}
 
 				if (i.customId === "skip") {
-					await player.skip();
+					if (player.queue.tracks.length > 0) await player.skip();
 					collector.stop();
 					await res.delete();
 					return;
