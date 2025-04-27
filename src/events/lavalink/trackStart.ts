@@ -73,6 +73,13 @@ export default {
 
 			collector.on("collect", async (i) => {
 
+				if (!player) {
+					skipButton.setDisabled(true);
+					toggleLoop.setDisabled(true);
+					await i.update({ components: [container] });
+					return;
+				}
+
 				if ((i.member as GuildMember).voice.channelId !== player.voiceChannelId) {
 					await i.update({ components: [container] });
 					return;

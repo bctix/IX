@@ -81,6 +81,13 @@ export default {
 				const collector = message.createMessageComponentCollector({ filter: (i) => i.user.id === command.data.member?.user.id, time: 60_000 });
 			
 				collector.on("collect", async (i) => {
+
+					if (!player) {
+						playButton.setDisabled(true);
+						await i.update({ components: [container] });
+						return;
+					}
+
 					if (i.customId === "play") {
 						const trackIdx = player.queue.tracks.indexOf(res.tracks[0]);
 						const removeTrack = await player.queue.remove(trackIdx);

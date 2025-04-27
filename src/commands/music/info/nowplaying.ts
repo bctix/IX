@@ -90,6 +90,15 @@ const textcommand: ChatCommand = new ChatCommand(
                 const collector = message.createMessageComponentCollector({ filter: i => i.user.id === (track.requester as User).id, time: 240_000 });
 
                 collector.on("collect", async (i) => {
+                    if (!player) {
+                        backButton.setDisabled(true);
+                        pauseButton.setDisabled(true);
+                        forwardButton.setDisabled(true);
+                        toggleLoop.setDisabled(true);
+                        await i.update({ components: [container] });
+                        return;
+                    }
+
                     if (i.user.id !== (track.requester as User).id) {
                         return;
                     }
