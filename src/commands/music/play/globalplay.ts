@@ -1,8 +1,7 @@
 import { SearchPlatform } from "lavalink-client/dist/types";
 import { ChatCommandExecute } from "../../../types/bot_classes";
 import { commandToLavaData, getLavalinkPlayer } from "../../../utils/lavalink";
-import { ChatInputCommandInteraction, EmbedBuilder, MessageFlags } from "discord.js";
-import { getEmojiFromName } from "../../../utils/utils";
+import { ButtonBuilder, ButtonStyle, ContainerBuilder, MessageFlags, SectionBuilder, SeparatorSpacingSize, TextDisplayBuilder, ThumbnailBuilder } from "discord.js";
 
 export default {
 	ignore: true,
@@ -40,28 +39,67 @@ export default {
 			if (!player.playing) {await player.play();}
 
 			if (wasPlaying) {
-				const embed = new EmbedBuilder()
-					.setTitle(`Added ${res.loadType === "playlist" ? "playlist" : "song"} to queue!`)
-					.setDescription(`${res.loadType === "playlist" ? `[${res.playlist?.name}](${query})` : `[${res.tracks[0].info.title}](${res.tracks[0].info.uri})`}`);
+				const container = new ContainerBuilder();
 
-				if (res.loadType !== "playlist") {
-					const track = res.tracks[0];
+				const topSection = new SectionBuilder();
+				const topTitle = new TextDisplayBuilder().setContent(
+					[
+						res.loadType === "playlist" ? "### Adding playlist to queue" : "### Adding song to queue",
+						res.loadType === "playlist" ? `### ${res.playlist?.name}` : `### ${res.tracks[0].info.title}\n${res.tracks[0].info.author}`,
+					].join("\n")
+				);
 
-					if (track.info.artworkUrl) embed.setThumbnail(track.info.artworkUrl);
-
-					embed.addFields(
-						{ name: "Artist", value: track.info.author ?? "Unknown", inline: true },
-					);
-
-					if (track.info.sourceName) {
-						embed.addFields(
-							{ name: "Source", value: `${getEmojiFromName(command.client, track.info.sourceName)} ${track.info.sourceName}`, inline: true },
-						);
+				if (res.loadType === "playlist") {
+					if (res.playlist?.thumbnail) {
+						const thumbnail = new ThumbnailBuilder().setURL(res.playlist?.thumbnail);
+						topSection.setThumbnailAccessory(thumbnail);
+					}
+				} else {
+					if (res.tracks[0].info.artworkUrl) {
+						const thumbnail = new ThumbnailBuilder().setURL(res.tracks[0].info.artworkUrl);
+						topSection.setThumbnailAccessory(thumbnail);
 					}
 				}
+				topSection.addTextDisplayComponents(topTitle);
+				container.addSectionComponents(topSection);
 
-				await command.data.reply({ embeds: [embed] });
-			} else if (!command.isMessage) {await (command.data as ChatInputCommandInteraction).reply({ content: "Playing your song", flags: MessageFlags.Ephemeral });}
+				container.addSeparatorComponents(separator => separator.setSpacing(SeparatorSpacingSize.Large));
+
+				const playButton = new ButtonBuilder()
+							.setLabel("Play now")
+							.setStyle(ButtonStyle.Primary)
+							.setCustomId("play")
+							.setEmoji("⏭️");
+				
+				if (res.loadType !== "playlist") container.addActionRowComponents(row => row.addComponents(playButton));
+
+				const message = await command.data.reply({ 
+					components: [container],
+					flags: MessageFlags.IsComponentsV2
+				});
+
+				const collector = message.createMessageComponentCollector({ filter: (i) => i.user.id === command.data.member?.user.id, time: 60_000 });
+			
+				collector.on("collect", async (i) => {
+
+					if (!player) {
+						playButton.setDisabled(true);
+						await i.update({ components: [container] });
+						return;
+					}
+
+					if (i.customId === "play") {
+						const trackIdx = player.queue.tracks.indexOf(res.tracks[0]);
+						const removeTrack = await player.queue.remove(trackIdx);
+						if (removeTrack != null) {
+							const removedTrack = removeTrack.removed[0];
+							await player.queue.add(removedTrack, 0);
+							await player.skip();
+						}
+						await message.delete();
+					}
+				});
+			} 
 		} catch (e) {
 			console.error(e);
 		}
