@@ -69,7 +69,7 @@ export default {
 				flags: MessageFlags.IsComponentsV2,
 			});
 
-			const collector = res.createMessageComponentCollector({ filter: i => i.user.id === (track.requester as User).id, time: 60_000 });
+			const collector = res.createMessageComponentCollector({ filter: i => i.user.id === (track.requester as User).id, time: 120_000 });
 
 			collector.on("collect", async (i) => {
 
