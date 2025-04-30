@@ -2,6 +2,46 @@ import { ButtonBuilder, ButtonStyle, Colors, ContainerBuilder, GuildMember, hype
 import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../../types/bot_classes";
 import { commandToLavaData, getLavalinkPlayer } from "../../../utils/lavalink";
 import { generateProgressBar, getVibrantColorToDiscord, msToTime } from "../../../utils/utils";
+import { Track } from "lavalink-client/dist/types";
+
+async function buildTopPart(track: Track, container: ContainerBuilder) {
+
+    if (track.info.artworkUrl) {
+        const topSection = new SectionBuilder();
+        const topTitle = new TextDisplayBuilder().setContent(
+            [
+                "### Current song:",
+                `### ${hyperlink(`${track.info.title}`, track.info.uri)}`,
+                `${hyperlink(`- ${track.info.author}`, track.info.uri)}`,
+            ].join("\n")
+        );
+
+        topSection.addTextDisplayComponents(topTitle);
+
+        if (track.info.artworkUrl) {
+            const col = await getVibrantColorToDiscord(track.info.artworkUrl);
+            if (col)
+                container.setAccentColor(col);
+
+            const thumbnail = new ThumbnailBuilder().setURL(track.info.artworkUrl);
+            topSection.setThumbnailAccessory(thumbnail);
+        } else {
+            container.setAccentColor(Colors.Green);
+        }
+        container.addSectionComponents(topSection);
+        container.addSeparatorComponents(separator => separator.setSpacing(SeparatorSpacingSize.Large));
+    } else {
+        const topTitle = new TextDisplayBuilder().setContent(
+			[
+				"### Now playing song",
+				`### ${hyperlink(`${track.info.title}`, track.info.uri)}`,
+				`${hyperlink(`- ${track.info.author}`, track.info.uri)}`,
+			].join("\n")
+		);
+
+		container.addTextDisplayComponents(topTitle);
+    }
+}
 
 const textcommand: ChatCommand = new ChatCommand(
     {
@@ -24,29 +64,8 @@ const textcommand: ChatCommand = new ChatCommand(
                 if (!track) {command.data.reply("You are not playing anything!"); return;};
 
                 const container = new ContainerBuilder();
-                const topSection = new SectionBuilder();
-                const topTitle = new TextDisplayBuilder().setContent(
-                    [
-                        "### Current song:",
-                        `### ${hyperlink(`${track.info.title}`, track.info.uri)}`,
-                        `${hyperlink(`- ${track.info.author}`, track.info.uri)}`,
-                    ].join("\n")
-                );
-
-                topSection.addTextDisplayComponents(topTitle);
-
-                if (track.info.artworkUrl) {
-                    const col = await getVibrantColorToDiscord(track.info.artworkUrl);
-                    if (col)
-                        container.setAccentColor(col);
-
-                    const thumbnail = new ThumbnailBuilder().setURL(track.info.artworkUrl);
-                    topSection.setThumbnailAccessory(thumbnail);
-                } else {
-                    container.setAccentColor(Colors.Green);
-                }
-                container.addSectionComponents(topSection);
-                container.addSeparatorComponents(separator => separator.setSpacing(SeparatorSpacingSize.Large));
+                
+                await buildTopPart(track, container);
 
                 const middleText = new TextDisplayBuilder().setContent(
                     [
