@@ -4,7 +4,7 @@ import { Player, Track } from "lavalink-client";
 import { getVibrantColorToDiscord, msToTime } from "../../utils/utils";
 
 // so apparently, sections NEED thumbnails, or it throws an error, i did not know this
-// this was many in a panic so i may need to relook this. (same with globalplay)
+// this was made in a panic so i may need to relook this. (same with globalplay)
 async function buildTopPart(track: Track, container: ContainerBuilder) {
 	if (track.info.artworkUrl) {
 		const topSection = new SectionBuilder();
