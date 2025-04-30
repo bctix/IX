@@ -59,7 +59,7 @@ export default {
 		const middleText = new TextDisplayBuilder().setContent(
 			[
 				`**Duration**:\n${track.info.isStream ? "Live" : msToTime(track.info.duration)}\n`,
-				`-# Requested by: ${userMention((track.requester as User).id)}`,
+				`-# Requested by: ${(track.requester as User).displayName ?? (track.requester as User).username}`,
 			].join("\n")
 		);
 
