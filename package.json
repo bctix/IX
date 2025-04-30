@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "chalk": "^4.1.2",
-    "discord.js": "^14.18.0",
+    "discord.js": "^14.19.2",
     "dotenv": "^16.4.7",
     "eslint": "^9.23.0",
     "lavalink-client": "github:tomato6966/lavalink-client",

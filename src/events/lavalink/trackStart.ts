@@ -3,14 +3,10 @@ import { CustomClient } from "../../types/bot_classes";
 import { Player, Track } from "lavalink-client";
 import { getVibrantColorToDiscord, msToTime } from "../../utils/utils";
 
-export default {
-    name: "trackStart",
-    async execute(Client: CustomClient, player: Player, track: Track) {
-        if (!player.textChannelId) return;
-		const channel = Client.channels.cache.get(player.textChannelId);
-
-		const container = new ContainerBuilder();
-		
+// so apparently, sections NEED thumbnails, or it throws an error, i did not know this
+// this was many in a panic so i may need to relook this. (same with globalplay)
+async function buildTopPart(track: Track, container: ContainerBuilder) {
+	if (track.info.artworkUrl) {
 		const topSection = new SectionBuilder();
 		const topTitle = new TextDisplayBuilder().setContent(
 			[
@@ -19,21 +15,44 @@ export default {
 				`${hyperlink(`- ${track.info.author}`, track.info.uri)}`,
 			].join("\n")
 		);
-
+	
 		topSection.addTextDisplayComponents(topTitle);
-
+	
 		if (track.info.artworkUrl) {
 			const col = await getVibrantColorToDiscord(track.info.artworkUrl);
 			if (col)
 				container.setAccentColor(col);
-
+	
 			const thumbnail = new ThumbnailBuilder().setURL(track.info.artworkUrl);
 			topSection.setThumbnailAccessory(thumbnail);
 		} else {
 			container.setAccentColor(Colors.Green);
 		}
-
+		
 		container.addSectionComponents(topSection);
+	} else {
+		const topTitle = new TextDisplayBuilder().setContent(
+			[
+				"### Now playing song",
+				`### ${hyperlink(`${track.info.title}`, track.info.uri)}`,
+				`${hyperlink(`- ${track.info.author}`, track.info.uri)}`,
+			].join("\n")
+		);
+
+		container.addTextDisplayComponents(topTitle);
+	}
+	
+}
+
+export default {
+    name: "trackStart",
+    async execute(Client: CustomClient, player: Player, track: Track) {
+        if (!player.textChannelId) return;
+		const channel = Client.channels.cache.get(player.textChannelId);
+
+		const container = new ContainerBuilder();
+
+		await buildTopPart(track, container);
 
 		container.addSeparatorComponents(separator => separator.setSpacing(SeparatorSpacingSize.Large));
 
@@ -68,6 +87,7 @@ export default {
 				components: [container],
 				flags: MessageFlags.IsComponentsV2,
 			});
+
 
 			const collector = res.createMessageComponentCollector({ filter: i => i.user.id === (track.requester as User).id, time: 120_000 });
 

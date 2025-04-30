@@ -3,6 +3,38 @@ import { ChatCommandExecute } from "../../../types/bot_classes";
 import { commandToLavaData, getLavalinkPlayer } from "../../../utils/lavalink";
 import { ButtonBuilder, ButtonStyle, ContainerBuilder, MessageFlags, SectionBuilder, SeparatorSpacingSize, TextDisplayBuilder, ThumbnailBuilder } from "discord.js";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function buildTopPart(res: any, container: ContainerBuilder) {
+	const topSection = new SectionBuilder();
+	const topTitle = new TextDisplayBuilder().setContent(
+		[
+			res.loadType === "playlist" ? "### Adding playlist to queue" : "### Adding song to queue",
+			res.loadType === "playlist" ? `### ${res.playlist?.name}` : `### ${res.tracks[0].info.title}\n${res.tracks[0].info.author}`,
+		].join("\n")
+	);
+
+	if (res.loadType === "playlist") {
+		if (res.playlist?.thumbnail) {
+			const thumbnail = new ThumbnailBuilder().setURL(res.playlist?.thumbnail);
+			topSection.setThumbnailAccessory(thumbnail);
+		} else {
+			container.addTextDisplayComponents(topTitle);
+			return;
+		}
+	} else {
+		if (res.tracks[0].info.artworkUrl) {
+			const thumbnail = new ThumbnailBuilder().setURL(res.tracks[0].info.artworkUrl);
+			topSection.setThumbnailAccessory(thumbnail);
+		} else {
+			container.addTextDisplayComponents(topTitle);
+			return;
+		}
+	}
+
+	topSection.addTextDisplayComponents(topTitle);
+	container.addSectionComponents(topSection);
+}
+
 export default {
 	ignore: true,
 	playSong: async function playSong(command: ChatCommandExecute, source: SearchPlatform) {
@@ -41,27 +73,7 @@ export default {
 			if (wasPlaying) {
 				const container = new ContainerBuilder();
 
-				const topSection = new SectionBuilder();
-				const topTitle = new TextDisplayBuilder().setContent(
-					[
-						res.loadType === "playlist" ? "### Adding playlist to queue" : "### Adding song to queue",
-						res.loadType === "playlist" ? `### ${res.playlist?.name}` : `### ${res.tracks[0].info.title}\n${res.tracks[0].info.author}`,
-					].join("\n")
-				);
-
-				if (res.loadType === "playlist") {
-					if (res.playlist?.thumbnail) {
-						const thumbnail = new ThumbnailBuilder().setURL(res.playlist?.thumbnail);
-						topSection.setThumbnailAccessory(thumbnail);
-					}
-				} else {
-					if (res.tracks[0].info.artworkUrl) {
-						const thumbnail = new ThumbnailBuilder().setURL(res.tracks[0].info.artworkUrl);
-						topSection.setThumbnailAccessory(thumbnail);
-					}
-				}
-				topSection.addTextDisplayComponents(topTitle);
-				container.addSectionComponents(topSection);
+				await buildTopPart(res, container);
 
 				container.addSeparatorComponents(separator => separator.setSpacing(SeparatorSpacingSize.Large));
 
