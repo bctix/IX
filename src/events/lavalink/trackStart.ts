@@ -1,4 +1,4 @@
-import { ButtonBuilder, ButtonStyle, Colors, ContainerBuilder, GuildMember, hyperlink, MessageFlags, SectionBuilder, SendableChannels, SeparatorSpacingSize, TextDisplayBuilder, ThumbnailBuilder, User, userMention } from "discord.js";
+import { ButtonBuilder, ButtonStyle, Colors, ContainerBuilder, GuildMember, hyperlink, MessageFlags, SectionBuilder, SendableChannels, SeparatorSpacingSize, TextDisplayBuilder, ThumbnailBuilder, User } from "discord.js";
 import { CustomClient } from "../../types/bot_classes";
 import { Player, Track } from "lavalink-client";
 import { getVibrantColorToDiscord, msToTime } from "../../utils/utils";
