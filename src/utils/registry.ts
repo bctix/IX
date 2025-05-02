@@ -3,6 +3,7 @@ import fs from "fs";
 import path from "path";
 import { ChatCommand, ContextCommand, CustomClient } from "../types/bot_classes";
 import { APIApplicationCommandOptionChoice, ApplicationCommandOptionType, ContextMenuCommandBuilder, REST, Routes, SlashCommandBuilder } from "discord.js";
+import { print, printLine } from "./utils";
 
 export async function registerCommands(client: CustomClient, ...dirs: string[]) {
     dirs.forEach(async (dir) => {
@@ -35,17 +36,17 @@ async function registerContextCommand(client:CustomClient, cmdModule: ContextCom
 	}
 
 	if (!cmdModule.name) {
-		console.warn(`The command '${cmdModule.name}' doesn't have a name`);
+		printLine(`{yellow The command '${cmdModule.name}' doesn't have a name} `);
 		return;
 	}
 
 	if (!cmdModule.execute) {
-		console.warn(`The command '${cmdModule.name}' doesn't have an execute function`);
+		printLine(`{yellow The command '${cmdModule.name}' doesn't have an execute function} `);
 		return;
 	}
 
 	if (client.contextmenucommands.has(cmdModule.name)) {
-		console.warn(`The command name '${cmdModule.name}' has already been added.`);
+		printLine(`{yellow The command name '${cmdModule.name}' has already been added.} `);
 		return;
 	}
 
@@ -58,17 +59,17 @@ async function registerTextCommand(client:CustomClient, cmdModule: ChatCommand) 
 	}
 
 	if (!cmdModule.name) {
-		console.warn(`The command '${cmdModule.name}' doesn't have a name`);
+		printLine(`{yellow The command '${cmdModule.name}' doesn't have a name} `);
 		return;
 	}
 
 	if (!cmdModule.execute) {
-		console.warn(`The command '${cmdModule.name}' doesn't have an execute function`);
+		printLine(`{yellow The command '${cmdModule.name}' doesn't have an execute function} `);
 		return;
 	}
 
-	if (client.chatcommands.has(cmdModule.name)) {
-		console.warn(`The command name '${cmdModule.name}' has already been added.`);
+	if (client.contextmenucommands.has(cmdModule.name)) {
+		printLine(`{yellow The command name '${cmdModule.name}' has already been added.} `);
 		return;
 	}
 
@@ -77,7 +78,7 @@ async function registerTextCommand(client:CustomClient, cmdModule: ChatCommand) 
 	if (cmdModule.aliases && cmdModule.aliases.length !== 0) {
 		cmdModule.aliases.forEach((alias: string) => {
 			if (client.chatcommands.has(alias)) {
-				console.warn(`The command alias '${alias}' has already been added.`);
+				printLine(`{yellow The command alias '${alias}' has already been added.}`);
 			} else {
 				const cmdClone = Object.assign({}, cmdModule);
 				cmdClone.isAlias = true;
@@ -121,7 +122,7 @@ export async function registerEvents(EventClient: any, ExecuteClient: CustomClie
 
 export async function removeSlashCommands(client:CustomClient) {
 	if (!client.token || !client.user) {
-		console.warn("Failed to get client data! Unable to remove slash commands!");
+		printLine("{red Failed to get client data! Unable to remove slash commands!}");
 		return;
 	}
 
@@ -139,7 +140,7 @@ export async function removeSlashCommands(client:CustomClient) {
 
 export async function removeApplicationCommands(client:CustomClient) {
 	if (!client.token || !client.user) {
-		console.warn("Failed to get client data! Unable to deploy slash commands!");
+		printLine("{red Failed to get client data! Unable to remove slash commands!}");
 		return;
 	}
 
@@ -153,7 +154,7 @@ export async function removeApplicationCommands(client:CustomClient) {
 
 export async function deployApplicationCommands(client:CustomClient) {
 	if (!client.token || !client.user) {
-		console.warn("Failed to get client data! Unable to deploy slash commands!");
+		printLine("{red Failed to get client data! Unable to deploy slash commands!}");
 		return;
 	}
 
