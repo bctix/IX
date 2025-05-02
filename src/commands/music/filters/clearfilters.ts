@@ -4,7 +4,7 @@ import { getLavalinkPlayer, commandToLavaData } from "../../../utils/lavalink";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
-        name: "clearfilterse",
+        name: "clearfilters",
         description: "bye bye",
         category: "music (filters)",
         usage: "Removes all filters.",
