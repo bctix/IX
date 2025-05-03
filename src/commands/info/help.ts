@@ -29,7 +29,7 @@ const textcommand: ChatCommand = new ChatCommand(
                         optionsStr += `\`${option.name}${option.required ? "" : "?"}\`${option === command.options?.at(-1) ? "" : ", "}`;
                     });
 
-                    valueStr += `\\- \`${command.name}\` ${command.aliases ? `[\`${command.aliases.join("`")}\`]` : ""} ${optionsStr !== "" ? `(${optionsStr})` : ""} - ${command.usage}\n`;
+                    valueStr += `\\- \`${command.name}\` ${command.aliases ? `[\`${command.aliases.join(", ")}\`]` : ""} ${optionsStr !== "" ? `(${optionsStr})` : ""} - ${command.usage}\n`;
                 });
 
                 embed.addFields({ name: `>> ${category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()} <<`, value: valueStr });
