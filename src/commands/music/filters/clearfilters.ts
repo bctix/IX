@@ -7,6 +7,7 @@ const textcommand: ChatCommand = new ChatCommand(
         name: "clearfilters",
         description: "bye bye",
         category: "music (filters)",
+        aliases: ["cf", "clearfilter"],
         usage: "Removes all filters.",
         async execute(command: ChatCommandExecute) {
             const player = getLavalinkPlayer(commandToLavaData(command));

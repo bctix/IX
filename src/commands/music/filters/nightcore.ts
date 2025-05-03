@@ -7,6 +7,7 @@ const textcommand: ChatCommand = new ChatCommand(
         name: "nightcore",
         description: "ITS CALLED NIGHTCORE AND YOU PUT A PICTURE OF AN ANIME GIRL ON THE THUMBNAIL!",
         category: "music (filters)",
+        aliases: ["nc"],
         usage: "Speeds up the song and raises the pitch.",
         async execute(command: ChatCommandExecute) {
             const player = getLavalinkPlayer(commandToLavaData(command));

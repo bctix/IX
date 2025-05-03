@@ -7,6 +7,7 @@ const textcommand: ChatCommand = new ChatCommand(
         name: "vaporwave",
         description: "Slowwwwwww...",
         category: "music (filters)",
+        aliases: ["vw"],
         usage: "Makes the song slower and lowers the pitch.",
         async execute(command: ChatCommandExecute) {
             const player = getLavalinkPlayer(commandToLavaData(command));

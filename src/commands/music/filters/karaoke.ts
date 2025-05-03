@@ -7,6 +7,7 @@ const textcommand: ChatCommand = new ChatCommand(
         name: "karaoke",
         description: "is that a yakuza reference?",
         category: "music (filters)",
+        aliases: ["ko"],
         usage: "Uses EQ to remove the band that vocals are usually in.",
         async execute(command: ChatCommandExecute) {
             const player = getLavalinkPlayer(commandToLavaData(command));
@@ -21,6 +22,7 @@ const textcommand: ChatCommand = new ChatCommand(
             const embed = new EmbedBuilder();
             embed.setTitle(player.filterManager.filters.karaoke ? "Karaoke filter enabled" : "Karaoke filter disabled");
             embed.setColor(player.filterManager.filters.karaoke ? "Green" : "Red");
+            embed.setDescription("-# Results may vary depending on the song.");
             embed.setFooter({ text: "it might take a second to apply/remove the filter" });
 
             await command.data.reply({ embeds: [embed] });
