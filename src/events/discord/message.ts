@@ -1,6 +1,6 @@
 import { Events, Message } from "discord.js";
 import { ChatCommandExecute, CustomClient } from "../../types/bot_classes";
-import { devs } from "../../utils/constants";
+import { devs, prefix } from "../../utils/constants";
 import { printLine } from "../../utils/utils";
 
 export default {
@@ -9,7 +9,7 @@ export default {
         if (!client.user) return;
 		if (message.author.bot) return;
 
-		const prefixRegex = new RegExp(`^(<@${client.user.id}>|${process.env.PREFIX})`);
+		const prefixRegex = new RegExp(`^(<@${client.user.id}>|${prefix})`);
 		if (!prefixRegex.test(message.content)) return;
 
 		const match = message.content.match(prefixRegex);
