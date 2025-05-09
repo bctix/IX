@@ -1,5 +1,6 @@
 import { EmbedBuilder } from "discord.js";
 import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../types/bot_classes";
+import { prefix } from "../../utils/constants";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
@@ -10,7 +11,7 @@ const textcommand: ChatCommand = new ChatCommand(
         async execute(execute: ChatCommandExecute) {
             const embed = new EmbedBuilder();
             embed.setTitle("Command list");
-            embed.setDescription(`All commands can be used as slash commands or prefix commands with \`${process.env.PREFIX}\`.
+            embed.setDescription(`All commands can be used as slash commands or prefix commands with \`${prefix}\`.
                 Text inside [] are command aliases, they can be used as an alternative to the command name.
                 Text inside () are command arguments. Arguments with a ? are optional.`);
 
