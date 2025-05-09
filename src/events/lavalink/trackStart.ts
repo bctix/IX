@@ -48,7 +48,9 @@ export default {
     name: "trackStart",
     async execute(Client: CustomClient, player: Player, track: Track) {
         if (!player.textChannelId) return;
+		const guild = Client.guilds.cache.get(player.guildId);
 		const channel = Client.channels.cache.get(player.textChannelId);
+		const member = guild?.members.cache.get((track.requester as User).id);
 
 		const container = new ContainerBuilder();
 
@@ -59,7 +61,7 @@ export default {
 		const middleText = new TextDisplayBuilder().setContent(
 			[
 				`**Duration**:\n${track.info.isStream ? "Live" : msToTime(track.info.duration)}\n`,
-				`-# Requested by: ${(track.requester as User).displayName ?? (track.requester as User).username}`,
+				`-# Requested by: ${member?.nickname ?? member?.displayName ?? (track.requester as User).displayName ?? (track.requester as User).username}`,
 			].join("\n")
 		);
 
