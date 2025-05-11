@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { APIApplicationCommandOptionChoice, ApplicationCommandOptionType, ApplicationIntegrationType, ChatInputCommandInteraction, Client, Collection, ContextMenuCommandInteraction, ContextMenuCommandType, InteractionContextType, Message } from "discord.js";
 import { LavalinkManager } from "lavalink-client";
+import { prefix } from "../utils/constants";
 
 export class CustomClient extends Client {
     public chatcommands: Collection<string, ChatCommand>;
@@ -96,7 +97,7 @@ export class ChatCommandExecute {
             throw new Error("User is null!");
             return;
         }
-        const prefixRegex = new RegExp(`^(<@${client.user.id}>|${process.env.PREFIX})`);
+        const prefixRegex = new RegExp(`^(<@${client.user.id}>|${prefix})`);
         if (!prefixRegex.test(content)) return;
 
         const match = message.content.match(prefixRegex);
