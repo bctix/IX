@@ -3,12 +3,12 @@ import { CustomClient } from "../../types/bot_classes";
 import { deployApplicationCommands } from "../../utils/registry";
 import { initLavalink } from "../../utils/lavalink";
 import { printLine, print, parseBool } from "../../utils/utils";
+import { prefix } from "../../utils/constants";
 
 export default {
 	name: Events.ClientReady,
 	async execute(Client: CustomClient) {
-		// print("{green logged in as} {bold.blue "+Client.user?.username+"} {green with prefix:} {bold.blue "+process.env.PREFIX+"}");
-		print(` {green Logged in as} {bold.blue ${Client.user?.username}} {green with prefix:} {bold.blue ${process.env.PREFIX}}`);
+		print(` {green Logged in as} {bold.blue ${Client.user?.username}} {green with prefix:} {bold.blue ${prefix}}`);
 
 		printLine("{yellow Deploying application commands...} ");
 		try {
