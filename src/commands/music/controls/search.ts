@@ -71,8 +71,7 @@ const textcommand: ChatCommand = new ChatCommand(
 
                 collector.on("collect", async (i) => {
                     if (!player) {
-                        dropdown.setDisabled(true);
-                        await i.update({components: [container]});
+                        await message.delete();
                         return;
                     }
 
@@ -86,24 +85,26 @@ const textcommand: ChatCommand = new ChatCommand(
 
                         const wasPlaying = player.connected;
                         
-                       // Connect to the voice channel if not already connected
-                       if (!player.connected) await player.connect();
+                        // Connect to the voice channel if not already connected
+                        if (!player.connected) await player.connect();
+                        
+                        // Add the track(s) to the player's queue
+                        await player.queue.add(
+                            // If the loadType is a playlist, add all the tracks; otherwise, add the first track
+                            searchResult.loadType === "playlist" ? searchResult.tracks : searchResult.tracks[0],
+                        );
                        
-                       // Add the track(s) to the player's queue
-                       await player.queue.add(
-                           // If the loadType is a playlist, add all the tracks; otherwise, add the first track
-                           searchResult.loadType === "playlist" ? searchResult.tracks : searchResult.tracks[0],
-                       );
+                        // If the player was not playing before, start playback
+                        if (!player.playing) await player.play();
+                        
+                        // Only send a confirmation message if the player is already playing. that means it was added to the queue.
+                        if (wasPlaying) 
+                            await command.data.reply("Added to queue!");
+                        else if (!command.isMessage) 
+                            await (command.data as ChatInputCommandInteraction).deleteReply();
+                        else
+                            await message.delete();
                        
-                       // If the player was not playing before, start playback
-                       if (!player.playing) await player.play();
-                       
-                       // Only send a confirmation message if the player is already playing. that means it was added to the queue.
-                       if (wasPlaying) {
-                           await command.data.reply("Added to queue!");
-                       } else if (!command.isMessage) {await (command.data as ChatInputCommandInteraction).reply({ content: "Playing your song", flags: MessageFlags.Ephemeral });}
-
-                        await message.delete();
                         return;
                     }
                 });
