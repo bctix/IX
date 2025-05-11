@@ -5,9 +5,9 @@ import { author, version } from "../../utils/constants";
 const textcommand: ChatCommand = new ChatCommand(
     {
         name: "info",
-        description: "Ping pong!",
+        description: "Who are you?",
         category: "info",
-        usage: "Sends back pong.",
+        usage: "Sends information all about IX.",
         argParser(str) {
             return [str];
         },
