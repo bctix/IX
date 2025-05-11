@@ -19,7 +19,7 @@ const textcommand: ChatCommand = new ChatCommand(
                 [
                     "# IX",
                     "## Your favorite music bot :)",
-                    "IX is a discord bot with a focus on music. Using the latest features from discord like Components V2, and Lavalink.",
+                    "IX is a discord bot with a focus on music. Using Lavalink and the latest features from discord like Components V2",
                     "She can play music from Youtube, Spotify, Soundcloud, Apple Music, Bandcamp, and much more."
                 ].join("\n")
             ));
