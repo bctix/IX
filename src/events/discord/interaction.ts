@@ -1,5 +1,6 @@
 import { BaseInteraction, ChatInputCommandInteraction, ContextMenuCommandInteraction, Events } from "discord.js";
 import { CustomClient, ChatCommandExecute } from "../../types/bot_classes";
+import { printLine } from "../../utils/utils";
 
 export default {
 	name: Events.InteractionCreate,
@@ -25,7 +26,8 @@ export default {
 			try {
 				command.execute(new ChatCommandExecute(Client, command, interaction));
 			} catch (e) {
-				console.error(e);
+				printLine(`{red.bold There was an error executing the command ${command.name}:} ${e}`);
+				await interaction.reply("There was an error running the command!");
 			}
 		}
 	},

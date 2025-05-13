@@ -38,7 +38,8 @@ export default {
 		try {
 			await command.execute(execute);
 		} catch (e) {
-			printLine(`{red bold There was an error executing the command ${command.name}:} ${e}`);
+			printLine(`{red.bold There was an error executing the command ${command.name}:} ${e}`);
+			await execute.data.reply("There was an error running the command!");
 		}
     },
 };
