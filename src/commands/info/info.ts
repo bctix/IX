@@ -35,6 +35,8 @@ const textcommand: ChatCommand = new ChatCommand(
                     `**Created by**: ${author}`,
                     // I could use fetchVersion(), but I plan on adding other lavalink info at a later date.
                     `**Lavalink Version**: ${lavalinkInfo?.version.major}.${lavalinkInfo?.version.minor}.${lavalinkInfo?.version.patch}`,
+                    `**Lavalink Plugins**: ${lavalinkInfo?.plugins.map(plugin => plugin.name).join(", ")}`,
+                    `**Available Sources:** ${lavalinkInfo?.sourceManagers.filter(manager => !["pornhub", "soundgasm"].includes(manager)).join(", ")}`
                 ].join("\n")
             ));
 
