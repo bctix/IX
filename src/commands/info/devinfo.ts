@@ -1,4 +1,4 @@
-import { ContainerBuilder, MessageFlags, SeparatorSpacingSize, TextDisplayBuilder } from "discord.js";
+import { ContainerBuilder, MessageFlags, SeparatorSpacingSize, Team, TextDisplayBuilder } from "discord.js";
 import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../types/bot_classes";
 import osu from "node-os-utils";
 import { msToTime } from "../../utils/utils";
@@ -51,21 +51,28 @@ const textcommand: ChatCommand = new ChatCommand(
                     "# Lavalink Stats",
                     "## Main Node",
                     `**CPU:** ${nodeStats?.cpu.lavalinkLoad}`,
-                    `**Uptime:** ${nodeStats?.uptime}`,
                     `**Memory:** ${nodeStats?.memory.used}`,
+                    `**Players:** ${nodeStats?.players}`,
+                    `**Uptime:** ${nodeStats?.uptime}`,
                 ].join("\n")
             ));
 
             container.addSeparatorComponents(sep => sep.setSpacing(SeparatorSpacingSize.Large));
 
             const client = execute.client;
+            const application = await client.application?.fetch();
 
             container.addTextDisplayComponents(new TextDisplayBuilder().setContent(
                 [
                     "# Bot Stats",
+                    "## General Info",
                     `**Command Count:** ${client.chatcommands.filter(command => !command.isAlias).size}`,
                     `**Guilds:** ${client.guilds.cache.size}`,
                     `**Uptime:** ${client.uptime ? msToTime(client.uptime) : "Unknown"}`,
+                    "## Application Info",
+                    `**Team:** ${(application?.owner as Team).name}`,
+                    `**Aprox. User Install:** ${application?.approximateUserInstallCount}`,
+                    `**Aprox. Guild Count:** ${application?.approximateGuildCount}`,
                 ].join("\n")
             ));
 
