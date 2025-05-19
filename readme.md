@@ -3,7 +3,7 @@ A discord bot with a focus on music.
 
 IX is a private discord bot that can play music using Lavalink.
 
-<img src="https://github.com/user-attachments/assets/54086ae8-b82f-48a0-b4bf-07ac3c187334" alt="ix's profile picture" style="width:100px;"/>
+<img src="./assets/images/IX.png" alt="ix's profile picture" style="width:100px;"/>
 
 ^ thats ix
 
