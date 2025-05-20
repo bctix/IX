@@ -1,7 +1,7 @@
 import { SearchPlatform } from "lavalink-client/dist/types";
 import { ChatCommandExecute } from "../../../types/bot_classes";
 import { commandToLavaData, getLavalinkPlayer } from "../../../utils/lavalink";
-import { ButtonBuilder, ButtonStyle, ContainerBuilder, MessageFlags, SectionBuilder, SeparatorSpacingSize, TextDisplayBuilder, ThumbnailBuilder } from "discord.js";
+import { Attachment, ButtonBuilder, ButtonStyle, ContainerBuilder, MessageFlags, SectionBuilder, SeparatorSpacingSize, TextDisplayBuilder, ThumbnailBuilder } from "discord.js";
 import { createErrorEmbed } from "../../../utils/utils";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -103,6 +103,88 @@ export default {
 
 					if (i.customId === "play") {
 						const trackIdx = player.queue.tracks.indexOf(res.tracks[0]);
+						const removeTrack = await player.queue.remove(trackIdx);
+						if (removeTrack != null) {
+							const removedTrack = removeTrack.removed[0];
+							await player.queue.add(removedTrack, 0);
+							await player.skip();
+						}
+						await message.delete();
+					}
+				});
+			} 
+		} catch (e) {
+			const errorMessage = e as Error;
+			await command.data.reply({embeds: [createErrorEmbed(errorMessage.message)]});
+		}
+	},
+
+	playFile: async function playFile(command: ChatCommandExecute, attachment: Attachment, source: SearchPlatform) {
+		const query = attachment.url;
+
+		if (!query || query === "") {
+			await command.data.reply("You need to search for a song!");
+			return;
+		}
+
+		try {
+			const player = getLavalinkPlayer(commandToLavaData(command));
+
+			if (!player) {
+				await command.data.reply("I couldn't get what vc you are in!");
+				return;
+			}
+
+			const res = await player.search({ query: query, source: source }, command.data.member?.user);
+
+			if (!res || !res.tracks?.length) {
+				await command.data.reply("Couldn't find any songs!");
+				return;
+			}
+
+			const wasPlaying = player.connected;
+
+			if (!player.connected) await player.connect();
+
+			const track = res.tracks[0];
+			track.info.title = attachment.name;
+
+			await player.queue.add(track);
+
+			if (!player.playing) {await player.play();}
+
+			if (wasPlaying) {
+				const container = new ContainerBuilder();
+
+				await buildTopPart(res, container);
+
+				container.addSeparatorComponents(separator => separator.setSpacing(SeparatorSpacingSize.Large));
+
+				const playButton = new ButtonBuilder()
+							.setLabel("Play now")
+							.setStyle(ButtonStyle.Primary)
+							.setCustomId("play")
+							.setEmoji("⏭️");
+				
+				container.addActionRowComponents(row => row.addComponents(playButton));
+
+				const message = await command.data.reply({ 
+					components: [container],
+					flags: MessageFlags.IsComponentsV2
+				});
+
+				const collector = message.createMessageComponentCollector({ filter: (i) => i.user.id === command.data.member?.user.id, time: 60_000 });
+			
+				collector.on("collect", async (i) => {
+
+					if (!player) {
+						playButton.setDisabled(true);
+						await i.update({ components: [container] });
+						return;
+					}
+
+					if (i.customId === "play") {
+						const trackIdx = player.queue.tracks.indexOf(track);
 						const removeTrack = await player.queue.remove(trackIdx);
 						if (removeTrack != null) {
 							const removedTrack = removeTrack.removed[0];
