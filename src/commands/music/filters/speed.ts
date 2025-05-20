@@ -28,7 +28,7 @@ const textcommand: ChatCommand = new ChatCommand(
         async execute(command: ChatCommandExecute) {
             const rate = command.args[0];
             
-            if (rate < 0) { command.data.reply("Please provide a valid speed (greater than 0)"); return; }
+            if (rate < 0.5 && rate > 5) { command.data.reply("Please provide a valid speed (greater than 0.5x, less than 5x)"); return; }
 
             const player = getLavalinkPlayer(commandToLavaData(command));
             if (!command.data.member) {command.data.reply("I couldn't get what vc you're in!"); return;};
