@@ -75,7 +75,7 @@ export default {
 			.setEmoji("⏭️");
 
 		const toggleLoop = new ButtonBuilder()
-			.setLabel("Toggle loop")
+			.setLabel(`Looping ${player.repeatMode}`)
 			.setStyle(ButtonStyle.Secondary)
 			.setCustomId("toggleLoop");
 		

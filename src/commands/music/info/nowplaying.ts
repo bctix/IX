@@ -96,7 +96,7 @@ const textcommand: ChatCommand = new ChatCommand(
 
                 const toggleLoop = new ButtonBuilder()
                     .setStyle(ButtonStyle.Secondary)
-                    .setLabel("Toggle loop")
+                    .setLabel(`Looping ${player.repeatMode}`)
                     .setCustomId("toggleLoop");
 
                 container.addActionRowComponents(row => row.addComponents(backButton, pauseButton, forwardButton, toggleLoop));
