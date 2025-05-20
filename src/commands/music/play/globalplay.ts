@@ -2,6 +2,7 @@ import { SearchPlatform } from "lavalink-client/dist/types";
 import { ChatCommandExecute } from "../../../types/bot_classes";
 import { commandToLavaData, getLavalinkPlayer } from "../../../utils/lavalink";
 import { ButtonBuilder, ButtonStyle, ContainerBuilder, MessageFlags, SectionBuilder, SeparatorSpacingSize, TextDisplayBuilder, ThumbnailBuilder } from "discord.js";
+import { createErrorEmbed } from "../../../utils/utils";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function buildTopPart(res: any, container: ContainerBuilder) {
@@ -113,7 +114,8 @@ export default {
 				});
 			} 
 		} catch (e) {
-			console.error(e);
+			const errorMessage = e as Error;
+			await command.data.reply({embeds: [createErrorEmbed(errorMessage.message)]});
 		}
 	},
 };
