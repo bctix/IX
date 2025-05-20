@@ -227,6 +227,16 @@ export async function deployApplicationCommands(client:CustomClient) {
 						});
 						break;
 					}
+					case (ApplicationCommandOptionType.Channel): {
+						slashCommand.addChannelOption((option) => {
+							option.setName(commandOption.name);
+							option.setDescription(commandOption.description);
+							if (commandOption.required) {option.setRequired(commandOption.required);}
+
+							return option;
+						});
+						break;
+					}
 					}
 				});
 			}
