@@ -19,7 +19,7 @@ const textcommand: ChatCommand = new ChatCommand(
         category: "music (play)",
         async execute(command: ChatCommandExecute) {
             let attachment: Attachment | undefined;
-            if (command.isMessage) 
+            if (command.isMessage)
                 attachment = (command.data as Message).attachments.first();
              else 
                 attachment = command.args[0] as Attachment;
