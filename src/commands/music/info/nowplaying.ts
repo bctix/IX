@@ -96,7 +96,7 @@ const textcommand: ChatCommand = new ChatCommand(
 
                 const toggleLoop = new ButtonBuilder()
                     .setStyle(ButtonStyle.Secondary)
-                    .setLabel("Toggle loop")
+                    .setLabel(`Toggle loop (${player.repeatMode})`)
                     .setCustomId("toggleLoop");
 
                 container.addActionRowComponents(row => row.addComponents(backButton, pauseButton, forwardButton, toggleLoop));
@@ -146,15 +146,15 @@ const textcommand: ChatCommand = new ChatCommand(
                             switch (player.repeatMode) {
                                 case "off":
                                     await player.setRepeatMode("track");
-                                    toggleLoop.setLabel("Looping track").setStyle(ButtonStyle.Success);
+                                    toggleLoop.setLabel(`Toggle loop (${player.repeatMode})`).setStyle(ButtonStyle.Success);
                                     break;
                                 case "track":
                                     await player.setRepeatMode("queue");
-                                    toggleLoop.setLabel("Looping queue").setStyle(ButtonStyle.Success);
+                                    toggleLoop.setLabel(`Toggle loop (${player.repeatMode})`).setStyle(ButtonStyle.Success);
                                     break;
                                 case "queue":
                                     await player.setRepeatMode("off");
-                                    toggleLoop.setLabel("Looping off").setStyle(ButtonStyle.Secondary);
+                                    toggleLoop.setLabel(`Toggle loop (${player.repeatMode})`).setStyle(ButtonStyle.Secondary);
                                     break;
                             }
                             break;

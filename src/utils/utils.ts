@@ -1,5 +1,5 @@
 import { template } from "./chalk";
-import { resolveColor, ColorResolvable } from "discord.js";
+import { resolveColor, ColorResolvable, EmbedBuilder } from "discord.js";
 import Vibrant from "node-vibrant/node";
 import { CustomClient } from "../types/bot_classes";
 
@@ -79,4 +79,13 @@ export function getEmojiFromName(client: CustomClient, name: string): string {
 	const emoji = client.emojis.cache.find((emoj) => emoj.name === name);
 	if (!emoji) return "";
 	return emoji.toString();
+}
+
+export function createErrorEmbed(message: string): EmbedBuilder {
+	const embed = new EmbedBuilder();
+	embed.setTitle("Something went wrong!");
+	embed.setDescription(message);
+	embed.setColor("Red");
+
+	return embed;
 }
