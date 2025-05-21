@@ -4,9 +4,9 @@ import { randomInt } from "mathjs";
 
 const choices = ["rock", "paper", "scissors"];
 const outcomes = [
-    ["It's a draw.", "I win!", "You win!"], // ix picks is rock
-    ["You win!", "It's a draw.", "I win!"], // ix picks is paper
-    ["I win!", "You win!", "It's a draw."] // ix picks is scissors
+    ["It's a draw.", "You win!", "I win!"], // ix picks is rock
+    ["I win!", "It's a draw.", "You win!"], // ix picks is paper
+    ["You win!", "I win!", "It's a draw."] // ix picks is scissors
   ];
 
 const textcommand: ChatCommand = new ChatCommand(
