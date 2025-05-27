@@ -1,0 +1,24 @@
+{
+    // Prefixs used for message commands
+    "prefix": "",
+    // Prefix for when process.env.NODE_ENV is "development"
+    "devprefix": "",
+
+    // UserIDs that have access to commands flagged with "DevOnly"
+    "devs": [],
+
+    // lavalink settings
+    "lavalink": {
+        // add multiple nodes if you want
+       "nodes": [
+            {
+                "host": "",
+                "port": 0,
+                "password": "",
+                "id": ""
+            }
+        ],
+        "timeTillLeaveWhenEmpty": 120000,
+        "emitNewSongsOnly": true,
+    }
+}

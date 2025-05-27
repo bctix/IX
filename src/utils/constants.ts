@@ -1,5 +1,8 @@
-export const devs: string[] = ["205580500125876224"];
-export const prefix: string = process.env.NODE_ENV == "production" ? "ix!" : "xi!";
-export const author: string = "bctix";
-import packageData from "../../package.json";
-export const version: string = packageData.version;
+import { LavalinkConfig } from "../types/bot_types";
+import { parseJson5 } from "./utils";
+const config = parseJson5("config/config.json5");
+
+export const devs: string[] = config.devs;
+export const prefix: string = process.env.NODE_ENV === "production" ? config.prefix : config.devprefix;
+
+export const lavalinkConfig: LavalinkConfig = config.lavalink;

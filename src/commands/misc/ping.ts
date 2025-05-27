@@ -1,18 +1,17 @@
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../types/bot_classes";
+import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../types/bot_types";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
         name: "ping",
         description: "Ping pong!",
-        category: "misc",
-        usage: "Sends back pong.",
+        usage: "Sends back pong!",
         argParser(str) {
             return [str];
         },
         async execute(execute: ChatCommandExecute) {
-            execute.data.reply("Pong! from IX!");
+            execute.data.reply("Pong!");
         },
-    } as ChatCommandOptions
+    } as ChatCommandOptions,
 );
 
 export default textcommand;

@@ -1,34 +1,13 @@
-import { Colors, EmbedBuilder, SendableChannels } from "discord.js";
-import { CustomClient } from "../../types/bot_classes";
+import { CustomClient } from "../../types/bot_types";
 import { printLine } from "../../utils/utils";
 
 export default {
     name: "SIGINT",
     async execute(Client: CustomClient) {
-        if(!Client.isShuttingdown) Client.isShuttingdown = true;
+        if (!Client.isShuttingDown) Client.isShuttingDown = true;
         else return;
-        printLine("{red sigint received running shut down stuff.}");
+        printLine("{bold.red SIGINT received, shutting down.}\n");
 
-        if (Client.lavalink) {
-            for(const player of Client.lavalink.players.values()) {
-                if(player.textChannelId !== null) {
-                    const channel = Client.channels.cache.get(player.textChannelId);
-                    if(channel?.isSendable()) {
-                        const embed = new EmbedBuilder();
-                        embed.setTitle("Leaving VC!");
-                        embed.setDescription("Either something went really wrong, or IX is updating!");
-                        embed.setColor(Colors.Red);
-    
-                        await (channel as SendableChannels).send({embeds: [embed]});
-                    }
-                }
-                await player.destroy("sigint", true);
-            }
-        }
-        
-        
-        printLine("{bold.red Completed, shutting down.}\n");
-        
         process.exit(0);
     },
 };
