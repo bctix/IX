@@ -16,9 +16,9 @@
                 "port": 0,
                 "password": "",
                 "id": ""
-            }
+            },
         ],
-        "timeTillLeaveWhenEmpty": 120000,
-        "emitNewSongsOnly": true,
+        "timeTillLeaveWhenEmpty": 120000, // after 2 minutes when queue is empty, leave VC.
+        "emitNewSongsOnly": true, // only send the now playing embed, when its a unique song. (prevent the same song being sent when its looping)
     }
 }
