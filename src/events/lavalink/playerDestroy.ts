@@ -41,7 +41,7 @@ export default {
                 embed.setTitle("Leaving VC");
                 embed.setDescription("Something happened to make me leave vc!");
                 embed.setColor(Colors.Red);
-                console.error("Unknown Player destroy: " + reason);
+                printLine(`{bold.red Unknown player destroy reason: } {underline.red ${reason}`);
                 break;
         }
 
