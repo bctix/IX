@@ -8,13 +8,12 @@ const textcommand: ChatCommand = new ChatCommand(
         description: "Stop some tunes!",
         aliases: ["st"],
         usage: "Stops the current song, clears the queue, and leaves VC.",
-        category: "music (play)",
+        category: "music (controls)",
         argParser(str: string) {
             return [str];
         },
         async execute(command: ChatCommandExecute) {
             const player = getLavalinkPlayer(commandToLavaData(command));
-
             if (!checkPlayer(command, player) || !player) return;
 
             await player.destroy("stopRequest");
