@@ -18,7 +18,7 @@ export default {
         }
 
         if (err) {
-            printLine("{yellow Please add these plugins or else IX will not work correctly}");
+            printLine("{yellow Please add these plugins or IX may work correctly}");
         }
     },
 };

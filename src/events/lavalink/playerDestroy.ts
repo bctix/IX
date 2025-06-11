@@ -8,7 +8,7 @@ export default {
     async execute(Client: CustomClient, player: Player, reason: string) {
         if (!player.textChannelId) return;
 
-        printLine(`{red Player in guildID} {underline.red ${player.guildId}} {red was destroyed with reason:} {underline.red ${reason}}`);
+        printLine(`{red Player was destroyed with reason:} {underline.red ${reason}}`);
 
         const channel = Client.channels.cache.get(player.textChannelId);
 
