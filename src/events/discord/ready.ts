@@ -1,6 +1,6 @@
 import { Events } from "discord.js";
 import { CustomClient } from "../../types/bot_types";
-import { deployApplicationCommands } from "../../utils/registry";
+import { deployApplicationCommands, registerEvents } from "../../utils/registry";
 import { print, printLine } from "../../utils/utils";
 import { lavalinkConfig, prefix } from "../../utils/constants";
 import { client } from "../..";
@@ -22,6 +22,8 @@ export default {
             printLine("{yellow Creating lavalink manager...} ");
             Client.lavalink = await createLavalinkManager(client, lavalinkConfig);
             print("{green Complete!}");
+
+            registerEvents(Client.lavalink.nodeManager, Client, "../events/lavalinkNode");
         }
         catch (e) {
             console.error(e);
