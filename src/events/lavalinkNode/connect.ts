@@ -9,7 +9,7 @@ export default {
 
         info.plugins.forEach(plug => {
             console.log(plug.name);
-        })
+        });
 
         let err = false;
         if (!info.plugins.some(plugin => plugin.name === "youtube-plugin")) {
