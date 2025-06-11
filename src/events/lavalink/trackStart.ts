@@ -17,7 +17,7 @@ export default {
 
         const section = new SectionBuilder();
         section.addTextDisplayComponents(
-            new TextDisplayBuilder().setContent(`### Added song to queue\n### ${hyperlink(track.info.title, track.info.uri ?? "")}`),
+            new TextDisplayBuilder().setContent(`### Now playing song:\n### ${hyperlink(track.info.title, track.info.uri ?? "")}`),
         );
         if (track.info.artworkUrl) {
             const thumbnail = new ThumbnailBuilder().setURL(track.info.artworkUrl);
@@ -31,11 +31,12 @@ export default {
 
         container.addSectionComponents(section);
 
-        container.addSeparatorComponents(separator => separator.setSpacing(SeparatorSpacingSize.Large));
+        container.addSeparatorComponents(separator => separator.setSpacing(SeparatorSpacingSize.Small));
 
         const middleText = new TextDisplayBuilder().setContent(
             [
                 `**Duration**:\n${track.info.isStream ? "Live" : msToTime(track.info.duration)}\n`,
+                `**Author**:\n${track.info.author}\n`,
                 `-# Requested by: ${member?.nickname ?? member?.displayName ?? (track.requester as User).displayName ?? (track.requester as User).username}`,
             ].join("\n"),
         );

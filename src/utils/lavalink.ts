@@ -88,38 +88,42 @@ export async function playSong(command: ChatCommandExecute, url: string, platfor
 
             switch (searchRes.loadType) {
                 case "playlist": {
-                    const section = new SectionBuilder();
-                    section.addTextDisplayComponents(
-                        new TextDisplayBuilder().setContent(`### Adding playlist to queue\n### ${hyperlink(searchRes.playlist?.name ?? "Unknown Playlist", searchRes.playlist?.uri ?? "")}`),
-                    );
+                    const textDisplay = new TextDisplayBuilder().setContent(`### Adding playlist to queue\n### ${hyperlink(searchRes.playlist?.name ?? "Unknown Playlist", searchRes.playlist?.uri ?? "")}`);
+
                     if (searchRes.playlist?.thumbnail) {
+                        const section = new SectionBuilder();
+                        section.addTextDisplayComponents(textDisplay);
                         const thumbnail = new ThumbnailBuilder().setURL(searchRes.playlist.thumbnail);
                         section.setThumbnailAccessory(thumbnail);
                         const col = await getVibrantColorToDiscord(searchRes.playlist.thumbnail);
                         if (col) container.setAccentColor(col);
+                        container.addSectionComponents(section);
                     }
                     else {
+                        console.log("Not adding thumbnail");
+                        container.addTextDisplayComponents(textDisplay);
                         container.setAccentColor(Colors.Green);
                     }
-                    container.addSectionComponents(section);
                     break;
                 }
 
                 case "search": {
-                    const section = new SectionBuilder();
-                    section.addTextDisplayComponents(
-                        new TextDisplayBuilder().setContent(`### Added song to queue\n### ${hyperlink(searchRes.tracks[0].info.title, searchRes.tracks[0].info.uri ?? "")}`),
-                    );
+                    const textDisplay = new TextDisplayBuilder().setContent(`### Added song to queue\n### ${hyperlink(searchRes.tracks[0].info.title, searchRes.tracks[0].info.uri ?? "")}`);
+
                     if (searchRes.tracks[0].info.artworkUrl) {
+                        const section = new SectionBuilder();
+                        section.addTextDisplayComponents(textDisplay);
                         const thumbnail = new ThumbnailBuilder().setURL(searchRes.tracks[0].info.artworkUrl);
                         section.setThumbnailAccessory(thumbnail);
                         const col = await getVibrantColorToDiscord(searchRes.tracks[0].info.artworkUrl);
                         if (col) container.setAccentColor(col);
+                        container.addSectionComponents(section);
                     }
                     else {
+                        console.log("Not adding thumbnail");
+                        container.addTextDisplayComponents(textDisplay);
                         container.setAccentColor(Colors.Green);
                     }
-                    container.addSectionComponents(section);
                     break;
                 }
                 default: {
