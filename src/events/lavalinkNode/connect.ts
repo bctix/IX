@@ -7,10 +7,6 @@ export default {
     async execute(Client: CustomClient, node: LavalinkNode) {
         const info = await node.fetchInfo();
 
-        info.plugins.forEach(plug => {
-            console.log(plug.name);
-        });
-
         let err = false;
         if (!info.plugins.some(plugin => plugin.name === "youtube-plugin")) {
             printLine(`{underline.bold.red youtube-plugin} {bold.red or some equivalent was not found on node id:} {yellow ${node.id}}`);
