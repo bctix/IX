@@ -1,6 +1,6 @@
-import { ApplicationCommandOptionType, ChatInputCommandInteraction, MessageFlags } from "discord.js";
+import { ApplicationCommandOptionType } from "discord.js";
 import { ChatCommand, ChatCommandExecute, ChatCommandOptions } from "../../../types/bot_types";
-import { checkPlayer, commandToLavaData, getLavalinkPlayer, playSong } from "../../../utils/lavalink";
+import { checkPlayer, commandToLavaData, getLavalinkPlayer } from "../../../utils/lavalink";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
@@ -29,8 +29,8 @@ const textcommand: ChatCommand = new ChatCommand(
             if (!checkPlayer(command, player) || !player) return;
 
             if (position >= player.queue.tracks.length) {
-                    command.data.reply("There is no song at that position!");
-                    return;
+                command.data.reply("There is no song at that position!");
+                return;
             }
 
             await player.skip(position);

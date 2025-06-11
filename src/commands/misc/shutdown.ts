@@ -23,10 +23,8 @@ const textcommand: ChatCommand = new ChatCommand(
                         if (channel?.isSendable()) {
                             const embed = new EmbedBuilder();
                             embed.setTitle("Leaving VC!");
-                            if (message !== "")
-                                embed.setDescription(message);
-                            else
-                                embed.setDescription("IX is being shutdown for an update!\nSorry for the inconvenience, She'll be back up shortly.");
+                            if (message !== "") {embed.setDescription(message);}
+                            else {embed.setDescription("IX is being shutdown for an update!\nSorry for the inconvenience, She'll be back up shortly.");}
                             embed.setColor(Colors.Red);
 
                             await (channel as SendableChannels).send({ embeds: [embed] });

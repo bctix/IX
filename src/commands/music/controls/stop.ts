@@ -1,6 +1,6 @@
-import { ApplicationCommandOptionType, ChatInputCommandInteraction, MessageFlags } from "discord.js";
+import { ChatInputCommandInteraction, MessageFlags } from "discord.js";
 import { ChatCommand, ChatCommandExecute, ChatCommandOptions } from "../../../types/bot_types";
-import { checkPlayer, commandToLavaData, getLavalinkPlayer, playSong } from "../../../utils/lavalink";
+import { checkPlayer, commandToLavaData, getLavalinkPlayer } from "../../../utils/lavalink";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
