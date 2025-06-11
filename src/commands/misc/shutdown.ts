@@ -12,6 +12,7 @@ const textcommand: ChatCommand = new ChatCommand(
             return [str];
         },
         async execute(execute: ChatCommandExecute) {
+            const message = execute.args[0];
             printLine("{bold.red Shutdown command recieved!}");
 
             const Client = execute.client;
@@ -22,7 +23,10 @@ const textcommand: ChatCommand = new ChatCommand(
                         if (channel?.isSendable()) {
                             const embed = new EmbedBuilder();
                             embed.setTitle("Leaving VC!");
-                            embed.setDescription("IX is being shutdown for an update!\nSorry for the inconvenience, She'll be back up shortly.");
+                            if (message !== "")
+                                embed.setDescription(message);
+                            else
+                                embed.setDescription("IX is being shutdown for an update!\nSorry for the inconvenience, She'll be back up shortly.");
                             embed.setColor(Colors.Red);
 
                             await (channel as SendableChannels).send({ embeds: [embed] });
@@ -31,7 +35,7 @@ const textcommand: ChatCommand = new ChatCommand(
                     await player.destroy("sigint", true);
                 }
             }
-
+            printLine();
             process.exit(0);
         },
     } as ChatCommandOptions,
