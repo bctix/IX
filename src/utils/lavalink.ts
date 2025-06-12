@@ -213,12 +213,14 @@ export function getLavalinkPlayer(lavadata: LavaData, createPlayer = true) : Pla
     return player;
 }
 
-export function checkPlayer(command:ChatCommandExecute, player: Player | undefined): boolean {
+export function checkPlayer(command:ChatCommandExecute, player: Player | undefined, checkIfPlaying: boolean = false): boolean {
     if (!command.data.member) {command.data.reply("I couldn't get what vc you're in!"); return false;};
     const vcId = (command.data.member as GuildMember).voice.channelId;
 
     if (!player) {command.data.reply("I couldn't get what vc you're in!"); return false;}
     if (player.voiceChannelId !== vcId) {command.data.reply("You need to be in my vc!"); return false;}
+    if (checkIfPlaying)
+        if (!player.playing || !player.queue.current) {command.data.reply("I'm not playing anything!"); return false;}
 
     return true;
 }
