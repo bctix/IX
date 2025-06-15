@@ -6,7 +6,7 @@ const textcommand: ChatCommand = new ChatCommand(
     {
         name: "stop",
         description: "Stop some tunes!",
-        aliases: ["st"],
+        aliases: ["st", "leave", "disconnect", "dc"],
         usage: "Stops the current song, clears the queue, and leaves VC.",
         category: "music (controls)",
         argParser(str: string) {

@@ -14,8 +14,9 @@ export function print(message?: string) {
 }
 
 export function printLine(message?: string) {
+    const time = new Date(Date.now()).toLocaleTimeString("en-US", { year:"numeric", month: "numeric", day:"numeric", hour: "numeric", minute: "numeric", hour12: true });
     if (!message) process.stdout.write("\n");
-    else process.stdout.write("\n" + template(message));
+    else process.stdout.write(template(`\n{#032cfc [${time}]} `) + template(message));
 }
 
 export function clearLine() {

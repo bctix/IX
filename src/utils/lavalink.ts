@@ -219,8 +219,7 @@ export function checkPlayer(command:ChatCommandExecute, player: Player | undefin
 
     if (!player) {command.data.reply("I couldn't get what vc you're in!"); return false;}
     if (player.voiceChannelId !== vcId) {command.data.reply("You need to be in my vc!"); return false;}
-    if (checkIfPlaying)
-        if (!player.playing || !player.queue.current) {command.data.reply("I'm not playing anything!"); return false;}
+    if (checkIfPlaying && (!player.playing || !player.queue.current)) {command.data.reply("I'm not playing anything!"); return false;}
 
     return true;
 }
