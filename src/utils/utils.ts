@@ -59,9 +59,9 @@ export function createErrorEmbed(message: string): EmbedBuilder {
 }
 
 export function generateProgressBar(percentage: number, size = 10, emptyText = "▱", filledText = "▰") {
-	const filledCount = Math.floor(percentage * size);
-	const emptyCount = size - filledCount;
-	return filledText.repeat(filledCount) + emptyText.repeat(emptyCount);
+    const filledCount = Math.floor(percentage * size);
+    const emptyCount = size - filledCount;
+    return filledText.repeat(filledCount) + emptyText.repeat(emptyCount);
 }
 
 /**

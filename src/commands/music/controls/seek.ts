@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, EmbedBuilder, MessageFlags } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import { ChatCommand, ChatCommandExecute, ChatCommandOptions } from "../../../types/bot_types";
 import { checkPlayer, commandToLavaData, getLavalinkPlayer } from "../../../utils/lavalink";
 import { generateProgressBar, msToTime } from "../../../utils/utils";
@@ -38,7 +38,7 @@ const textcommand: ChatCommand = new ChatCommand(
                 .setDescription(`\`${msToTime(player.position)}\` - ${bar} - \`${msToTime(player.queue.current.info.duration)}\``)
                 .setColor("Green");
 
-            await command.data.reply({embeds: [embed]});
+            await command.data.reply({ embeds: [embed] });
 
         },
     } as ChatCommandOptions,
