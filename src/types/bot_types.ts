@@ -23,6 +23,11 @@ export interface LavalinkConfig {
     timeTillLeaveWhenEmpty?: number;
 }
 
+export interface TrackInfoOverride {
+    title?: string,
+    author?: string
+}
+
 export class CustomClient extends Client {
     public chatcommands: Collection<string, ChatCommand>;
     public contextmenucommands: Collection<string, ContextCommand>;

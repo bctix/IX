@@ -14,22 +14,23 @@ export default {
         if (!channel) return;
 
         const container = new ContainerBuilder();
+        const textDisplay = new TextDisplayBuilder().setContent(`### Now playing song:\n### ${hyperlink(track.info.title, track.info.uri ?? "")}`);
 
-        const section = new SectionBuilder();
-        section.addTextDisplayComponents(
-            new TextDisplayBuilder().setContent(`### Now playing song:\n### ${hyperlink(track.info.title, track.info.uri ?? "")}`),
-        );
         if (track.info.artworkUrl) {
+            const section = new SectionBuilder();
             const thumbnail = new ThumbnailBuilder().setURL(track.info.artworkUrl);
             section.setThumbnailAccessory(thumbnail);
+            section.addTextDisplayComponents(
+                textDisplay,
+            );
             const col = await getVibrantColorToDiscord(track.info.artworkUrl);
             if (col) container.setAccentColor(col);
+            container.addSectionComponents(section);
         }
         else {
             container.setAccentColor(Colors.Green);
+            container.addTextDisplayComponents(textDisplay);
         }
-
-        container.addSectionComponents(section);
 
         container.addSeparatorComponents(separator => separator.setSpacing(SeparatorSpacingSize.Small));
 

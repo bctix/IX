@@ -1,5 +1,5 @@
 import { LavalinkManager, LavalinkNodeOptions, Player, SearchPlatform } from "lavalink-client";
-import { LavalinkConfig, CustomClient, ChatCommandExecute, LavaData } from "../types/bot_types";
+import { LavalinkConfig, CustomClient, ChatCommandExecute, LavaData, TrackInfoOverride as TrackOverrideInfo } from "../types/bot_types";
 import { registerEvents } from "./registry";
 import { ButtonBuilder, ButtonStyle, Colors, ContainerBuilder, GuildMember, hyperlink, MessageFlags, SectionBuilder, SeparatorSpacingSize, TextDisplayBuilder, ThumbnailBuilder } from "discord.js";
 import { createErrorEmbed, getVibrantColorToDiscord, printLine } from "./utils";
@@ -53,7 +53,7 @@ export async function createLavalinkManager(client: CustomClient, options: Laval
     return lavalink;
 }
 
-export async function playSong(command: ChatCommandExecute, url: string, platform: SearchPlatform) {
+export async function playSong(command: ChatCommandExecute, url: string, platform: SearchPlatform, overrideInfo?: TrackOverrideInfo) {
     try {
         if (!url || url === "") {
             await command.data.reply("You need to search for a song!");
@@ -72,6 +72,11 @@ export async function playSong(command: ChatCommandExecute, url: string, platfor
         if (!searchRes || !searchRes.tracks?.length) {
             await command.data.reply("Couldn't find any songs!");
             return;
+        }
+
+        if (searchRes.loadType !== "playlist" && overrideInfo) {
+            if (overrideInfo.title) searchRes.tracks[0].info.title = overrideInfo.title;
+            if (overrideInfo.author) searchRes.tracks[0].info.author = overrideInfo.author;
         }
 
         await player.queue.add(
