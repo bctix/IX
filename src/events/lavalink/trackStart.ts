@@ -36,8 +36,8 @@ export default {
 
         const middleText = new TextDisplayBuilder().setContent(
             [
-                `**Duration**:\n${track.info.isStream ? "Live" : msToTime(track.info.duration)}\n`,
                 `**Author**:\n${track.info.author}\n`,
+                `**Duration**:\n${track.info.isStream ? "Live" : msToTime(track.info.duration)}\n`,
                 `-# Requested by: ${member?.nickname ?? member?.displayName ?? (track.requester as User).displayName ?? (track.requester as User).username}`,
             ].join("\n"),
         );
