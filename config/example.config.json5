@@ -8,7 +8,7 @@
     "devs": [],
     
     // Enable all music functions
-    "enableMusic": false,
+    "enableMusic": true,
 
     // lavalink settings
     "lavalink": {
