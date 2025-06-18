@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType, Attachment, Message } from "discord.js";
-import { ChatCommand, ChatCommandExecute, ChatCommandOptions } from "../../../types/bot_types";
-import { playSong } from "../../../utils/lavalink";
+import { ChatCommand, ChatCommandExecute, ChatCommandOptions } from "../../types/bot_types";
+import { playSong } from "../../utils/lavalink";
 
 const textcommand: ChatCommand = new ChatCommand(
     {

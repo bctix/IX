@@ -2,7 +2,7 @@ import { Events } from "discord.js";
 import { CustomClient } from "../../types/bot_types";
 import { deployApplicationCommands, registerEvents } from "../../utils/registry";
 import { print, printLine } from "../../utils/utils";
-import { lavalinkConfig, prefix } from "../../utils/constants";
+import { enableMusic, lavalinkConfig, prefix } from "../../utils/constants";
 import { client } from "../..";
 import { createLavalinkManager } from "../../utils/lavalink";
 
@@ -19,11 +19,13 @@ export default {
 
             print(`{green Complete!} {bold.blue ${Client.chatcommands.filter(cmd => !cmd.isAlias).size}} {green commands registered.}`);
 
-            printLine("{yellow Creating lavalink manager...} ");
-            Client.lavalink = await createLavalinkManager(client, lavalinkConfig);
-            print("{green Complete!}");
+            if (enableMusic) {
+                printLine("{yellow Creating lavalink manager...} ");
+                Client.lavalink = await createLavalinkManager(client, lavalinkConfig);
+                print("{green Complete!}");
 
-            registerEvents(Client.lavalink.nodeManager, Client, "../events/lavalinkNode");
+                registerEvents(Client.lavalink.nodeManager, Client, "../events/lavalinkNode");
+            }
         }
         catch (e) {
             console.error(e);

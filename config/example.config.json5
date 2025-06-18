@@ -6,6 +6,9 @@
 
     // UserIDs that have access to commands flagged with "DevOnly"
     "devs": [],
+    
+    // Enable all music functions
+    "enableMusic": false,
 
     // lavalink settings
     "lavalink": {

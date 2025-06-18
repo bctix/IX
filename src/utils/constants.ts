@@ -7,3 +7,5 @@ export const devs: string[] = config.devs;
 export const prefix: string = process.env.NODE_ENV === "production" ? config.prefix : config.devprefix;
 export const version: string = packageData.version;
 export const lavalinkConfig: LavalinkConfig = config.lavalink;
+
+export const enableMusic: boolean = config.enableMusic ?? true;

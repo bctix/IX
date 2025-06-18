@@ -1,5 +1,5 @@
-import { ChatCommand, ChatCommandExecute, ChatCommandOptions } from "../../../types/bot_types";
-import { checkPlayer, commandToLavaData, getLavalinkPlayer } from "../../../utils/lavalink";
+import { ChatCommand, ChatCommandExecute, ChatCommandOptions } from "../../types/bot_types";
+import { checkPlayer, commandToLavaData, getLavalinkPlayer } from "../../utils/lavalink";
 
 const textcommand: ChatCommand = new ChatCommand(
     {

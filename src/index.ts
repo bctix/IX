@@ -3,6 +3,7 @@ import { CustomClient } from "./types/bot_types";
 import dotenv from "dotenv";
 import { registerEvents, registerCommands } from "./utils/registry";
 import { printLine } from "./utils/utils";
+import { enableMusic } from "./utils/constants";
 dotenv.config();
 
 export const client = new CustomClient(
@@ -12,7 +13,8 @@ export const client = new CustomClient(
 async function main() {
     await registerEvents(client, client, "../events/discord");
     await registerEvents(process, client, "../events/process");
-    await registerCommands(client, "../commands");
+    await registerCommands(client, "../normalcommands");
+    if (enableMusic) await registerCommands(client, "../musiccommands");
 
     printLine("{yellow Starting bot...}");
     await client.login(process.env.DISCORD_TOKEN);
