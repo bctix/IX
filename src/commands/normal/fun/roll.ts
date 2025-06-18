@@ -1,5 +1,5 @@
 import { randomInt } from "mathjs";
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../types/bot_types";
+import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../../types/bot_types";
 import { ApplicationCommandOptionType } from "discord.js";
 
 const textcommand: ChatCommand = new ChatCommand(

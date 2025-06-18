@@ -13,8 +13,8 @@ export const client = new CustomClient(
 async function main() {
     await registerEvents(client, client, "../events/discord");
     await registerEvents(process, client, "../events/process");
-    await registerCommands(client, "../normalcommands");
-    if (enableMusic) await registerCommands(client, "../musiccommands");
+    await registerCommands(client, "../commands/normal");
+    if (enableMusic) await registerCommands(client, "../commands/music");
 
     printLine("{yellow Starting bot...}");
     await client.login(process.env.DISCORD_TOKEN);

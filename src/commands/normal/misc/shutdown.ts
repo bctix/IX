@@ -1,6 +1,6 @@
 import { EmbedBuilder, Colors, SendableChannels } from "discord.js";
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute, ChatCommandFlags } from "../../types/bot_types";
-import { printLine } from "../../utils/utils";
+import { ChatCommand, ChatCommandOptions, ChatCommandExecute, ChatCommandFlags } from "../../../types/bot_types";
+import { printLine } from "../../../utils/utils";
 
 const textcommand: ChatCommand = new ChatCommand(
     {

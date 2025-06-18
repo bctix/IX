@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType, Colors, EmbedBuilder } from "discord.js";
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../types/bot_types";
-import { getLavalinkPlayer, commandToLavaData, checkPlayer } from "../../utils/lavalink";
+import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../../types/bot_types";
+import { getLavalinkPlayer, commandToLavaData, checkPlayer } from "../../../utils/lavalink";
 
 const textcommand: ChatCommand = new ChatCommand(
     {

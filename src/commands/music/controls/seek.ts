@@ -1,7 +1,7 @@
 import { EmbedBuilder } from "discord.js";
-import { ChatCommand, ChatCommandExecute, ChatCommandOptions } from "../../types/bot_types";
-import { checkPlayer, commandToLavaData, getLavalinkPlayer } from "../../utils/lavalink";
-import { generateProgressBar, msToTime } from "../../utils/utils";
+import { ChatCommand, ChatCommandExecute, ChatCommandOptions } from "../../../types/bot_types";
+import { checkPlayer, commandToLavaData, getLavalinkPlayer } from "../../../utils/lavalink";
+import { generateProgressBar, msToTime } from "../../../utils/utils";
 
 const textcommand: ChatCommand = new ChatCommand(
     {

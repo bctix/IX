@@ -1,13 +1,13 @@
 import { ApplicationCommandOptionType } from "discord.js";
-import { ChatCommand, ChatCommandExecute, ChatCommandOptions } from "../../types/bot_types";
-import { playSong } from "../../utils/lavalink";
+import { ChatCommand, ChatCommandExecute, ChatCommandOptions } from "../../../types/bot_types";
+import { playSong } from "../../../utils/lavalink";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
-        name: "youtube",
+        name: "soundcloud",
         description: "Play some tunes!",
-        aliases: ["yt"],
-        usage: "Identical to `play` but searches Youtube instead.",
+        aliases: ["sc"],
+        usage: "Identical to `play` but searches Soundcloud instead.",
         options: [
             {
                 name: "query",
@@ -22,7 +22,7 @@ const textcommand: ChatCommand = new ChatCommand(
             return [str];
         },
         async execute(command: ChatCommandExecute) {
-            await playSong(command, command.args[0], "ytsearch");
+            await playSong(command, command.args[0], "scsearch");
         },
     } as ChatCommandOptions,
 );

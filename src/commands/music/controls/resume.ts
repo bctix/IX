@@ -1,13 +1,13 @@
-import { ChatCommand, ChatCommandExecute, ChatCommandOptions } from "../../types/bot_types";
-import { checkPlayer, commandToLavaData, getLavalinkPlayer } from "../../utils/lavalink";
+import { ChatCommand, ChatCommandExecute, ChatCommandOptions } from "../../../types/bot_types";
+import { checkPlayer, commandToLavaData, getLavalinkPlayer } from "../../../utils/lavalink";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
-        name: "pause",
-        description: "Don't pause!",
-        aliases: ["pa"],
+        name: "resume",
+        description: "Press play!",
+        aliases: ["re"],
         category: "music (controls)",
-        usage: "Pauses the current song.",
+        usage: "Resumes the current song",
         argParser(str: string) {
             return [str];
         },
@@ -15,8 +15,8 @@ const textcommand: ChatCommand = new ChatCommand(
             const player = getLavalinkPlayer(commandToLavaData(command));
             if (!checkPlayer(command, player) || !player) return;
 
-            if (!player.paused) { await player.pause(); }
-            else { command.data.reply("I'm already paused!"); return; }
+            if (player.paused) { await player.resume(); }
+            else { command.data.reply("I'm already unpaused!"); return; }
 
             await command.data.reply("Paused song!");
         },
