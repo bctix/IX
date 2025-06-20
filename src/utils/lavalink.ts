@@ -146,7 +146,13 @@ export async function playSong(command: ChatCommandExecute, url: string, platfor
                 .setCustomId("play")
                 .setEmoji("⏭️");
 
-            if (searchRes.loadType !== "playlist") container.addActionRowComponents(row => row.addComponents(playButton));
+            const removeButton = new ButtonBuilder()
+                .setLabel("Remove")
+                .setStyle(ButtonStyle.Danger)
+                .setCustomId("remove")
+                .setEmoji("🗑️");
+
+            if (searchRes.loadType !== "playlist") container.addActionRowComponents(row => row.addComponents(playButton, removeButton));
 
             const message = await command.data.reply({
                 components: [container],
@@ -172,6 +178,13 @@ export async function playSong(command: ChatCommandExecute, url: string, platfor
                     }
                     await message.delete();
                 }
+
+                if (i.customId === "remove") {
+                    const trackIdx = player.queue.tracks.indexOf(searchRes.tracks[0]);
+                    await player.queue.remove(trackIdx);
+
+                    await message.delete();
+                };
             });
         }
     }

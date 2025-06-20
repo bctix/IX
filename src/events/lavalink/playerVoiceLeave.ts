@@ -26,5 +26,5 @@ function checkEmptyVc(vc: VoiceChannel) {
         }
     }
 
-    return oldChannelCount === 0;
+    return oldChannelCount === 1;
 }
