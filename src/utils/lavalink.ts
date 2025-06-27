@@ -22,6 +22,7 @@ export async function createLavalinkManager(client: CustomClient, options: Laval
             authorization: node.password,
             id: node.id,
             requestSignalTimeoutMS: node.signalTimeout || 10000,
+            retryAmount: 10,
         });
     }
 
