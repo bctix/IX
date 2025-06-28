@@ -8,6 +8,7 @@ const textcommand: ChatCommand = new ChatCommand(
         description: "Shuts down IX. intended for pm2 to restart it.",
         usage: "Sends back pong!",
         flags: [ChatCommandFlags.DevOnly, ChatCommandFlags.Hidden, ChatCommandFlags.NoSlash],
+        category: "misc",
         argParser(str) {
             return [str];
         },

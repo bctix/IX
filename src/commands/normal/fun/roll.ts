@@ -23,6 +23,7 @@ const textcommand: ChatCommand = new ChatCommand(
                 required: false,
             },
         ],
+        category: "fun",
         argParser(str) {
             const split = str.split(" ");
             const minNumber = parseInt(split[0]);

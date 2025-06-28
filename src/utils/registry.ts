@@ -88,6 +88,19 @@ async function registerTextCommand(client:CustomClient, cmdModule: ChatCommand) 
             }
         });
     }
+
+    if (cmdModule.category) {
+        let commands = client.categories.get(cmdModule.category.toLowerCase());
+        if (!commands) commands = [cmdModule.category];
+        commands.push(cmdModule.name);
+        client.categories.set(cmdModule.category.toLowerCase(), commands);
+    }
+    else {
+        let commands = client.categories.get("other");
+        if (!commands) commands = ["other"];
+        commands.push(cmdModule.name);
+        client.categories.set("other", commands);
+    }
 }
 
 export async function registerEvents(EventClient: any, ExecuteClient: CustomClient, ...dirs: string[]) {

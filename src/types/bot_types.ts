@@ -139,6 +139,7 @@ export class ChatCommandExecute {
 export interface ChatCommandOptions {
     name: string;
     description: string;
+    category: string;
     options?: ChatCommandArgOption[];
     contexts?: InteractionContextType[];
     aliases?: string[];
@@ -152,6 +153,7 @@ export interface ChatCommandOptions {
 export class ChatCommand {
     public name: string;
     public description: string;
+    public category: string;
     public options?: ChatCommandArgOption[];
     public contexts?: InteractionContextType[];
     public aliases?: string[];
@@ -164,6 +166,7 @@ export class ChatCommand {
     public constructor(options: ChatCommandOptions) {
         this.name = options.name;
         this.description = options.description;
+        this.category = options.category;
         this.options = options.options;
         if (options.contexts) this.contexts = options.contexts;
         else this.contexts = [InteractionContextType.Guild];
