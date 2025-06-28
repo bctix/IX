@@ -1,32 +1,27 @@
-import { ChatInputCommandInteraction, GuildMember, MessageFlags } from "discord.js";
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../../types/bot_classes";
-import { getLavalinkPlayer, commandToLavaData } from "../../../utils/lavalink";
+import { ChatInputCommandInteraction, MessageFlags } from "discord.js";
+import { ChatCommand, ChatCommandExecute, ChatCommandOptions } from "../../../types/bot_types";
+import { checkPlayer, commandToLavaData, getLavalinkPlayer } from "../../../utils/lavalink";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
         name: "stop",
-        description: "All done?",
-        aliases: ["st"],
+        description: "Stop some tunes!",
+        aliases: ["st", "leave", "disconnect", "dc"],
+        usage: "Stops the current song, clears the queue, and leaves VC.",
         category: "music (controls)",
-        usage: "Stops the song, clears the queue and leaves the vc.",
-        async execute(command: ChatCommandExecute) {
-            try {
-                const player = getLavalinkPlayer(commandToLavaData(command));
-                if (!command.data.member) {command.data.reply("I couldn't get what vc you're in!"); return;};
-                const vcId = (command.data.member as GuildMember).voice.channelId;
-    
-                if (!player) {command.data.reply("I couldn't get what vc you're in!"); return;}
-                if (player.voiceChannelId !== vcId) {command.data.reply("You need to be in my vc!"); return;}
-    
-                if (player.playing) await player.destroy("stopRequest");
-    
-                // Only reply if its a interaction to prevent the error message
-                if (!command.isMessage) {await (command.data as ChatInputCommandInteraction).reply({ content: "Stopped playing!", flags: MessageFlags.Ephemeral });}
-            } catch (e) {
-                console.error(e);
-            }
+        argParser(str: string) {
+            return [str];
         },
-    } as ChatCommandOptions
+        async execute(command: ChatCommandExecute) {
+            const player = getLavalinkPlayer(commandToLavaData(command));
+            if (!checkPlayer(command, player) || !player) return;
+
+            await player.destroy("stopRequest");
+
+            // Only reply if its a interaction to prevent the error message
+            if (!command.isMessage) {await (command.data as ChatInputCommandInteraction).reply({ content: "Stopped playing!", flags: MessageFlags.Ephemeral });}
+        },
+    } as ChatCommandOptions,
 );
 
 export default textcommand;

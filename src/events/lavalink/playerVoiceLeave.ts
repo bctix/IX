@@ -1,5 +1,5 @@
 import { Player } from "lavalink-client/dist/types";
-import { CustomClient } from "../../types/bot_classes";
+import { CustomClient } from "../../types/bot_types";
 import { VoiceChannel } from "discord.js";
 
 
@@ -12,9 +12,9 @@ export default {
 
         if (checkEmptyVc(voiceChannel)) {
             await player.destroy("EmptyVc");
-			return;
+            return;
         }
-    }
+    },
 };
 
 function checkEmptyVc(vc: VoiceChannel) {
@@ -26,5 +26,5 @@ function checkEmptyVc(vc: VoiceChannel) {
         }
     }
 
-    return oldChannelCount === 0;
+    return oldChannelCount === 1;
 }

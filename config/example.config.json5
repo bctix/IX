@@ -1,0 +1,27 @@
+{
+    // Prefixs used for message commands
+    "prefix": "",
+    // Prefix for when process.env.NODE_ENV is "development"
+    "devprefix": "",
+
+    // UserIDs that have access to commands flagged with "DevOnly"
+    "devs": [],
+    
+    // Enable all music functions
+    "enableMusic": true,
+
+    // lavalink settings
+    "lavalink": {
+        // add multiple nodes if you want
+       "nodes": [
+            {
+                "host": "",
+                "port": 0,
+                "password": "",
+                "id": ""
+            },
+        ],
+        "timeTillLeaveWhenEmpty": 120000, // after 2 minutes when queue is empty, leave VC.
+        "emitNewSongsOnly": true, // only send the now playing embed, when its a unique song. (prevent the same song being sent when its looping)
+    }
+}

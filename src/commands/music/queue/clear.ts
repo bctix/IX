@@ -1,40 +1,37 @@
-import { EmbedBuilder, GuildMember } from "discord.js";
-import { ChatCommand, ChatCommandExecute } from "../../../types/bot_classes";
-import { getLavalinkPlayer, commandToLavaData } from "../../../utils/lavalink";
+import { EmbedBuilder } from "discord.js";
+import { ChatCommand, ChatCommandExecute, ChatCommandOptions } from "../../../types/bot_types";
+import { getLavalinkPlayer, commandToLavaData, checkPlayer } from "../../../utils/lavalink";
 
-const textcommand: ChatCommand = new ChatCommand({
-	name: "clear",
-	description: "Begone!",
-	category: "music (queue)",
-	aliases: ["cl"],
-	usage: "Removes all songs from queue.",
-	execute: async function(command: ChatCommandExecute) {
-		try {
-			const player = getLavalinkPlayer(commandToLavaData(command));
-			if (!command.data.member) {command.data.reply("I couldn't get what vc you're in!"); return;};
-			const vcId = (command.data.member as GuildMember).voice.channelId;
+const textcommand: ChatCommand = new ChatCommand(
+    {
+        name: "clear",
+        description: "Begone!",
+        aliases: ["cl"],
+        category: "music (queue)",
+        usage: "Removes all songs from the queue.",
+        argParser(str) {
+            return [str];
+        },
+        execute: async function(command: ChatCommandExecute) {
+            const player = getLavalinkPlayer(commandToLavaData(command));
+            if (!checkPlayer(command, player) || !player) return;
 
-			if (!player) {command.data.reply("I couldn't get what vc you're in!"); return;}
-			if (player.voiceChannelId !== vcId) {command.data.reply("You need to be in my vc!"); return;}
+            const deletedTracks = await player.queue.splice(0, player.queue.tracks.length);
 
-			const deletedTracks = await player.queue.splice(0, player.queue.tracks.length);
+            const embed = new EmbedBuilder();
+            if (!deletedTracks) {
+                embed.setTitle("The queue is empty!")
+                    .setColor("Red");
+            }
+            else {
+                embed.setTitle("Cleared queue!")
+                    .setDescription(`Removed ${deletedTracks.length ? deletedTracks.length : 1} track${deletedTracks.length > 1 ? "s" : ""}`)
+                    .setColor("Red");
+            }
 
-			const embed = new EmbedBuilder();
-			if(!deletedTracks) {
-				embed.setTitle("The queue is empty!")
-				.setColor("Red");
-			} else {
-				embed.setTitle("Cleared queue!")
-				.setDescription(`Removed ${deletedTracks.length ? deletedTracks.length : 1} track${deletedTracks.length > 1 ? "s" : ""}`)
-				.setColor("Red");
-			}
-			
-
-			await command.data.reply({ embeds:[embed] });
-		} catch (e) {
-			console.error(e);
-		}
-	},
-});
+            await command.data.reply({ embeds:[embed] });
+        },
+    } as ChatCommandOptions,
+);
 
 export default textcommand;

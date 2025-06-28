@@ -1,13 +1,12 @@
-import { ApplicationCommandOptionType } from "discord.js";
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../types/bot_classes";
 import { randomInt } from "mathjs";
+import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../../types/bot_types";
+import { ApplicationCommandOptionType } from "discord.js";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
         name: "roll",
-        description: "Gambling!",
-        category: "fun",
-        usage: "Sends a number between 1 - 6, or your selected numbers. If one number is given, it is used as maximum.",
+        description: "RNG",
+        usage: "Sends a number between 1 - 6, or your selected min and max numbers. If one number is given, it is used as the maximum.",
         options: [
             {
                 name: "min",
@@ -22,8 +21,9 @@ const textcommand: ChatCommand = new ChatCommand(
                 type: ApplicationCommandOptionType.Integer,
                 default: 6,
                 required: false,
-            }
+            },
         ],
+        category: "fun",
         argParser(str) {
             const split = str.split(" ");
             const minNumber = parseInt(split[0]);
@@ -40,7 +40,7 @@ const textcommand: ChatCommand = new ChatCommand(
 
             await command.data.reply(`${number}\n-# Rolled between ${minNumber} - ${maxNumber}`);
         },
-    } as ChatCommandOptions
+    } as ChatCommandOptions,
 );
 
 export default textcommand;

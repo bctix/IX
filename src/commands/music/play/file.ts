@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType, Attachment, Message } from "discord.js";
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../../types/bot_classes";
-import globalplay from "./globalplay";
+import { ChatCommand, ChatCommandExecute, ChatCommandOptions } from "../../../types/bot_types";
+import { playSong } from "../../../utils/lavalink";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
@@ -13,29 +13,23 @@ const textcommand: ChatCommand = new ChatCommand(
                 description: "audio file to play",
                 type: ApplicationCommandOptionType.Attachment,
                 default: "",
-                required: true
-            }
+                required: true,
+            },
         ],
         category: "music (play)",
         async execute(command: ChatCommandExecute) {
             let attachment: Attachment | undefined;
-            if (command.isMessage)
-                attachment = (command.data as Message).attachments.first();
-             else 
-                attachment = command.args[0] as Attachment;
-            
+            if (command.isMessage) { attachment = (command.data as Message).attachments.first(); }
+            else { attachment = command.args[0] as Attachment; }
+
             if (!attachment) {
-                command.data.reply("Please provide a valid audio file!");
+                command.data.reply("Couldn't find any attachment! Make sure you upload the song file along with the command!");
                 return;
             }
-            if (!attachment.url) {
-                command.data.reply("Please provide a valid audio file!");
-                return;
-            }
-           
-            globalplay.playFile(command, attachment, "ytmsearch");
+
+            await playSong(command, attachment.url, "ytmsearch", { title: attachment.name });
         },
-    } as ChatCommandOptions
+    } as ChatCommandOptions,
 );
 
 export default textcommand;

@@ -1,23 +1,49 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { APIApplicationCommandOptionChoice, ApplicationCommandOptionType, ApplicationIntegrationType, ChatInputCommandInteraction, Client, Collection, ContextMenuCommandInteraction, ContextMenuCommandType, InteractionContextType, Message } from "discord.js";
+import { APIApplicationCommandOptionChoice, APIUser, ApplicationCommandOptionType, ChatInputCommandInteraction, Client, ClientOptions, Collection, ContextMenuCommandInteraction, ContextMenuCommandType, InteractionContextType, Message, User, VoiceState } from "discord.js";
 import { LavalinkManager } from "lavalink-client";
-import { prefix } from "../utils/constants";
+
+export interface LavaData {
+    voiceChannel: VoiceState;
+    textChannelId?: string;
+    requestor?: User|APIUser;
+    client: CustomClient;
+}
+
+export interface LavalinkNode {
+    host: string;
+    port: number;
+    password: string;
+    id: string;
+    signalTimeout?: number;
+}
+
+export interface LavalinkConfig {
+    nodes: LavalinkNode[];
+    emitNewSongsOnly?: boolean;
+    timeTillLeaveWhenEmpty?: number;
+}
+
+export interface TrackInfoOverride {
+    title?: string,
+    author?: string
+}
 
 export class CustomClient extends Client {
     public chatcommands: Collection<string, ChatCommand>;
     public contextmenucommands: Collection<string, ContextCommand>;
     public categories: Collection<string, string[]>;
     public startDate: number;
+    public isShuttingDown: boolean;
+    // Lavalink will be initialized in index.ts
     public lavalink!: LavalinkManager;
-    public isShuttingdown: boolean;
 
-    constructor(options: any) {
+    constructor(options: ClientOptions) {
         super(options);
         this.chatcommands = new Collection();
         this.contextmenucommands = new Collection();
         this.categories = new Collection();
         this.startDate = Date.now();
-        this.isShuttingdown = false;
+        this.isShuttingDown = false;
     }
 }
 
@@ -31,13 +57,14 @@ export class ChatCommandExecute {
     constructor(client: CustomClient, command: ChatCommand, data: ChatInputCommandInteraction | Message) {
         if (data instanceof Message) {
             this.fromMessage(client, command, data);
-        } else {
+        }
+        else {
             this.fromInteraction(client, command, data);
         }
     }
 
     private fromInteraction(client: CustomClient, command: ChatCommand, interaction: ChatInputCommandInteraction) {
-        this.client = interaction.client as CustomClient;
+        this.client = client;
         this.isMessage = false;
         this.command = command;
         this.data = interaction;
@@ -97,7 +124,7 @@ export class ChatCommandExecute {
             throw new Error("User is null!");
             return;
         }
-        const prefixRegex = new RegExp(`^(<@${client.user.id}>|${prefix})`);
+        const prefixRegex = new RegExp(`^(<@${client.user.id}>|${process.env.PREFIX})`);
         if (!prefixRegex.test(content)) return;
 
         const match = message.content.match(prefixRegex);
@@ -112,16 +139,13 @@ export class ChatCommandExecute {
 export interface ChatCommandOptions {
     name: string;
     description: string;
-    category?: string;
+    category: string;
     options?: ChatCommandArgOption[];
     contexts?: InteractionContextType[];
-    integrations?: ApplicationIntegrationType[];
     aliases?: string[];
     usage?: string;
-    noSlash?: boolean;
-    devOnly?: boolean;
     isAlias?: boolean;
-    ignore?: boolean;
+    flags?: ChatCommandFlag[] | ChatCommandFlag;
     execute: (p: ChatCommandExecute) => any;
     argParser?: (str: string, message: Message) => any[];
 }
@@ -129,16 +153,13 @@ export interface ChatCommandOptions {
 export class ChatCommand {
     public name: string;
     public description: string;
-    public category?: string;
+    public category: string;
     public options?: ChatCommandArgOption[];
     public contexts?: InteractionContextType[];
-    public integrations?: ApplicationIntegrationType[];
     public aliases?: string[];
     public usage?: string;
-    public noSlash?: boolean;
-    public devOnly?: boolean;
     public isAlias?: boolean;
-    public ignore?: boolean;
+    public flags?: ChatCommandFlag[] | ChatCommandFlag;
     public execute: (p: ChatCommandExecute) => any;
     public argParser?: (str: string, message: Message) => any[];
 
@@ -147,49 +168,70 @@ export class ChatCommand {
         this.description = options.description;
         this.category = options.category;
         this.options = options.options;
-        if (options.contexts === undefined)
-            this.contexts = [InteractionContextType.Guild];
-        else
-            this.contexts = options.contexts;
+        if (options.contexts) this.contexts = options.contexts;
+        else this.contexts = [InteractionContextType.Guild];
         this.aliases = options.aliases;
         this.usage = options.usage;
-        this.noSlash = options.noSlash;
-        this.devOnly = options.devOnly;
         this.isAlias = options.isAlias;
-        this.ignore = options.ignore;
+        this.flags = options.flags;
         this.execute = options.execute;
         this.argParser = options.argParser;
     }
 }
 
-export interface ChatCommandArgOption {
+export enum ChatCommandFlags {
+    DevOnly = "DevOnly",
+    NoSlash = "NoSlash",
+    Hidden = "Hidden",
+    Ignore = "Ignore",
+    NoPrefix = "NoPrefix",
+}
+export type ChatCommandFlag = `${ChatCommandFlags}`;
+
+export interface ChatCommandArgOptionBase {
     name:string;
     description:string;
     required:boolean;
-    default:any;
     type:ApplicationCommandOptionType
     choices?:APIApplicationCommandOptionChoice<string>[]|APIApplicationCommandOptionChoice<number>[];
 }
+
+export type ChatCommandArgOption =
+    | (ChatCommandArgOptionBase & { type: ApplicationCommandOptionType.String; default?: string })
+    | (ChatCommandArgOptionBase & { type: ApplicationCommandOptionType.Integer; default?: number })
+    | (ChatCommandArgOptionBase & { type: ApplicationCommandOptionType.Boolean; default?: boolean })
+    | (ChatCommandArgOptionBase & { type: ApplicationCommandOptionType.User; default?: string })
+    | (ChatCommandArgOptionBase & { type: ApplicationCommandOptionType.Channel; default?: string })
+    | (ChatCommandArgOptionBase & { type: ApplicationCommandOptionType.Role; default?: string })
+    | (ChatCommandArgOptionBase & { type: ApplicationCommandOptionType.Mentionable; default?: string })
+    | (ChatCommandArgOptionBase & { type: ApplicationCommandOptionType.Number; default?: number })
+    | (ChatCommandArgOptionBase & { type: ApplicationCommandOptionType.Attachment; default?: string })
+    | (ChatCommandArgOptionBase & { type: ApplicationCommandOptionType.Subcommand; default?: undefined })
+    | (ChatCommandArgOptionBase & { type: ApplicationCommandOptionType.SubcommandGroup; default?: undefined });
 
 export interface ContextCommandOptions {
     name:string,
     description:string,
     type:ContextMenuCommandType,
+    context?: InteractionContextType[];
     ignore?:boolean,
     execute: (client: CustomClient, interaction: ContextMenuCommandInteraction) => void,
 }
 
 export class ContextCommand {
-	public name:string;
-	public description:string;
-	public type:ContextMenuCommandType;
-	public ignore?:boolean;
-	public execute: (client: CustomClient, interaction: ContextMenuCommandInteraction) => void;
+    public name:string;
+    public description:string;
+    public type:ContextMenuCommandType;
+    public contexts?: InteractionContextType[];
+    public ignore?:boolean;
+    public execute: (client: CustomClient, interaction: ContextMenuCommandInteraction) => void;
 
     public constructor(Options: ContextCommandOptions) {
         this.name = Options.name;
         this.description = Options.description;
         this.type = Options.type;
+        if (Options.context) this.contexts = Options.context;
+        else this.contexts = [InteractionContextType.Guild];
         this.ignore = Options.ignore;
         this.execute = Options.execute;
     }

@@ -1,30 +1,30 @@
 import { ApplicationCommandOptionType } from "discord.js";
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../../types/bot_classes";
-import globalplay from "./globalplay";
+import { ChatCommand, ChatCommandExecute, ChatCommandOptions } from "../../../types/bot_types";
+import { playSong } from "../../../utils/lavalink";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
         name: "bandcamp",
         description: "Play some tunes!",
         aliases: ["bc"],
-        usage: "Identical to `play` but searches Bandcamp.",
+        usage: "Identical to `play` but searches Bandcamp instead.",
         options: [
             {
                 name: "query",
                 description: "Song title or link.",
                 type: ApplicationCommandOptionType.String,
                 default: "",
-                required: true
-            }
+                required: true,
+            },
         ],
         category: "music (play)",
         argParser(str: string) {
             return [str];
         },
         async execute(command: ChatCommandExecute) {
-           globalplay.playSong(command, "bcsearch");
+            await playSong(command, command.args[0], "bcsearch");
         },
-    } as ChatCommandOptions
+    } as ChatCommandOptions,
 );
 
 export default textcommand;

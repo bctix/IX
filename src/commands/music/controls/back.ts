@@ -1,32 +1,29 @@
-import { GuildMember } from "discord.js";
-import { ChatCommand, ChatCommandExecute } from "../../../types/bot_classes";
-import { getLavalinkPlayer, commandToLavaData } from "../../../utils/lavalink";
+import { ChatCommand, ChatCommandExecute, ChatCommandOptions } from "../../../types/bot_types";
+import { checkPlayer, commandToLavaData, getLavalinkPlayer } from "../../../utils/lavalink";
 
-const textcommand: ChatCommand = new ChatCommand({
-	name: "back",
-	description: "Yes, hello! I was wondering if you could play that song again!",
-	aliases: ["b"],
-	category: "music (controls)",
-	usage: "Played the previously ended song.",
-	execute: async function(command: ChatCommandExecute) {
-		try {
-			const player = getLavalinkPlayer(commandToLavaData(command));
-			if (!command.data.member) {command.data.reply("I couldn't get what vc you're in!"); return;};
-			const vcId = (command.data.member as GuildMember).voice.channelId;
+const textcommand: ChatCommand = new ChatCommand(
+    {
+        name: "back",
+        description: "Yes, hello! I was wondering if you could play that song again!",
+        aliases: ["b"],
+        category: "music (controls)",
+        usage: "Played the previously ended song.",
+        argParser(str: string) {
+            return [str];
+        },
+        async execute(command: ChatCommandExecute) {
+            const player = getLavalinkPlayer(commandToLavaData(command));
+            if (!checkPlayer(command, player) || !player) return;
 
-			if (!player) {command.data.reply("I couldn't get what vc you're in!"); return;}
-			if (player.voiceChannelId !== vcId) {command.data.reply("You need to be in my vc!"); return;}
+            const previous = await player.queue.shiftPrevious();
+            if (!previous) { await command.data.reply("No previous track found!"); return; }
+            if (player.queue.current) await player.queue.add(player.queue.current, 0);
+            await player.play({ clientTrack: previous });
 
-			const previous = await player.queue.shiftPrevious();
-			if (!previous) { await command.data.reply("No previous track found!"); return; }
-			if (player.queue.current) await player.queue.add(player.queue.current, 0);
-			await player.play({ clientTrack: previous });
-
-			await command.data.reply({ content: "Playing previous song!" });
-		} catch (e) {
-			console.error(e);
-		}
-	},
-});
+            // Only reply if its a interaction to prevent the error message
+            await command.data.reply({ content: "Playing previous song!" });
+        },
+    } as ChatCommandOptions,
+);
 
 export default textcommand;

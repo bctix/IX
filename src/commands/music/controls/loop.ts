@@ -1,6 +1,8 @@
-import { ApplicationCommandOptionType, Colors, EmbedBuilder, GuildMember } from "discord.js";
-import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../../types/bot_classes";
-import { getLavalinkPlayer, commandToLavaData } from "../../../utils/lavalink";
+import { ApplicationCommandOptionType, Colors, EmbedBuilder } from "discord.js";
+import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../../types/bot_types";
+import { getLavalinkPlayer, commandToLavaData, checkPlayer } from "../../../utils/lavalink";
+
+const loopChoices = ["off", "track", "queue"];
 
 const textcommand: ChatCommand = new ChatCommand(
     {
@@ -12,7 +14,7 @@ const textcommand: ChatCommand = new ChatCommand(
                 name: "type",
                 description: "What song to skip.",
                 required: true,
-                default: 0,
+                default: "",
                 choices: [
                     { name: "None", value: "none" },
                     { name: "Track", value: "track" },
@@ -23,36 +25,31 @@ const textcommand: ChatCommand = new ChatCommand(
         ],
         category: "music (controls)",
         usage: "Sets the loop mode for the server.",
-        argParser(str) {
+        argParser(str: string) {
             let type = str;
-            if (["", "none", "0", "n", "off"].includes(type.toLowerCase())) type = "off";
+            if (type.toLowerCase() === "") type = "toggle";
+            if (["none", "0", "n", "off"].includes(type.toLowerCase())) type = "off";
             if (["s", "track", "1", "single"].includes(type.toLowerCase())) type = "track";
             if (["q", "queue"].includes(type.toLowerCase())) type = "queue";
             return [type];
         },
         async execute(command: ChatCommandExecute) {
-            try {
-                const loopMode = command.args[0];
+            const player = getLavalinkPlayer(commandToLavaData(command));
+            if (!checkPlayer(command, player) || !player) return;
 
-                const player = getLavalinkPlayer(commandToLavaData(command));
-                if (!command.data.member) {command.data.reply("I couldn't get what vc you're in!"); return;};
-                const vcId = (command.data.member as GuildMember).voice.channelId;
+            let loopMode = command.args[0];
 
-                if (!player) {command.data.reply("I couldn't get what vc you're in!"); return;}
-                if (player.voiceChannelId !== vcId) {command.data.reply("You need to be in my vc!"); return;}
+            if (loopMode === "toggle") loopMode = loopChoices[loopChoices.indexOf(player.repeatMode) === 2 ? 0 : loopChoices.indexOf(player.repeatMode) + 1];
 
-                await player.setRepeatMode(loopMode);
+            await player.setRepeatMode(loopMode);
 
-                const embed = new EmbedBuilder()
-                    .setTitle("Set loop to " + player.repeatMode)
-                    .setColor(Colors.Blurple);
+            const embed = new EmbedBuilder()
+                .setTitle("Set loop to " + player.repeatMode)
+                .setColor(Colors.Blurple);
 
-			await command.data.reply({ embeds: [embed] });
-            } catch (e) {
-                console.error(e);
-            }
+            await command.data.reply({ embeds: [embed] });
         },
-    } as ChatCommandOptions
+    } as ChatCommandOptions,
 );
 
 export default textcommand;
