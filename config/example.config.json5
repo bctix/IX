@@ -1,4 +1,7 @@
 {
+    // Bot token, required for the bot to run
+    "botToken": "", 
+
     // Prefixs used for message commands
     "prefix": "",
     // Prefix for when process.env.NODE_ENV is "development"
