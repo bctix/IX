@@ -37,12 +37,15 @@ const textcommand: ChatCommand = new ChatCommand(
                 container.addTextDisplayComponents(textDisplay);
             }
 
+            const guild = command.client.guilds.cache.get(player.guildId);
+            const member = guild?.members.cache.get((track.requester as User).id);
+
             const middleText = new TextDisplayBuilder().setContent(
                 [
                     `**Duration**:\n${track.info.isStream ? "Live" : msToTime(track.info.duration)}`,
                     `**Source**:\n${track.info.sourceName}\n`,
                     `\`${msToTime(player.position)}\` - ${generateProgressBar(player.position / track.info.duration)} - \`${msToTime(track.info.duration)}\`\n`,
-                    `-# Requested by: ${userMention((track.requester as User).id)}`,
+                    `-# Requested by: ${member?.nickname ?? member?.displayName ?? (track.requester as User).displayName ?? (track.requester as User).username}`,
                 ].join("\n"),
             );
 
