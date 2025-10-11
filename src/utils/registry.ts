@@ -178,7 +178,7 @@ export async function deployApplicationCommands(client:CustomClient) {
                             break;
                         }
                         case (ApplicationCommandOptionType.Boolean): {
-                            slashCommand.addNumberOption((option) => {
+                            slashCommand.addBooleanOption((option) => {
                                 option.setName(commandOption.name);
                                 option.setDescription(commandOption.description);
                                 if (commandOption.required) {option.setRequired(commandOption.required);}

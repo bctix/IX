@@ -1,6 +1,6 @@
-import { ContainerBuilder, EmbedBuilder, MessageFlags, SeparatorBuilder, SeparatorSpacingSize, TextDisplayBuilder, ThumbnailBuilder } from "discord.js";
+import { ContainerBuilder, MessageFlags, SeparatorSpacingSize, TextDisplayBuilder, ThumbnailBuilder } from "discord.js";
 import { ChatCommand, ChatCommandOptions, ChatCommandExecute } from "../../../types/bot_types";
-import { prefix, version } from "../../../utils/constants";
+import { version } from "../../../utils/constants";
 
 const textcommand: ChatCommand = new ChatCommand(
     {
@@ -13,10 +13,10 @@ const textcommand: ChatCommand = new ChatCommand(
             container.addSectionComponents(section => section.addTextDisplayComponents(new TextDisplayBuilder({
                 content: [
                     "# IX",
-                    "### your favorite music bot"
+                    "### your favorite music bot",
                 ].join("\n"),
             })).setThumbnailAccessory(new ThumbnailBuilder({
-                description: 'some text',
+                description: "some text",
                 media: {
                     url: execute.client.user?.displayAvatarURL() ?? "https://github.com/bctix/IX/blob/main/assets/images/IX.png?raw=true",
                 },
@@ -25,14 +25,14 @@ const textcommand: ChatCommand = new ChatCommand(
             container.addTextDisplayComponents(new TextDisplayBuilder({
                 content: [
                     "IX is a discord bot with a focus on music. Using Lavalink and the latest features from discord like Components V2",
-                    "She can play music from Youtube, Spotify, Soundcloud, Apple Music, Bandcamp, and much more."
+                    "She can play music from Youtube, Spotify, Soundcloud, Apple Music, Bandcamp, and much more.",
                 ].join("\n"),
             }));
             container.addSeparatorComponents(sep => sep.setSpacing(SeparatorSpacingSize.Large));
             container.addTextDisplayComponents(new TextDisplayBuilder({
                 content: [
                     "**Created by:**\nbct",
-                    `**Version:**\n${version}`
+                    `**Version:**\n${version}`,
                 ].join("\n"),
             }));
             container.setAccentColor([10, 10, 10]);

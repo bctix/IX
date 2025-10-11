@@ -1,4 +1,4 @@
-import { ContainerBuilder, TextDisplayBuilder, hyperlink, SectionBuilder, ThumbnailBuilder, Colors, User, userMention, ButtonBuilder, ButtonStyle, SeparatorSpacingSize, MessageFlags } from "discord.js";
+import { ContainerBuilder, TextDisplayBuilder, hyperlink, SectionBuilder, ThumbnailBuilder, Colors, User, ButtonBuilder, ButtonStyle, SeparatorSpacingSize, MessageFlags } from "discord.js";
 import { ChatCommand, ChatCommandExecute, ChatCommandOptions } from "../../../types/bot_types";
 import { checkPlayer, commandToLavaData, getLavalinkPlayer } from "../../../utils/lavalink";
 import { generateProgressBar, getVibrantColorToDiscord, msToTime } from "../../../utils/utils";

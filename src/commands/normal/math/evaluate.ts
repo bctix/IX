@@ -30,22 +30,23 @@ const textcommand: ChatCommand = new ChatCommand(
                 // Default type of number
                 // Available options: 'number' (default), 'BigNumber', or 'Fraction'
                 number: "BigNumber",
-    
+
                 // Number of significant digits for BigNumbers
                 precision: 20,
             };
-    
+
             const math = create(all, config);
-    
+
             try {
                 const final = math.evaluate(expression);
-    
+
                 await command.data.reply(final.toString());
-            } catch {
+            }
+            catch {
                 await command.data.reply("Something went wrong trying to solve your problem. Did you type it right?");
             }
         },
-    } as ChatCommandOptions
+    } as ChatCommandOptions,
 );
 
 export default textcommand;
